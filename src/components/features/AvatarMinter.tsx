@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useAccount } from "wagmi";
 import { Notification } from "../ui/Notification";
+import { useAlvaraMint } from "@/hooks/useAlvaraMint";
 import Image from "next/image";
 import logo from "../../../public/images/nft.png";
 
@@ -30,7 +31,7 @@ const alvaraNFTs = [
     name: "Radiant Alvara #001",
     description:
       "This is a unique Alvara NFT. Its rarity is unmatched, and its brilliance is captured forever on the blockchain. A true digital gem.",
-    price: 0.01,
+    price: 0.00055,
   },
   {
     id: "002",
@@ -38,7 +39,7 @@ const alvaraNFTs = [
     name: "Radiant Alvara #002",
     description:
       "A rare diamond with exceptional clarity and brilliance. Each facet reflects the future of digital art and blockchain technology.",
-    price: 0.01,
+    price: 0.00055,
   },
   {
     id: "003",
@@ -46,14 +47,13 @@ const alvaraNFTs = [
     name: "Radiant Alvara #003",
     description:
       "The perfect combination of rarity and beauty. This diamond represents the pinnacle of digital collectibles and NFT innovation.",
-    price: 0.01,
+    price: 0.00055,
   },
 ];
 
 export function AvatarMinter() {
   const { isConnected } = useAccount();
   const [currentNFTIndex, setCurrentNFTIndex] = useState(0);
-  const [isMinting, setIsMinting] = useState(false);
   const [mintQuantity, setMintQuantity] = useState(1);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
@@ -61,12 +61,31 @@ export function AvatarMinter() {
     message?: string;
   } | null>(null);
   const [mintedNFTs, setMintedNFTs] = useState<AlvaraNFT[]>([]);
-  const maxQuantity = 3;
-  const basePrice = 0.01;
-  const alvaDiscount = 0.1;
+  const [hasAlvaDiscount, setHasAlvaDiscount] = useState(false);
+
+  // Smart contract integration
+  const {
+    standardPrice,
+    discountPrice,
+    maxMintsPerWallet,
+    walletMints,
+    userNftBalance,
+    getRemainingMints,
+    isMintActive,
+    isContractDeployed,
+    mint,
+    isMintLoading,
+    isMintSuccess,
+  } = useAlvaraMint();
 
   const currentNFT = alvaraNFTs[currentNFTIndex];
-  const totalPrice = (basePrice * mintQuantity * (1 - alvaDiscount)).toFixed(3);
+
+  // Calculate pricing from smart contract
+  const currentPrice = hasAlvaDiscount
+    ? parseFloat(discountPrice)
+    : parseFloat(standardPrice);
+  const totalPrice = (currentPrice * mintQuantity).toFixed(6);
+  const maxQuantity = Math.min(3, getRemainingMints());
 
   const nextNFT = () => {
     setCurrentNFTIndex((prev) => (prev + 1) % alvaraNFTs.length);
@@ -79,38 +98,43 @@ export function AvatarMinter() {
   };
 
   const handleMint = async () => {
-    if (!isConnected) return;
+    if (!isConnected || !isMintActive() || mintQuantity > getRemainingMints())
+      return;
 
-    setIsMinting(true);
     setNotification(null);
 
-    setTimeout(() => {
-      setIsMinting(false);
-      const isSuccess = Math.random() > 0.3;
-
-      if (isSuccess) {
-        const newMintedNFTs = Array.from({ length: mintQuantity }, (_, i) => ({
-          ...currentNFT,
-          id: `${currentNFT.id}-${Date.now()}-${i}`,
-        }));
-        setMintedNFTs((prev) => [...prev, ...newMintedNFTs]);
-
-        setNotification({
-          type: "success",
-          title: "Transaction Confirmed!",
-          message: `Successfully minted ${mintQuantity} Alvara NFT${
-            mintQuantity > 1 ? "s" : ""
-          }`,
-        });
-      } else {
-        setNotification({
-          type: "error",
-          title: "Transaction Failed",
-          message: "You rejected the transaction in your wallet.",
-        });
+    try {
+      // For now, we mint one at a time (smart contract limitation)
+      for (let i = 0; i < mintQuantity; i++) {
+        await mint(currentNFT.number, hasAlvaDiscount);
       }
-    }, 3000);
+    } catch (error: any) {
+      setNotification({
+        type: "error",
+        title: "Transaction Failed",
+        message: error?.message || "Failed to mint NFT. Please try again.",
+      });
+    }
   };
+
+  // Listen for successful mints
+  useEffect(() => {
+    if (isMintSuccess) {
+      const newMintedNFTs = Array.from({ length: mintQuantity }, (_, i) => ({
+        ...currentNFT,
+        id: `${currentNFT.id}-${Date.now()}-${i}`,
+      }));
+      setMintedNFTs((prev) => [...prev, ...newMintedNFTs]);
+
+      setNotification({
+        type: "success",
+        title: "Transaction Confirmed!",
+        message: `Successfully minted ${mintQuantity} Alvara NFT${
+          mintQuantity > 1 ? "s" : ""
+        }`,
+      });
+    }
+  }, [isMintSuccess, mintQuantity, currentNFT]);
 
   const increaseQuantity = () => {
     if (mintQuantity < maxQuantity) {
@@ -124,7 +148,12 @@ export function AvatarMinter() {
     }
   };
 
-  const isMintDisabled = !isConnected || isMinting;
+  const isMintDisabled =
+    !isConnected ||
+    isMintLoading ||
+    !isContractDeployed() ||
+    (!isMintActive() && isContractDeployed()) ||
+    getRemainingMints() === 0;
 
   const closeNotification = () => {
     setNotification(null);
@@ -217,7 +246,7 @@ export function AvatarMinter() {
                     />
                   </div>
                   <span className="text-white font-bold text-xl md:text-3xl">
-                    0.01 ETH
+                    {hasAlvaDiscount ? discountPrice : standardPrice} ETH
                   </span>
                 </div>
                 <div className="w-full h-px bg-[#D8CDE2]/30"></div>
@@ -251,11 +280,25 @@ export function AvatarMinter() {
 
               {/* ALVA Holder Discount */}
               <div className="flex justify-between items-center">
-                <span className="text-[#D8CDE2] text-lg">
-                  $ALVA Holder Discount
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[#D8CDE2] text-lg">
+                    $ALVA Holder Discount
+                  </span>
+                  <button
+                    onClick={() => setHasAlvaDiscount(!hasAlvaDiscount)}
+                    className={`w-12 h-6 rounded-full relative transition-colors ${
+                      hasAlvaDiscount ? "bg-[#D73D80]" : "bg-gray-600"
+                    }`}
+                  >
+                    <div
+                      className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${
+                        hasAlvaDiscount ? "translate-x-6" : "translate-x-0.5"
+                      }`}
+                    />
+                  </button>
+                </div>
                 <span className="text-[#FC9FB7] font-semibold text-base md:text-lg">
-                  -50%
+                  {hasAlvaDiscount ? "-50%" : "0%"}
                 </span>
               </div>
 
@@ -289,17 +332,50 @@ export function AvatarMinter() {
                 disabled={isMintDisabled}
                 className="w-full bg-[#D73D80] hover:bg-[#D73D80]/80 text-white font-bold py-3 md:py-4 px-4 md:px-6 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base md:text-lg"
               >
-                {isMinting ? "MINTING..." : "Mint Now"}
+                {isMintLoading ? "MINTING..." : "Mint Now"}
               </button>
 
-              <p className="text-[#D8CDE2]/70 text-xs text-center">
-                Max 3 per wallet. 1 per wallet in the first hour.
-              </p>
+              <div className="text-[#D8CDE2]/70 text-xs text-center space-y-1">
+                <p>Max {maxMintsPerWallet} per wallet.</p>
+                <p>
+                  You have minted: {walletMints}/{maxMintsPerWallet}
+                </p>
+                <p>Remaining: {getRemainingMints()}</p>
+                {!isContractDeployed() ? (
+                  <p className="text-red-400">
+                    Contract not deployed. Please deploy the smart contract
+                    first.
+                  </p>
+                ) : !isMintActive() ? (
+                  <p className="text-red-400">
+                    Mint not active - contract issue
+                  </p>
+                ) : (
+                  <p className="text-green-400">Mint is permanently active!</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Your Minted Alvaras Section */}
+        {userNftBalance > 0 && (
+          <div className="mt-16">
+            <h2 className="text-2xl font-bold text-white mb-6">
+              Your Minted Alvaras ({userNftBalance})
+            </h2>
+            <div className="bg-[#13061F]/50 border border-[#D8CDE2]/20 rounded-xl p-6">
+              <p className="text-[#D8CDE2] text-center">
+                You own {userNftBalance} Alvara NFT
+                {userNftBalance !== 1 ? "s" : ""}!
+              </p>
+              <p className="text-[#D8CDE2]/70 text-sm text-center mt-2">
+                View your NFTs on OpenSea or in your wallet.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* <div className="mt-16">
           <h2 className="text-2xl font-bold text-white mb-6">
             Your Minted Alvaras
