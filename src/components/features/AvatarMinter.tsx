@@ -15,7 +15,7 @@ import { Notification } from "../ui/Notification";
 import { useAlvaraMint } from "@/hooks/useAlvaraMint";
 import { useNFTDesigns } from "@/hooks/useNFTDesigns";
 import { useWalletNFTs } from "@/hooks/useWalletNFTs";
-import { useAlvaBalance } from "@/hooks/useAlvaBalance";
+import { useVeAlvaBalance } from "@/hooks/useAlvaBalance";
 import logo from "../../../public/images/nft.png";
 
 export function AvatarMinter() {
@@ -64,22 +64,22 @@ export function AvatarMinter() {
     transactionHash,
   } = useAlvaraMint();
 
-  // ALVA token balance on mainnet
+  // veALVA token balance on mainnet
   const {
-    alvaBalance,
-    isLoading: isLoadingAlva,
-    error: alvaError,
-    refreshBalance: refreshAlvaBalance,
-    hasDiscount: hasAlvaDiscount,
-    balance: alvaBalanceAmount,
-    symbol: alvaSymbol,
-  } = useAlvaBalance();
+    veAlvaBalance,
+    isLoading: isLoadingVeAlva,
+    error: veAlvaError,
+    refreshBalance: refreshVeAlvaBalance,
+    hasDiscount: hasVeAlvaDiscount,
+    balance: veAlvaBalanceAmount,
+    symbol: veAlvaSymbol,
+  } = useVeAlvaBalance();
 
   const currentDesign = designs.find((d) => d.id === selectedDesignId);
   const maxQuantity = Math.min(10, getRemainingMints());
 
   // Calculate total price based on discount
-  const totalPrice = hasAlvaDiscount
+  const totalPrice = hasVeAlvaDiscount
     ? (parseFloat(discountPrice || "0.000275") * mintQuantity).toFixed(6)
     : (parseFloat(standardPrice || "0.00055") * mintQuantity).toFixed(6);
 
@@ -153,28 +153,14 @@ export function AvatarMinter() {
       return;
     }
 
-    // Check if user has enough ETH (approximate check)
-    const requiredEth = hasAlvaDiscount
+    const requiredEth = hasVeAlvaDiscount
       ? parseFloat(discountPrice || "0.000275")
       : parseFloat(standardPrice || "0.00055");
-
-    // Note: This is a basic check. The actual ETH balance check should be done by the wallet
-    // but we can provide a helpful message about the required amount
-    console.log(`Required ETH for minting: ${requiredEth} ETH`);
-    console.log(`User has discount: ${hasAlvaDiscount}`);
-    console.log(`Selected design: ${selectedDesignId}`);
-    console.log(`User NFT balance: ${userNftBalance}`);
-    console.log(`Standard price: ${standardPrice} ETH`);
-    console.log(`Discount price: ${discountPrice} ETH`);
-    console.log(
-      `ALVA token address: 0x779877A7B0D9E8603169DdbD7836e478b4624789`
-    );
-
     setNotification(null);
     lastMintProcessed.current = false; // Reset the flag for new mint
 
     try {
-      await mint(selectedDesignId, hasAlvaDiscount);
+      await mint(selectedDesignId, hasVeAlvaDiscount);
     } catch (error: any) {
       console.error("Minting error:", error);
 
@@ -199,10 +185,10 @@ export function AvatarMinter() {
             errorMessage =
               "Invalid design ID. Please select a design between 1 and 10.";
           } else if (error.message.includes("Insufficient ETH sent")) {
-            const expectedAmount = hasAlvaDiscount ? "0.000275" : "0.00055";
+            const expectedAmount = hasVeAlvaDiscount ? "0.000275" : "0.00055";
             errorMessage = `Incorrect ETH amount sent. Expected ${expectedAmount} ETH but sent ${
               error.message.includes("0.000275") ? "0.000275" : "0.00055"
-            } ETH. This might be due to ALVA token balance not meeting the discount threshold (150 tokens).`;
+            } ETH. This might be due to veALVA token balance not meeting the discount threshold (1.5 tokens).`;
           } else if (error.message.includes("Nonexistent token")) {
             errorMessage = "Token does not exist. Please try again.";
           } else {
@@ -402,14 +388,50 @@ export function AvatarMinter() {
                 </div>
               </div>
 
-              {/* ALVA Holder Discount */}
-              <div className="flex justify-between items-center">
-                <span className="text-[#D8CDE2] text-lg">
-                  $ALVA Holder Discount
-                </span>
-                <span className="text-[#FC9FB7] font-semibold text-base md:text-lg">
-                  -50%
-                </span>
+              {/* veALVA Holder Discount */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-[#D8CDE2] text-lg">
+                    veALVA Holder Discount
+                  </span>
+                  <span className="text-[#FC9FB7] font-semibold text-base md:text-lg">
+                    -50%
+                  </span>
+                </div>
+
+                {/* Status Indicator */}
+                {hasVeAlvaDiscount ? (
+                  <div className="flex items-center space-x-2 bg-green-500/20 border border-green-500/30 rounded-lg p-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-green-400 text-sm font-medium">
+                      ✓ Eligible for 50% discount (
+                      {veAlvaBalanceAmount.toFixed(2)} {veAlvaSymbol})
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2 bg-orange-500/20 border border-orange-500/30 rounded-lg p-2">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                    <span className="text-orange-400 text-sm font-medium">
+                      Need 1.5+ {veAlvaSymbol} for discount
+                    </span>
+                  </div>
+                )}
+
+                {/* Call to Action for Non-Eligible Users */}
+                {!hasVeAlvaDiscount && (
+                  <div className="bg-[#13061F]/60 border border-[#D73D80]/30 rounded-lg p-3">
+                    <p className="text-[#D8CDE2] text-xs text-center mb-2">
+                      Get 50% discount on minting:
+                    </p>
+                    <div className="flex items-center justify-center space-x-1 text-xs">
+                      <span className="text-[#FC9FB7]">Buy ALVA</span>
+                      <span className="text-[#D8CDE2]">→</span>
+                      <span className="text-[#FC9FB7]">Stake</span>
+                      <span className="text-[#D8CDE2]">→</span>
+                      <span className="text-[#FC9FB7]">Mint for 50% off</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Total */}

@@ -5,7 +5,6 @@ function checkSetup() {
   console.log("\n🌐 ALVARA NFT IPFS SETUP CHECKER");
   console.log("================================");
 
-  // Check if .env exists
   const envPath = path.join(__dirname, "..", ".env");
   const envExists = fs.existsSync(envPath);
 

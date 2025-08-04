@@ -10,7 +10,14 @@ export const CONTRACT_ADDRESSES = {
 export const ALVA_TOKEN_ADDRESSES = {
   sepolia: "0x779877A7B0D9E8603169DdbD7836e478b4624789", // Sepolia testnet token
   goerli: "0x0000000000000000000000000000000000000000", // Update if needed
-  mainnet: "0x0000000000000000000000000000000000000000", // For future mainnet deployment
+  mainnet: "0x8e729198d1C59B82bd6bBa579310C40d740A11C2", // ALVA token on mainnet
+} as const;
+
+// veALVA token addresses (voting escrow)
+export const VEALVA_TOKEN_ADDRESSES = {
+  sepolia: "0x0000000000000000000000000000000000000000", // Update if deployed to Sepolia
+  goerli: "0x0000000000000000000000000000000000000000", // Update if needed
+  mainnet: "0x07157d55112A6bAdd62099B8ad0BBDfBC81075BD", // veALVA token on mainnet
 } as const;
 
 // Network configuration

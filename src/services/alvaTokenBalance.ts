@@ -3,20 +3,21 @@
 
 import { ethers } from "ethers";
 
-// ALVA Token Contract Address on Ethereum Mainnet
-const ALVA_TOKEN_ADDRESS_MAINNET = "0x8e729198d1C59B82bd6bBa579310C40d740A11C2";
+// veALVA Token Contract Address on Ethereum Mainnet
+const VEALVA_TOKEN_ADDRESS_MAINNET =
+  "0x07157d55112A6bAdd62099B8ad0BBDfBC81075BD";
 
-// ALVA Token ABI (minimal for balanceOf function)
-const ALVA_TOKEN_ABI = [
+// veALVA Token ABI (minimal for balanceOf function)
+const VEALVA_TOKEN_ABI = [
   "function balanceOf(address owner) view returns (uint256)",
   "function decimals() view returns (uint8)",
   "function symbol() view returns (string)",
 ];
 
-// Discount threshold (150 ALVA tokens)
-const DISCOUNT_THRESHOLD = 150;
+// Discount threshold (1.5 veALVA tokens)
+const DISCOUNT_THRESHOLD = 1.5;
 
-export interface AlvaBalanceResult {
+export interface VeAlvaBalanceResult {
   balance: number;
   hasDiscount: boolean;
   symbol: string;
@@ -25,11 +26,11 @@ export interface AlvaBalanceResult {
 }
 
 /**
- * Check ALVA token balance on mainnet using direct contract call
+ * Check veALVA token balance on mainnet using direct contract call
  */
-export async function checkAlvaBalanceDirect(
+export async function checkVeAlvaBalanceDirect(
   address: string
-): Promise<AlvaBalanceResult> {
+): Promise<VeAlvaBalanceResult> {
   try {
     // Connect to Ethereum mainnet
     const provider = new ethers.providers.JsonRpcProvider(
@@ -37,17 +38,17 @@ export async function checkAlvaBalanceDirect(
     );
 
     // Create contract instance
-    const alvaContract = new ethers.Contract(
-      ALVA_TOKEN_ADDRESS_MAINNET,
-      ALVA_TOKEN_ABI,
+    const veAlvaContract = new ethers.Contract(
+      VEALVA_TOKEN_ADDRESS_MAINNET,
+      VEALVA_TOKEN_ABI,
       provider
     );
 
     // Get balance and token info
     const [balance, decimals, symbol] = await Promise.all([
-      alvaContract.balanceOf(address),
-      alvaContract.decimals(),
-      alvaContract.symbol(),
+      veAlvaContract.balanceOf(address),
+      veAlvaContract.decimals(),
+      veAlvaContract.symbol(),
     ]);
 
     // Convert balance to human readable format
@@ -60,11 +61,11 @@ export async function checkAlvaBalanceDirect(
       decimals,
     };
   } catch (error) {
-    console.error("Error checking ALVA balance directly:", error);
+    console.error("Error checking veALVA balance directly:", error);
     return {
       balance: 0,
       hasDiscount: false,
-      symbol: "ALVA",
+      symbol: "veALVA",
       decimals: 18,
       error: error instanceof Error ? error.message : "Unknown error",
     };
@@ -72,11 +73,11 @@ export async function checkAlvaBalanceDirect(
 }
 
 /**
- * Check ALVA token balance using Ethplorer API as fallback
+ * Check veALVA token balance using Ethplorer API as fallback
  */
-export async function checkAlvaBalanceAPI(
+export async function checkVeAlvaBalanceAPI(
   address: string
-): Promise<AlvaBalanceResult> {
+): Promise<VeAlvaBalanceResult> {
   try {
     // Use Ethplorer API to get token balances
     const response = await fetch(
@@ -89,38 +90,38 @@ export async function checkAlvaBalanceAPI(
 
     const data = await response.json();
 
-    // Find ALVA token in the tokens array
-    const alvaToken = data.tokens?.find(
+    // Find veALVA token in the tokens array
+    const veAlvaToken = data.tokens?.find(
       (token: any) =>
         token.tokenInfo?.address?.toLowerCase() ===
-        ALVA_TOKEN_ADDRESS_MAINNET.toLowerCase()
+        VEALVA_TOKEN_ADDRESS_MAINNET.toLowerCase()
     );
 
-    if (!alvaToken) {
+    if (!veAlvaToken) {
       return {
         balance: 0,
         hasDiscount: false,
-        symbol: "ALVA",
+        symbol: "veALVA",
         decimals: 18,
       };
     }
 
     const balance =
-      parseFloat(alvaToken.balance) /
-      Math.pow(10, alvaToken.tokenInfo.decimals);
+      parseFloat(veAlvaToken.balance) /
+      Math.pow(10, veAlvaToken.tokenInfo.decimals);
 
     return {
       balance,
       hasDiscount: balance >= DISCOUNT_THRESHOLD,
-      symbol: alvaToken.tokenInfo.symbol,
-      decimals: alvaToken.tokenInfo.decimals,
+      symbol: veAlvaToken.tokenInfo.symbol,
+      decimals: veAlvaToken.tokenInfo.decimals,
     };
   } catch (error) {
-    console.error("Error checking ALVA balance via API:", error);
+    console.error("Error checking veALVA balance via API:", error);
     return {
       balance: 0,
       hasDiscount: false,
-      symbol: "ALVA",
+      symbol: "veALVA",
       decimals: 18,
       error: error instanceof Error ? error.message : "Unknown error",
     };
@@ -128,13 +129,13 @@ export async function checkAlvaBalanceAPI(
 }
 
 /**
- * Main function to check ALVA balance with fallback methods
+ * Main function to check veALVA balance with fallback methods
  */
-export async function checkAlvaBalance(
+export async function checkVeAlvaBalance(
   address: string
-): Promise<AlvaBalanceResult> {
+): Promise<VeAlvaBalanceResult> {
   // Try direct contract call first
-  const directResult = await checkAlvaBalanceDirect(address);
+  const directResult = await checkVeAlvaBalanceDirect(address);
 
   if (!directResult.error) {
     return directResult;
@@ -142,18 +143,18 @@ export async function checkAlvaBalance(
 
   // Fallback to API method
   console.log("Direct contract call failed, trying API fallback...");
-  return await checkAlvaBalanceAPI(address);
+  return await checkVeAlvaBalanceAPI(address);
 }
 
 /**
- * Check if user has sufficient ALVA tokens for discount
+ * Check if user has sufficient veALVA tokens for discount
  */
-export function hasAlvaDiscount(balance: number): boolean {
+export function hasVeAlvaDiscount(balance: number): boolean {
   return balance >= DISCOUNT_THRESHOLD;
 }
 
 /**
- * Get discount percentage based on ALVA balance
+ * Get discount percentage based on veALVA balance
  */
 export function getDiscountPercentage(balance: number): number {
   if (balance >= DISCOUNT_THRESHOLD) {
