@@ -1,0 +1,42 @@
+{
+  "name": "Alvara Void #7",
+  "description": "A mysterious and enigmatic piece that explores the darkness between digital spaces. This Void piece represents the unknown, with deep blacks and subtle hints of distant light.",
+  "image": "ipfs://QmPVUMX5kWExhf5iytChdbrGrCPyVSw2yUkqx15XvV6JTG",
+  "external_url": "https://alvara-nft.com/token/7",
+  "attributes": [
+    {
+      "trait_type": "Collection",
+      "value": "Void"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Element",
+      "value": "Darkness"
+    },
+    {
+      "trait_type": "Color Scheme",
+      "value": "Deep Black"
+    },
+    {
+      "trait_type": "Energy Level",
+      "value": 91,
+      "max_value": 100,
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Void Manipulation",
+      "value": 97,
+      "max_value": 100,
+      "display_type": "boost_percentage"
+    },
+    {
+      "trait_type": "Creation Date",
+      "value": 1725187200,
+      "display_type": "date"
+    }
+  ],
+  "background_color": "000000"
+}

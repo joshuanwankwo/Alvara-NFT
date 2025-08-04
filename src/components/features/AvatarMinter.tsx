@@ -1,74 +1,59 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   ChevronLeft,
   ChevronRight,
   Minus,
   Plus,
-  Check,
   AlertCircle,
-  ExternalLink,
+  X,
 } from "lucide-react";
 import { useAccount } from "wagmi";
 import { Notification } from "../ui/Notification";
 import { useAlvaraMint } from "@/hooks/useAlvaraMint";
-import Image from "next/image";
+import { useNFTDesigns } from "@/hooks/useNFTDesigns";
+import { useWalletNFTs } from "@/hooks/useWalletNFTs";
+import { useAlvaBalance } from "@/hooks/useAlvaBalance";
 import logo from "../../../public/images/nft.png";
-
-interface AlvaraNFT {
-  id: string;
-  number: number;
-  name: string;
-  description: string;
-  price: number;
-}
-
-const alvaraNFTs = [
-  {
-    id: "001",
-    number: 1,
-    name: "Radiant Alvara #001",
-    description:
-      "This is a unique Alvara NFT. Its rarity is unmatched, and its brilliance is captured forever on the blockchain. A true digital gem.",
-    price: 0.00055,
-  },
-  {
-    id: "002",
-    number: 2,
-    name: "Radiant Alvara #002",
-    description:
-      "A rare diamond with exceptional clarity and brilliance. Each facet reflects the future of digital art and blockchain technology.",
-    price: 0.00055,
-  },
-  {
-    id: "003",
-    number: 3,
-    name: "Radiant Alvara #003",
-    description:
-      "The perfect combination of rarity and beauty. This diamond represents the pinnacle of digital collectibles and NFT innovation.",
-    price: 0.00055,
-  },
-];
 
 export function AvatarMinter() {
   const { isConnected } = useAccount();
-  const [currentNFTIndex, setCurrentNFTIndex] = useState(0);
+  const [selectedDesignId, setSelectedDesignId] = useState(1);
   const [mintQuantity, setMintQuantity] = useState(1);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     title: string;
     message?: string;
+    link?: {
+      url: string;
+      text: string;
+    };
   } | null>(null);
-  const [mintedNFTs, setMintedNFTs] = useState<AlvaraNFT[]>([]);
-  const [hasAlvaDiscount, setHasAlvaDiscount] = useState(false);
+
+  const lastMintProcessed = useRef<boolean>(false);
+
+  // NFT designs from IPFS
+  const {
+    designs,
+    isLoading: isLoadingDesigns,
+    error: designsError,
+  } = useNFTDesigns();
+
+  // User's owned NFTs from wallet
+  const {
+    ownedNFTs,
+    isLoading: isLoadingWalletNFTs,
+    error: walletNFTsError,
+    refetch: refetchWalletNFTs,
+    totalNFTs,
+  } = useWalletNFTs();
 
   // Smart contract integration
   const {
     standardPrice,
     discountPrice,
-    maxMintsPerWallet,
-    walletMints,
     userNftBalance,
     getRemainingMints,
     isMintActive,
@@ -76,65 +61,180 @@ export function AvatarMinter() {
     mint,
     isMintLoading,
     isMintSuccess,
+    transactionHash,
   } = useAlvaraMint();
 
-  const currentNFT = alvaraNFTs[currentNFTIndex];
+  // ALVA token balance on mainnet
+  const {
+    alvaBalance,
+    isLoading: isLoadingAlva,
+    error: alvaError,
+    refreshBalance: refreshAlvaBalance,
+    hasDiscount: hasAlvaDiscount,
+    balance: alvaBalanceAmount,
+    symbol: alvaSymbol,
+  } = useAlvaBalance();
 
-  // Calculate pricing from smart contract
-  const currentPrice = hasAlvaDiscount
-    ? parseFloat(discountPrice)
-    : parseFloat(standardPrice);
-  const totalPrice = (currentPrice * mintQuantity).toFixed(6);
-  const maxQuantity = Math.min(3, getRemainingMints());
+  const currentDesign = designs.find((d) => d.id === selectedDesignId);
+  const maxQuantity = Math.min(10, getRemainingMints());
 
-  const nextNFT = () => {
-    setCurrentNFTIndex((prev) => (prev + 1) % alvaraNFTs.length);
-  };
+  // Calculate total price based on discount
+  const totalPrice = hasAlvaDiscount
+    ? (parseFloat(discountPrice || "0.000275") * mintQuantity).toFixed(6)
+    : (parseFloat(standardPrice || "0.00055") * mintQuantity).toFixed(6);
 
-  const prevNFT = () => {
-    setCurrentNFTIndex(
-      (prev) => (prev - 1 + alvaraNFTs.length) % alvaraNFTs.length
-    );
-  };
-
-  const handleMint = async () => {
-    if (!isConnected || !isMintActive() || mintQuantity > getRemainingMints())
-      return;
-
-    setNotification(null);
-
-    try {
-      // For now, we mint one at a time (smart contract limitation)
-      for (let i = 0; i < mintQuantity; i++) {
-        await mint(currentNFT.number, hasAlvaDiscount);
-      }
-    } catch (error: any) {
-      setNotification({
-        type: "error",
-        title: "Transaction Failed",
-        message: error?.message || "Failed to mint NFT. Please try again.",
-      });
-    }
-  };
+  // Alias for the mint loading state
+  const isMinting = isMintLoading;
 
   // Listen for successful mints
   useEffect(() => {
-    if (isMintSuccess) {
-      const newMintedNFTs = Array.from({ length: mintQuantity }, (_, i) => ({
-        ...currentNFT,
-        id: `${currentNFT.id}-${Date.now()}-${i}`,
-      }));
-      setMintedNFTs((prev) => [...prev, ...newMintedNFTs]);
+    if (isMintSuccess && designs.length > 0 && !lastMintProcessed.current) {
+      lastMintProcessed.current = true;
 
       setNotification({
         type: "success",
-        title: "Transaction Confirmed!",
+        title: "🎉 Minting Successful!",
         message: `Successfully minted ${mintQuantity} Alvara NFT${
           mintQuantity > 1 ? "s" : ""
-        }`,
+        }! Your new NFT${mintQuantity > 1 ? "s are" : " is"} ready.`,
+        link: transactionHash
+          ? {
+              url: `https://sepolia.etherscan.io/tx/${transactionHash}`,
+              text: "View Transaction on Etherscan",
+            }
+          : undefined,
+      });
+
+      // Refetch wallet NFTs after successful mint
+      setTimeout(() => {
+        refetchWalletNFTs();
+      }, 3000);
+    }
+  }, [
+    isMintSuccess,
+    mintQuantity,
+    selectedDesignId,
+    designs,
+    refetchWalletNFTs,
+  ]);
+
+  // Reset the mint processed flag when mint success becomes false
+  useEffect(() => {
+    if (!isMintSuccess) {
+      lastMintProcessed.current = false;
+    }
+  }, [isMintSuccess]);
+
+  const handleMint = async () => {
+    if (!isConnected) {
+      setNotification({
+        type: "error",
+        title: "Wallet Not Connected",
+        message: "Please connect your wallet to mint NFTs.",
+      });
+      return;
+    }
+
+    if (!isMintActive()) {
+      setNotification({
+        type: "error",
+        title: "Minting Not Available",
+        message: "Minting is currently not active or contract is not deployed.",
+      });
+      return;
+    }
+
+    if (selectedDesignId < 1 || selectedDesignId > 10) {
+      setNotification({
+        type: "error",
+        title: "Invalid Design",
+        message: "Design ID must be between 1 and 10.",
+      });
+      return;
+    }
+
+    // Check if user has enough ETH (approximate check)
+    const requiredEth = hasAlvaDiscount
+      ? parseFloat(discountPrice || "0.000275")
+      : parseFloat(standardPrice || "0.00055");
+
+    // Note: This is a basic check. The actual ETH balance check should be done by the wallet
+    // but we can provide a helpful message about the required amount
+    console.log(`Required ETH for minting: ${requiredEth} ETH`);
+    console.log(`User has discount: ${hasAlvaDiscount}`);
+    console.log(`Selected design: ${selectedDesignId}`);
+    console.log(`User NFT balance: ${userNftBalance}`);
+    console.log(`Standard price: ${standardPrice} ETH`);
+    console.log(`Discount price: ${discountPrice} ETH`);
+    console.log(
+      `ALVA token address: 0x779877A7B0D9E8603169DdbD7836e478b4624789`
+    );
+
+    setNotification(null);
+    lastMintProcessed.current = false; // Reset the flag for new mint
+
+    try {
+      await mint(selectedDesignId, hasAlvaDiscount);
+    } catch (error: any) {
+      console.error("Minting error:", error);
+
+      let errorMessage = "Failed to mint NFT. Please try again.";
+      let errorTitle = "Transaction Failed";
+
+      // Handle specific error types
+      if (error?.message) {
+        if (error.message.includes("User rejected")) {
+          errorTitle = "Transaction Cancelled";
+          errorMessage = "You cancelled the transaction. Try again when ready.";
+        } else if (error.message.includes("insufficient funds")) {
+          errorTitle = "Insufficient Funds";
+          errorMessage =
+            "You don't have enough ETH to complete this transaction.";
+        } else if (error.message.includes("execution reverted")) {
+          errorTitle = "Contract Error";
+          // Try to extract more specific error information
+          if (error.message.includes("Mint limit reached")) {
+            errorMessage = "Mint limit reached. Please try again later.";
+          } else if (error.message.includes("Invalid design")) {
+            errorMessage =
+              "Invalid design ID. Please select a design between 1 and 10.";
+          } else if (error.message.includes("Insufficient ETH sent")) {
+            const expectedAmount = hasAlvaDiscount ? "0.000275" : "0.00055";
+            errorMessage = `Incorrect ETH amount sent. Expected ${expectedAmount} ETH but sent ${
+              error.message.includes("0.000275") ? "0.000275" : "0.00055"
+            } ETH. This might be due to ALVA token balance not meeting the discount threshold (150 tokens).`;
+          } else if (error.message.includes("Nonexistent token")) {
+            errorMessage = "Token does not exist. Please try again.";
+          } else {
+            errorMessage =
+              "The transaction was rejected by the smart contract. This could be due to: 1) Invalid design ID, 2) Incorrect ETH amount, 3) ALVA token contract issue.";
+          }
+        } else if (error.message.includes("gas")) {
+          errorTitle = "Gas Error";
+          errorMessage =
+            "Transaction failed due to gas issues. Try increasing gas limit.";
+        } else if (error.message.includes("network")) {
+          errorTitle = "Network Error";
+          errorMessage =
+            "Network connection issue. Please check your connection and try again.";
+        } else if (error.message.includes("Invalid design ID")) {
+          errorTitle = "Invalid Design";
+          errorMessage = "Design ID must be between 1 and 10.";
+        } else if (error.message.includes("maximum mint limit")) {
+          errorTitle = "Mint Limit Reached";
+          errorMessage = "Mint limit reached. Please try again later.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      setNotification({
+        type: "error",
+        title: errorTitle,
+        message: errorMessage,
       });
     }
-  }, [isMintSuccess, mintQuantity, currentNFT]);
+  };
 
   const increaseQuantity = () => {
     if (mintQuantity < maxQuantity) {
@@ -152,78 +252,102 @@ export function AvatarMinter() {
     !isConnected ||
     isMintLoading ||
     !isContractDeployed() ||
-    (!isMintActive() && isContractDeployed()) ||
-    getRemainingMints() === 0;
+    (!isMintActive() && isContractDeployed());
 
   const closeNotification = () => {
     setNotification(null);
   };
 
+  // Function to generate X (Twitter) share URL for an NFT
+  const generateXShareUrl = (nft: any) => {
+    const text = `🎨 Just minted my Alvara NFT! Check out ${nft.name} #${String(
+      nft.tokenId
+    ).padStart(3, "0")} 🚀\n\nDesign #${
+      nft.designId || "Unknown"
+    }\n\nMint your own at alvara-nft.vercel.app\n\n#AlvaraNFT #NFT #Web3 #Ethereum`;
+    const encodedText = encodeURIComponent(text);
+    return `https://twitter.com/intent/tweet?text=${encodedText}`;
+  };
+
   return (
     <div className="w-full max-w-7xl mt-16">
-      <div className="w-full ">
+      <div className="w-full">
         {/* Main Content - Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Side - NFT Display */}
-          <div className="space-y-4 md:space-y-6 ">
+          <div className="space-y-4 md:space-y-6">
             {/* NFT Card with Navigation */}
             <div className="relative flex items-center justify-center gap-4 sm:gap-6 md:gap-8">
               {/* Left Navigation Arrow */}
               <button
-                onClick={prevNFT}
+                onClick={() => {
+                  const newId =
+                    selectedDesignId > 1
+                      ? selectedDesignId - 1
+                      : designs.length || 10;
+                  setSelectedDesignId(newId);
+                }}
                 className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-[#13061F]/80 hover:bg-[#13061F] rounded-full flex items-center justify-center transition-colors backdrop-blur-sm flex-shrink-0"
               >
                 <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
               </button>
 
               {/* NFT Card */}
-              <div className="relative bg-[#13061F]/80 border border-[#D8CDE2]/20 rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-4 w-full aspect-square max-w-xs sm:max-w-sm md:max-w-md">
-                {/* NFT Number Badge - Top Right */}
-                <div className="absolute top-3 sm:top-4 md:top-6 right-3 sm:right-4 md:right-6 bg-[#13061F]/60 backdrop-blur-sm px-2 sm:px-3 py-1 rounded-md sm:rounded-lg">
-                  <span className="text-white text-xs sm:text-sm font-mono">
-                    #{String(currentNFT.number).padStart(3, "0")} / 1000
-                  </span>
-                </div>
-
-                {/* Glowing Neon Green Alvara */}
-                <div className="flex justify-center items-center w-full h-full">
-                  <div className="relative w-full h-full">
-                    {/* Glowing Alvara Wireframe */}
-                    <div className="absolute inset-0">
+              <div className="relative bg-gradient-to-br from-[#13061F]/90 to-[#13061F]/70 rounded-3xl p-4 sm:p-6 md:p-8 border border-[#D8CDE2]/20 backdrop-blur-sm w-full max-w-sm">
+                <div className="aspect-square bg-[#13061F]/60 rounded-2xl p-3 sm:p-4 md:p-6 overflow-hidden relative">
+                  {isLoadingDesigns ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="animate-spin w-8 h-8 border-2 border-[#D73D80] border-t-transparent rounded-full"></div>
+                    </div>
+                  ) : currentDesign?.imageUrl ? (
+                    <img
+                      src={currentDesign.imageUrl}
+                      alt={
+                        currentDesign.metadata?.name ||
+                        `Design ${selectedDesignId}`
+                      }
+                      className="w-full h-full object-cover rounded-xl"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
                       <Image
                         src={logo}
-                        alt="Logo"
-                        fill
-                        className="object-contain"
-                        priority
+                        alt="Default NFT"
+                        className="w-24 h-24 object-contain opacity-50"
                       />
                     </div>
+                  )}
+                </div>
 
-                    {/* Subtle inner glow */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 bg-gradient-to-br from-neon-green/10 to-transparent rounded-full blur-xl"></div>
-                    </div>
-                  </div>
+                {/* NFT Info */}
+                <div className="mt-4 space-y-2">
+                  <h3 className="text-white text-lg sm:text-xl font-bold">
+                    {currentDesign?.metadata?.name ||
+                      `Alvara #${selectedDesignId}`}
+                  </h3>
+                  <p className="text-[#D8CDE2]/80 text-sm">
+                    {currentDesign?.metadata?.description || "Loading..."}
+                  </p>
                 </div>
               </div>
 
               {/* Right Navigation Arrow */}
               <button
-                onClick={nextNFT}
+                onClick={() => {
+                  const newId =
+                    selectedDesignId < (designs.length || 10)
+                      ? selectedDesignId + 1
+                      : 1;
+                  setSelectedDesignId(newId);
+                }}
                 className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-[#13061F]/80 hover:bg-[#13061F] rounded-full flex items-center justify-center transition-colors backdrop-blur-sm flex-shrink-0"
               >
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
               </button>
-            </div>
-
-            {/* NFT Title and Description */}
-            <div className="text-center space-y-2 sm:space-y-3 md:space-y-4">
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
-                {currentNFT.name}
-              </h3>
-              <p className="text-[#D8CDE2] leading-relaxed max-w-xs sm:max-w-sm md:max-w-md mx-auto text-xs sm:text-sm md:text-base">
-                {currentNFT.description}
-              </p>
             </div>
           </div>
 
@@ -246,7 +370,7 @@ export function AvatarMinter() {
                     />
                   </div>
                   <span className="text-white font-bold text-xl md:text-3xl">
-                    {hasAlvaDiscount ? discountPrice : standardPrice} ETH
+                    {standardPrice || "0.00055"} ETH
                   </span>
                 </div>
                 <div className="w-full h-px bg-[#D8CDE2]/30"></div>
@@ -280,25 +404,11 @@ export function AvatarMinter() {
 
               {/* ALVA Holder Discount */}
               <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="text-[#D8CDE2] text-lg">
-                    $ALVA Holder Discount
-                  </span>
-                  <button
-                    onClick={() => setHasAlvaDiscount(!hasAlvaDiscount)}
-                    className={`w-12 h-6 rounded-full relative transition-colors ${
-                      hasAlvaDiscount ? "bg-[#D73D80]" : "bg-gray-600"
-                    }`}
-                  >
-                    <div
-                      className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${
-                        hasAlvaDiscount ? "translate-x-6" : "translate-x-0.5"
-                      }`}
-                    />
-                  </button>
-                </div>
+                <span className="text-[#D8CDE2] text-lg">
+                  $ALVA Holder Discount
+                </span>
                 <span className="text-[#FC9FB7] font-semibold text-base md:text-lg">
-                  {hasAlvaDiscount ? "-50%" : "0%"}
+                  -50%
                 </span>
               </div>
 
@@ -332,91 +442,219 @@ export function AvatarMinter() {
                 disabled={isMintDisabled}
                 className="w-full bg-[#D73D80] hover:bg-[#D73D80]/80 text-white font-bold py-3 md:py-4 px-4 md:px-6 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base md:text-lg"
               >
-                {isMintLoading ? "MINTING..." : "Mint Now"}
+                {isMinting ? "MINTING..." : "Mint Now"}
               </button>
-
-              <div className="text-[#D8CDE2]/70 text-xs text-center space-y-1">
-                <p>Max {maxMintsPerWallet} per wallet.</p>
-                <p>
-                  You have minted: {walletMints}/{maxMintsPerWallet}
-                </p>
-                <p>Remaining: {getRemainingMints()}</p>
-                {!isContractDeployed() ? (
-                  <p className="text-red-400">
-                    Contract not deployed. Please deploy the smart contract
-                    first.
-                  </p>
-                ) : !isMintActive() ? (
-                  <p className="text-red-400">
-                    Mint not active - contract issue
-                  </p>
-                ) : (
-                  <p className="text-green-400">Mint is permanently active!</p>
-                )}
-              </div>
             </div>
           </div>
         </div>
 
-        {/* Your Minted Alvaras Section */}
-        {userNftBalance > 0 && (
-          <div className="mt-16">
-            <h2 className="text-2xl font-bold text-white mb-6">
-              Your Minted Alvaras ({userNftBalance})
-            </h2>
-            <div className="bg-[#13061F]/50 border border-[#D8CDE2]/20 rounded-xl p-6">
-              <p className="text-[#D8CDE2] text-center">
-                You own {userNftBalance} Alvara NFT
-                {userNftBalance !== 1 ? "s" : ""}!
-              </p>
-              <p className="text-[#D8CDE2]/70 text-sm text-center mt-2">
-                View your NFTs on OpenSea or in your wallet.
+        {/* Error Display */}
+        {designsError && (
+          <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mt-6">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-red-400" />
+              <p className="text-red-400 text-sm">
+                Failed to load NFT designs: {designsError}
               </p>
             </div>
           </div>
         )}
 
-        {/* <div className="mt-16">
+        {/* Your Minted Alvaras Section */}
+        <div className="mt-16">
           <h2 className="text-2xl font-bold text-white mb-6">
             Your Minted Alvaras
+            {totalNFTs > 0 && (
+              <span className="ml-2 text-[#D73D80]">({totalNFTs} total)</span>
+            )}
           </h2>
 
-          {mintedNFTs.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {mintedNFTs.map((nft, index) => (
-                <div
-                  key={nft.id}
-                  className="bg-[#13061F] border border-[#D8CDE2]/20 rounded-lg p-3"
-                >
-                  <div className="relative w-full aspect-square mb-2">
-                    <div className="absolute inset-0">
-                      <svg viewBox="0 0 100 100" className="w-full h-full">
-                        <polygon
-                          points="50,10 80,40 50,90 20,40"
-                          fill="none"
-                          stroke="#00ff88"
-                          strokeWidth="1"
-                        />
-                      </svg>
-                    </div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-gradient-to-br from-neon-green/20 to-emerald-400/20 rounded"></div>
-                    </div>
-                  </div>
-                  <p className="text-white text-xs font-medium text-center">
-                    Alvara #{nft.id}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <p className="text-[#D8CDE2]/70 text-sm">
-                You haven't minted any Alvara NFTs yet.
-              </p>
+          {/* Loading State */}
+          {isLoadingWalletNFTs && (
+            <div className="bg-[#13061F]/50 border border-[#D8CDE2]/20 rounded-xl p-8 text-center">
+              <div className="animate-spin w-8 h-8 border-2 border-[#D73D80] border-t-transparent rounded-full mx-auto mb-4"></div>
+              <p className="text-[#D8CDE2]">Loading your NFTs from wallet...</p>
             </div>
           )}
-        </div> */}
+
+          {/* Error State */}
+          {walletNFTsError && (
+            <div className="bg-[#13061F]/50 border border-red-500/20 rounded-xl p-8 text-center">
+              <div className="text-red-400 text-4xl mb-4">⚠️</div>
+              <p className="text-red-400 mb-2">
+                Failed to load your wallet NFTs
+              </p>
+              <p className="text-[#D8CDE2]/70 text-sm mb-4">
+                {walletNFTsError}
+              </p>
+              <button
+                onClick={refetchWalletNFTs}
+                className="px-4 py-2 bg-[#D73D80] text-white rounded-lg hover:bg-[#D73D80]/80 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+
+          {/* Display NFTs */}
+          {!isLoadingWalletNFTs && !walletNFTsError && totalNFTs > 0 ? (
+            <div className="space-y-6">
+              {/* Wallet NFTs Section */}
+              {totalNFTs > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+                    🔗 From Your Wallet
+                    <span className="ml-2 text-sm text-[#D8CDE2]/70">
+                      ({totalNFTs} total)
+                    </span>
+                  </h3>
+
+                  {/* Display actual NFTs if found */}
+                  {ownedNFTs.length > 0 ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                      {ownedNFTs.map((nft) => (
+                        <div
+                          key={`wallet-${nft.tokenId}`}
+                          className="bg-[#13061F]/80 border border-[#D73D80]/30 rounded-xl p-4 hover:border-[#D73D80]/50 transition-all duration-300 hover:scale-105"
+                        >
+                          <div className="aspect-square bg-[#13061F]/60 rounded-lg mb-3 overflow-hidden relative group">
+                            {nft.imageUrl ? (
+                              <img
+                                src={nft.imageUrl}
+                                alt={nft.name}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <div className="w-8 h-8 bg-gradient-to-br from-[#D73D80]/20 to-[#8B5CF6]/20 rounded"></div>
+                              </div>
+                            )}
+                            <div className="absolute top-2 right-2 bg-[#D73D80] px-2 py-1 rounded-md">
+                              <span className="text-white text-xs font-mono">
+                                #{String(nft.tokenId).padStart(3, "0")}
+                              </span>
+                            </div>
+
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                              <a
+                                href={generateXShareUrl(nft)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-black hover:bg-gray-800 text-white p-1 rounded-md font-semibold text-sm transition-all duration-200 hover:scale-110"
+                              >
+                                share on X
+                              </a>
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <h4 className="text-white text-sm font-semibold truncate">
+                              {nft.name}
+                            </h4>
+                            <div className="flex justify-between items-center text-xs">
+                              <span className="text-[#D8CDE2]/70">
+                                {nft.designId
+                                  ? `Design #${nft.designId}`
+                                  : "Alvara NFT"}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="px-2 py-1 bg-[#D73D80]/20 text-[#D73D80] rounded text-xs">
+                                  Owned
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    /* Show setup message when no NFTs loaded but balance exists */
+                    <div className="bg-[#13061F]/50 border border-[#D8CDE2]/20 rounded-xl p-6 text-center">
+                      <div className="text-4xl mb-4">🔧</div>
+                      <h4 className="text-white text-lg font-semibold mb-2">
+                        Setup Required
+                      </h4>
+                      <p className="text-[#D8CDE2]/70 text-sm mb-4">
+                        Add your Alchemy API key to display your {totalNFTs} NFT
+                        {totalNFTs !== 1 ? "s" : ""} here.
+                      </p>
+                      <div className="space-y-3 text-xs text-[#D8CDE2]/60">
+                        <div className="bg-[#13061F]/60 rounded-lg p-3 text-left">
+                          <p className="font-semibold text-[#D8CDE2] mb-2">
+                            Quick Setup:
+                          </p>
+                          <ol className="space-y-1 text-[#D8CDE2]/70">
+                            <li>
+                              1. Sign up at{" "}
+                              <a
+                                href="https://alchemy.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#D73D80] hover:underline"
+                              >
+                                alchemy.com
+                              </a>
+                            </li>
+                            <li>2. Create a Sepolia testnet app</li>
+                            <li>
+                              3. Add{" "}
+                              <code className="bg-[#D8CDE2]/10 px-1 rounded">
+                                NEXT_PUBLIC_ALCHEMY_API_KEY
+                              </code>{" "}
+                              to .env
+                            </li>
+                            <li>4. Restart the server</li>
+                          </ol>
+                        </div>
+                        <p className="pt-2">Or view your NFTs on:</p>
+                        <div className="flex flex-wrap justify-center gap-2">
+                          <a
+                            href={`https://testnets.opensea.io/account`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3 py-1 bg-[#D73D80]/20 text-[#D73D80] rounded-md hover:bg-[#D73D80]/30 transition-colors"
+                          >
+                            OpenSea
+                          </a>
+                          <span className="px-3 py-1 bg-[#D8CDE2]/10 text-[#D8CDE2]/70 rounded-md">
+                            MetaMask
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : !isLoadingWalletNFTs && !walletNFTsError ? (
+            <div className="bg-[#13061F]/50 border border-[#D8CDE2]/20 rounded-xl p-8 text-center">
+              <div className="text-6xl mb-4">🎨</div>
+              {totalNFTs > 0 ? (
+                <>
+                  <p className="text-[#D8CDE2] mb-2">
+                    You own {totalNFTs} Alvara NFT{totalNFTs !== 1 ? "s" : ""}!
+                  </p>
+                  <p className="text-[#D8CDE2]/70 text-sm mb-4">
+                    Loading your NFTs from the blockchain...
+                  </p>
+                  <button
+                    onClick={refetchWalletNFTs}
+                    className="px-4 py-2 bg-[#D73D80] text-white rounded-lg hover:bg-[#D73D80]/80 transition-colors"
+                  >
+                    Refresh NFTs
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="text-[#D8CDE2] mb-2">No minted NFTs yet</p>
+                  <p className="text-[#D8CDE2]/70 text-sm">
+                    Start minting to see your collection here!
+                  </p>
+                </>
+              )}
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {/* Notification */}
@@ -425,6 +663,7 @@ export function AvatarMinter() {
           type={notification.type}
           title={notification.title}
           message={notification.message}
+          link={notification.link}
           onClose={closeNotification}
         />
       )}

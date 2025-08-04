@@ -1,0 +1,42 @@
+{
+  "name": "Alvara Inferno #4",
+  "description": "A blazing masterpiece that embodies the raw power of digital fire. This Inferno piece radiates intense heat and energy through vibrant reds and oranges, creating a mesmerizing dance of flames.",
+  "image": "https://gateway.pinata.cloud/ipfs/QmVFKDAU4ozwHxwCWuzcFfGeDg9pnhvPyJ4Nt9R9fmc3sH",
+  "external_url": "https://alvara-nft.com/token/4",
+  "attributes": [
+    {
+      "trait_type": "Collection",
+      "value": "Inferno"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Element",
+      "value": "Fire"
+    },
+    {
+      "trait_type": "Color Scheme",
+      "value": "Fiery Red"
+    },
+    {
+      "trait_type": "Energy Level",
+      "value": 98,
+      "max_value": 100,
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Flame Intensity",
+      "value": 94,
+      "max_value": 100,
+      "display_type": "boost_percentage"
+    },
+    {
+      "trait_type": "Creation Date",
+      "value": 1725187200,
+      "display_type": "date"
+    }
+  ],
+  "background_color": "8b0000"
+}

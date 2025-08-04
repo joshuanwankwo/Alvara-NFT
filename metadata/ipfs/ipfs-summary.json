@@ -1,0 +1,53 @@
+{
+  "collection": "Alvara NFT",
+  "timestamp": "2025-08-03T15:33:12.837Z",
+  "baseURI": "https://gateway.pinata.cloud/ipfs/",
+  "images": {
+    "1": "QmQL5TA5vZnfPcuGadCCbLvKrFRLkMxUQJHMKkPtZNkqnC",
+    "2": "QmZQyHcMwBZAMdqibb6EvzGiMoyVWWshhL3e4oG8M2CwR9",
+    "3": "QmPh2sqsN6eVeCSkPmHBetXgJkn9eYxpG3aH4keBmhNjdy",
+    "4": "QmVFKDAU4ozwHxwCWuzcFfGeDg9pnhvPyJ4Nt9R9fmc3sH",
+    "5": "QmamjSetmP4uf5EzJMyLPAw1NfCxGyg9nLAE8jVZa7qn9N",
+    "6": "QmNrAcbzpyuU1kfQUrZwZnjPzMKathT94RgsiWQMPp3APJ",
+    "7": "QmPVUMX5kWExhf5iytChdbrGrCPyVSw2yUkqx15XvV6JTG",
+    "8": "QmerDFavFcjGJ76wt8xquUmPFu83SGqfmoTXsqt7mLd9jj",
+    "9": "QmVo5yLrxK4x6iYmAdo4o1KEufJhxyoNyRuR32S9bcs4S3",
+    "10": "QmeQLFFh2QcnaymSHoRnJqUJPXDDE61z33Yo8wRDEK3EgJ"
+  },
+  "metadata": {
+    "1": "QmXci1VZWjwJAmY28uuSPpCtfWg2BAt2PLjFZpC5Q5T8rr",
+    "2": "QmZYgMkkvAoG24TZmkBHbEZsqEjfacUECPF6sginF3Yu3r",
+    "4": "QmUu5k6jL34K2UutvrbdPFVFMjU9Jz2NocuTW15uP1Dj7x",
+    "5": "QmVxkPDZEBd74XVimxPpNtWjPJ6NvFfnZrc5uvP3BTmL7C",
+    "6": "QmV37ntf4A6oFoQtouR8rjjkBLbitMPveDqpV33p4sYqhQ",
+    "7": "QmRGDXEwAW1yzktvQiMcc4ANu4vQ3wB6T4ZAF5B4TTZiYb",
+    "8": "QmayaiJDu9r9Twf5g5vxdM6tBs6paUW1Kw5tfy1jG3kaF7",
+    "9": "QmSeQoXAFLCi9APN1p65M8hpJkf2HAs14xufzsWatEss9r",
+    "10": "QmVhB2DvE4voqpEb42ptdVJA9mpNjiWuoUDRcjR2CAJQTh"
+  },
+  "urls": {
+    "images": {
+      "1": "https://gateway.pinata.cloud/ipfs/QmQL5TA5vZnfPcuGadCCbLvKrFRLkMxUQJHMKkPtZNkqnC",
+      "2": "https://gateway.pinata.cloud/ipfs/QmZQyHcMwBZAMdqibb6EvzGiMoyVWWshhL3e4oG8M2CwR9",
+      "3": "https://gateway.pinata.cloud/ipfs/QmPh2sqsN6eVeCSkPmHBetXgJkn9eYxpG3aH4keBmhNjdy",
+      "4": "https://gateway.pinata.cloud/ipfs/QmVFKDAU4ozwHxwCWuzcFfGeDg9pnhvPyJ4Nt9R9fmc3sH",
+      "5": "https://gateway.pinata.cloud/ipfs/QmamjSetmP4uf5EzJMyLPAw1NfCxGyg9nLAE8jVZa7qn9N",
+      "6": "https://gateway.pinata.cloud/ipfs/QmNrAcbzpyuU1kfQUrZwZnjPzMKathT94RgsiWQMPp3APJ",
+      "7": "https://gateway.pinata.cloud/ipfs/QmPVUMX5kWExhf5iytChdbrGrCPyVSw2yUkqx15XvV6JTG",
+      "8": "https://gateway.pinata.cloud/ipfs/QmerDFavFcjGJ76wt8xquUmPFu83SGqfmoTXsqt7mLd9jj",
+      "9": "https://gateway.pinata.cloud/ipfs/QmVo5yLrxK4x6iYmAdo4o1KEufJhxyoNyRuR32S9bcs4S3",
+      "10": "https://gateway.pinata.cloud/ipfs/QmeQLFFh2QcnaymSHoRnJqUJPXDDE61z33Yo8wRDEK3EgJ"
+    },
+    "metadata": {
+      "1": "https://gateway.pinata.cloud/ipfs/QmXci1VZWjwJAmY28uuSPpCtfWg2BAt2PLjFZpC5Q5T8rr",
+      "2": "https://gateway.pinata.cloud/ipfs/QmZYgMkkvAoG24TZmkBHbEZsqEjfacUECPF6sginF3Yu3r",
+      "4": "https://gateway.pinata.cloud/ipfs/QmUu5k6jL34K2UutvrbdPFVFMjU9Jz2NocuTW15uP1Dj7x",
+      "5": "https://gateway.pinata.cloud/ipfs/QmVxkPDZEBd74XVimxPpNtWjPJ6NvFfnZrc5uvP3BTmL7C",
+      "6": "https://gateway.pinata.cloud/ipfs/QmV37ntf4A6oFoQtouR8rjjkBLbitMPveDqpV33p4sYqhQ",
+      "7": "https://gateway.pinata.cloud/ipfs/QmRGDXEwAW1yzktvQiMcc4ANu4vQ3wB6T4ZAF5B4TTZiYb",
+      "8": "https://gateway.pinata.cloud/ipfs/QmayaiJDu9r9Twf5g5vxdM6tBs6paUW1Kw5tfy1jG3kaF7",
+      "9": "https://gateway.pinata.cloud/ipfs/QmSeQoXAFLCi9APN1p65M8hpJkf2HAs14xufzsWatEss9r",
+      "10": "https://gateway.pinata.cloud/ipfs/QmVhB2DvE4voqpEb42ptdVJA9mpNjiWuoUDRcjR2CAJQTh"
+    }
+  }
+}

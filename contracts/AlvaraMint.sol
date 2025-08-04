@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AlvaraMint is ERC721URIStorage, Ownable {
-    uint256 public constant MAX_MINTS_PER_WALLET = 3;
+    // Mint limit removed - unlimited minting per wallet
     uint256 public constant STANDARD_PRICE = 0.00055 ether;
     uint256 public constant DISCOUNT_PRICE = 0.000275 ether;
     uint256 public constant DISCOUNT_THRESHOLD = 150 * 1e18;
@@ -25,10 +25,6 @@ contract AlvaraMint is ERC721URIStorage, Ownable {
     }
 
     function mint(uint256 designId) external payable {
-        require(
-            walletMints[msg.sender] < MAX_MINTS_PER_WALLET,
-            "Mint limit reached"
-        );
         require(designId >= 1 && designId <= 10, "Invalid design");
 
         // Check ALVA balance
@@ -47,6 +43,9 @@ contract AlvaraMint is ERC721URIStorage, Ownable {
         walletMints[msg.sender] += 1;
     }
 
+    // Base URI for metadata (can be updated by owner)
+    string private _baseTokenURI = "https://api.alvara-nft.com/metadata/";
+    
     function tokenURI(
         uint256 tokenId
     ) public view override returns (string memory) {
@@ -55,11 +54,21 @@ contract AlvaraMint is ERC721URIStorage, Ownable {
         return
             string(
                 abi.encodePacked(
-                    "ipfs://your_cid_base/",
+                    _baseTokenURI,
                     uint2str(designId),
                     ".json"
                 )
             );
+    }
+    
+    // Allow owner to update base URI (useful for migrations)
+    function setBaseURI(string calldata newBaseURI) external onlyOwner {
+        _baseTokenURI = newBaseURI;
+    }
+    
+    // Get current base URI
+    function baseURI() external view returns (string memory) {
+        return _baseTokenURI;
     }
 
     // Utility to convert uint to string (no Strings.toString in <0.8.0)

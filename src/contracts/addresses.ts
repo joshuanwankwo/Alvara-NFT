@@ -1,7 +1,7 @@
 // Contract addresses for different networks
 export const CONTRACT_ADDRESSES = {
   // Your deployed contract address on Sepolia
-  sepolia: "0xDda54Cd36D18dA42abAB99709890825c9cC870d1",
+  sepolia: "0xE6FDaF5F32d9187C0244e5C565F2CAcED1A3747f",
   goerli: "0x0000000000000000000000000000000000000000", // Update if you deploy to Goerli
   mainnet: "0x0000000000000000000000000000000000000000", // For future mainnet deployment
 } as const;

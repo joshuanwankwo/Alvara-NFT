@@ -42,11 +42,8 @@ export function useAlvaraMint() {
     functionName: "DISCOUNT_PRICE",
   });
 
-  const { data: maxMintsPerWallet } = useReadContract({
-    address: contractAddress as `0x${string}`,
-    abi: ALVARA_MINT_ABI,
-    functionName: "MAX_MINTS_PER_WALLET",
-  });
+  // Removed MAX_MINTS_PER_WALLET since there's no limit now
+  const maxMintsPerWallet = null; // No limit
 
   const { data: walletMints } = useReadContract({
     address: contractAddress as `0x${string}`,
@@ -78,18 +75,18 @@ export function useAlvaraMint() {
 
   // Helper functions
   const getMintPrice = (hasDiscount: boolean = false) => {
-    if (hasDiscount && discountPrice) {
+    if (hasDiscount && discountPrice && typeof discountPrice === "bigint") {
       return formatEther(discountPrice);
     }
-    if (standardPrice) {
+    if (standardPrice && typeof standardPrice === "bigint") {
       return formatEther(standardPrice);
     }
     return "0.00055"; // Fallback to known price
   };
 
   const getRemainingMints = () => {
-    if (!maxMintsPerWallet || !walletMints) return 3;
-    return Number(maxMintsPerWallet) - Number(walletMints);
+    // No minting limit - return a high number for UI compatibility
+    return 999999;
   };
 
   const isMintActive = () => {
@@ -104,8 +101,17 @@ export function useAlvaraMint() {
   const mint = (designId: number, hasDiscount: boolean = false) => {
     if (!mintWrite) return;
 
-    const price = hasDiscount && discountPrice ? discountPrice : standardPrice;
-    if (!price) return;
+    const price =
+      hasDiscount && discountPrice && typeof discountPrice === "bigint"
+        ? discountPrice
+        : standardPrice && typeof standardPrice === "bigint"
+        ? standardPrice
+        : BigInt("550000000000000"); // Fallback to 0.00055 ETH in wei
+
+    // Validate design ID before minting
+    if (designId < 1 || designId > 10) {
+      throw new Error("Invalid design ID. Must be between 1 and 10.");
+    }
 
     mintWrite({
       address: contractAddress as `0x${string}`,
@@ -118,8 +124,14 @@ export function useAlvaraMint() {
 
   return {
     // Contract data
-    standardPrice: standardPrice ? formatEther(standardPrice) : "0.00055",
-    discountPrice: discountPrice ? formatEther(discountPrice) : "0.000275",
+    standardPrice:
+      standardPrice && typeof standardPrice === "bigint"
+        ? formatEther(standardPrice)
+        : "0.00055",
+    discountPrice:
+      discountPrice && typeof discountPrice === "bigint"
+        ? formatEther(discountPrice)
+        : "0.000275",
     maxMintsPerWallet: maxMintsPerWallet ? Number(maxMintsPerWallet) : 3,
     walletMints: walletMints ? Number(walletMints) : 0,
     userNftBalance: userNftBalance ? Number(userNftBalance) : 0,
@@ -136,6 +148,7 @@ export function useAlvaraMint() {
     // Transaction states
     isMintLoading: isMintLoading || isMintWaiting,
     isMintSuccess,
+    transactionHash: mintData,
 
     // Connection state
     isConnected,

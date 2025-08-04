@@ -16,9 +16,9 @@ describe("AlvaraMint", function () {
     mockAlva = await MockERC20.deploy();
     await mockAlva.deployed();
 
-    // Deploy AlvaraMint
-    const AlvaraMint = await ethers.getContractFactory("AlvaraMint");
-    alvaraMint = await AlvaraMint.deploy(mockAlva.address);
+    // Deploy AlvaraMintIPFS (the current contract)
+    const AlvaraMintIPFS = await ethers.getContractFactory("AlvaraMintIPFS");
+    alvaraMint = await AlvaraMintIPFS.deploy(mockAlva.address);
     await alvaraMint.deployed();
 
     // Give addr1 enough ALVA tokens for discount
@@ -63,21 +63,22 @@ describe("AlvaraMint", function () {
       expect(await alvaraMint.ownerOf(1)).to.equal(addr1.address);
     });
 
-    it("Should fail if max mints per wallet exceeded", async function () {
+    it("Should allow unlimited minting per wallet", async function () {
       const price = ethers.utils.parseEther("0.00055");
 
-      // Mint 3 NFTs (max limit)
+      // Mint multiple NFTs (no limit)
       await alvaraMint.connect(addr2).mint(1, { value: price });
       await alvaraMint.connect(addr2).mint(2, { value: price });
       await alvaraMint.connect(addr2).mint(3, { value: price });
+      await alvaraMint.connect(addr2).mint(4, { value: price }); // 4th mint should succeed
+      await alvaraMint.connect(addr2).mint(5, { value: price }); // 5th mint should succeed
 
-      // Try to mint 4th NFT
-      try {
-        await alvaraMint.connect(addr2).mint(4, { value: price });
-        expect.fail("Expected transaction to revert");
-      } catch (error) {
-        expect(error.message).to.include("Mint limit reached");
-      }
+      // Check that all NFTs were minted
+      const balance = await alvaraMint.balanceOf(addr2.address);
+      expect(balance.toNumber()).to.equal(5);
+
+      const walletMints = await alvaraMint.walletMints(addr2.address);
+      expect(walletMints.toNumber()).to.equal(5);
     });
 
     it("Should fail with insufficient payment", async function () {

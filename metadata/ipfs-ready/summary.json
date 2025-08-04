@@ -1,0 +1,8 @@
+{
+  "totalImages": 10,
+  "totalMetadata": 10,
+  "imagesPath": "/Users/joshuanwankwo/Documents/dev/Alvara-NFT/metadata/ipfs-ready/images",
+  "metadataPath": "/Users/joshuanwankwo/Documents/dev/Alvara-NFT/metadata/ipfs-ready/metadata",
+  "status": "Ready for IPFS upload",
+  "nextStep": "Upload to IPFS service (Pinata recommended)"
+}
