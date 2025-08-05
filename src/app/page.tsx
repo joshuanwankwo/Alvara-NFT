@@ -193,7 +193,7 @@ export default function Home() {
           </div>
 
           {/* Right Side Text */}
-          <div className="absolute right-[-500px] top-[100px] w-80 flex flex-col justify-center">
+          <div className="absolute right-[-500px] top-[150px] w-80 flex flex-col justify-center">
             <h2 
               style={{
                 fontFamily: 'PP Supply Sans, Titillium Web, sans-serif',
