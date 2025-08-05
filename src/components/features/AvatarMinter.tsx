@@ -178,9 +178,11 @@ export function AvatarMinter() {
         style={{
           width: '212px',
           height: '121px',
-          gap: '32px',
+          gap: '24px',
           transform: 'rotate(0deg)',
-          opacity: 1
+          opacity: 1,
+          marginLeft: '20px',
+          marginTop: '16px'
         }}
       >
         {/* Arrow Controls and Text Box */}

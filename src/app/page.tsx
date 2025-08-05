@@ -50,7 +50,7 @@ export default function Home() {
           >
             <h1 
               style={{
-                fontFamily: 'PP Supply Sans',
+                fontFamily: 'PP Supply Sans, Titillium Web',
                 fontWeight: 400,
                 fontStyle: 'normal',
                 fontSize: '64px',
@@ -87,7 +87,7 @@ export default function Home() {
                 color: '#B9A7C0'
               }}
             >
-              NFT platform for minting and trading NFTs. Lorem ipsum dolor sit amet, consecteur adipiscing
+              Minting a new generation of tokenised basket managers.
             </p>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function Home() {
               style={{
                 fontFamily: 'Titillium Web',
                 fontWeight: 600,
-                fontStyle: 'SemiBold',
+                fontStyle: 'normal',
                 fontSize: '32px',
                 lineHeight: '48.59px',
                 letterSpacing: '0%',
@@ -137,7 +137,7 @@ export default function Home() {
               style={{
                 fontFamily: 'Titillium Web',
                 fontWeight: 400,
-                fontStyle: 'Regular',
+                fontStyle: 'normal',
                 fontSize: '20px',
                 lineHeight: '125%',
                 letterSpacing: '0%',
@@ -190,6 +190,97 @@ export default function Home() {
                 priority
               />
             </div>
+          </div>
+
+          {/* Right Side Text */}
+          <div className="absolute right-[-500px] top-[100px] w-80 flex flex-col justify-center">
+            <h2 
+              style={{
+                fontFamily: 'PP Supply Sans, Titillium Web, sans-serif',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '32px',
+                lineHeight: '125%',
+                letterSpacing: '0%',
+                color: '#D73D80',
+                marginBottom: '16px'
+              }}
+            >
+              Who is an Investment Wanker?
+            </h2>
+            <p 
+              style={{
+                fontFamily: 'Supply Sans',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '150%',
+                letterSpacing: '0%',
+                color: '#B9A7C0',
+                marginBottom: '12px'
+              }}
+            >
+              A satire on TradFi bros who missed the memo.
+            </p>
+            <p 
+              style={{
+                fontFamily: 'Titillium Web',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '150%',
+                letterSpacing: '0%',
+                color: '#B9A7C0',
+                marginBottom: '12px'
+              }}
+            >
+              But also, a real yield-generating asset that gives you:
+            </p>
+            <ul 
+              style={{
+                fontFamily: 'Titillium Web',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '150%',
+                letterSpacing: '0%',
+                color: '#B9A7C0',
+                marginBottom: '12px',
+                paddingLeft: '20px'
+              }}
+            >
+              <li>• 6 months of ALVA staking rewards distributed monthly</li>
+              <li>• veALVA voting power + 10% revenue share</li>
+              <li>• Final ALVA airdrop at the end</li>
+            </ul>
+            <p 
+              style={{
+                fontFamily: 'Titillium Web',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '150%',
+                letterSpacing: '0%',
+                color: '#B9A7C0',
+                marginBottom: '12px'
+              }}
+            >
+              7 days limited NFT mint. Either you are in or out.
+            </p>
+            
+            <p 
+              style={{
+                fontFamily: 'Titillium Web',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '150%',
+                letterSpacing: '0%',
+                color: '#B9A7C0'
+              }}
+            >
+              Holding it = symbolically and financially part of the future of onchain capital formation.
+            </p>
           </div>
         </div>
       </div>
