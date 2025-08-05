@@ -1,15 +1,40 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Header, AvatarMinter } from "@/components";
 import { FAQ } from "@/components/ui/FAQ";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden min-h-screen">
       <Header />
 
-      <div className="relative pt-[97px]" style={{ minHeight: 'calc(100vh - 97px)' }}>
+      {/* Top-left Vector */}
+      <div className="fixed top-[97px] left-0 z-0 pointer-events-none">
+        <Image
+          src="/images/top-left.svg"
+          alt="Top-left decorative vector"
+          width={300}
+          height={300}
+          className="opacity-50"
+          priority
+        />
+      </div>
+
+      {/* Top-right Vector */}
+      <div className="fixed top-[97px] right-0 z-0 pointer-events-none">
+        <Image
+          src="/images/top-right.svg"
+          alt="Top-right decorative vector"
+          width={300}
+          height={300}
+          className="opacity-50"
+          priority
+        />
+      </div>
+
+      <div className="relative pt-[97px]" style={{ minHeight: 'calc(100vh - 97px)', paddingBottom: '100px', overflow: 'visible' }}>
         {/* Left Side - Marketing Text */}
-        <div className="absolute left-0 top-0 w-1/2 h-full flex flex-col justify-center pl-16">
+        <div className="absolute left-0 top-0 w-1/2 h-full flex flex-col justify-center pl-56" style={{ paddingTop: '180px' }}>
           {/* Headline Section */}
           <div 
             className="mb-8"
@@ -69,15 +94,17 @@ export default function Home() {
 
         {/* Right Side - NFT Interface */}
         <div 
-          className="absolute right-0 top-0 w-1/2 h-full flex flex-col justify-center items-center"
+          className="absolute right-0 top-0 w-1/2 flex flex-col justify-center items-center"
           style={{
             width: '373px',
-            height: '727px',
-            top: '147px',
+            height: 'auto',
+            minHeight: '750px',
+            top: '120px',
             left: '750px',
-            gap: '35px',
+            gap: '32px',
             transform: 'rotate(0deg)',
-            opacity: 1
+            opacity: 1,
+            paddingBottom: '50px'
           }}
         >
           {/* Text Section */}
@@ -121,26 +148,69 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Avatar Frame */}
-          <div 
-            style={{
-              width: '368px',
-              height: '608px',
-              background: '#7861851A',
-              border: '1px solid #786185',
-              borderRadius: '12px',
-              padding: '32px 56px 32px 56px'
-            }}
-          >
-            <AvatarMinter />
+          {/* Avatar Frame with Side Vectors */}
+          <div className="relative">
+            {/* Left Vector */}
+            <div className="absolute left-[-200px] bottom-0 z-0 pointer-events-none">
+              <Image
+                src="/images/left.svg"
+                alt="Left decorative vector"
+                width={200}
+                height={200}
+                className="opacity-50"
+                priority
+              />
+            </div>
+
+            {/* Avatar Frame */}
+            <div 
+              style={{
+                width: '368px',
+                height: '608px',
+                background: '#7861851A',
+                border: '1px solid #786185',
+                borderRadius: '0px',
+                padding: '32px 56px 32px 56px',
+                gap: '32px',
+                transform: 'rotate(0deg)',
+                opacity: 1
+              }}
+            >
+              <AvatarMinter />
+            </div>
+
+            {/* Right Vector */}
+            <div className="absolute right-[-200px] bottom-0 z-0 pointer-events-none">
+              <Image
+                src="/images/right.svg"
+                alt="Right decorative vector"
+                width={200}
+                height={200}
+                className="opacity-50"
+                priority
+              />
+            </div>
           </div>
         </div>
       </div>
 
       {/* FAQ Section */}
-      <div className="pt-8 pb-16">
+      <div className="pt-32 pb-16">
         <FAQ />
       </div>
+
+      {/* Footer Vector */}
+      <div className="w-full z-0 pointer-events-none">
+        <Image
+          src="/images/footer.svg"
+          alt="Footer decorative vector"
+          width={1920}
+          height={20}
+          className="opacity-30 w-full h-auto"
+          priority
+        />
+      </div>
+
     </main>
   );
 }

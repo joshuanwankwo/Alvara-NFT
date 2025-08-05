@@ -110,7 +110,7 @@ export function FAQ() {
 
   return (
     <section className="bg-[#1D132E]/50 backdrop-blur-[40px] py-12" style={{ fontFamily: 'Titillium Web' }}>
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-4xl ml-auto mr-[500px] px-6">
         <div className="text-center mb-12">
           <h2 
             style={{

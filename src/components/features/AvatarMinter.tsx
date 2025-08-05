@@ -117,28 +117,44 @@ export function AvatarMinter() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col space-y-3">
+    <div className="w-full flex flex-col space-y-4">
       {/* Avatar Display */}
       <div className="flex items-center justify-center">
         <div 
-          className="relative"
           style={{
-            width: '256px',
-            height: '250px'
+            width: '250px',
+            height: '250px',
+            background: '#FDF2FF',
+            border: '0.67px solid #786185',
+            padding: '8.02px',
+            gap: '21.39px',
+            transform: 'rotate(0deg)',
+            opacity: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
-          <Image
-            src={currentNFT.image}
-            alt={`Avatar ${currentNFT.number}`}
-            fill
-            className="object-contain"
-            priority
-          />
+          <div 
+            className="relative"
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            <Image
+              src={currentNFT.image}
+              alt={`Avatar ${currentNFT.number}`}
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
       </div>
 
       {/* Carousel Dots */}
-      <div className="flex items-center justify-center gap-1.5">
+      <div className="flex items-center justify-center gap-1.5 mb-2">
         {alvaraNFTs.map((_, index) => (
           <button
             key={index}
@@ -161,7 +177,8 @@ export function AvatarMinter() {
         className="flex flex-col space-y-3"
         style={{
           width: '212px',
-          gap: '12px',
+          height: '121px',
+          gap: '32px',
           transform: 'rotate(0deg)',
           opacity: 1
         }}
@@ -176,11 +193,10 @@ export function AvatarMinter() {
               height: '44px',
               borderRadius: '100px',
               border: '2px solid #786185',
-              background: '#D8CDE2',
-              opacity: 0.25
+              background: '#D8CDE240'
             }}
           >
-            <ChevronLeft className="w-5 h-5" style={{ color: '#FDF2FF' }} />
+            <ChevronLeft className="w-5 h-5" style={{ color: '#FFFFFF' }} />
           </button>
           
           <div 
@@ -205,11 +221,10 @@ export function AvatarMinter() {
               height: '44px',
               borderRadius: '100px',
               border: '2px solid #786185',
-              background: '#D8CDE2',
-              opacity: 0.25
+              background: '#D8CDE240'
             }}
           >
-            <ChevronRight className="w-5 h-5" style={{ color: '#FDF2FF' }} />
+            <ChevronRight className="w-5 h-5" style={{ color: '#FFFFFF' }} />
           </button>
         </div>
 
@@ -223,7 +238,8 @@ export function AvatarMinter() {
             border: '2px solid #786185',
             borderRadius: '16px',
             padding: '10px 24px',
-            margin: '0 auto'
+            margin: '0 auto',
+            marginBottom: '16px'
           }}
         >
           <span 
@@ -247,7 +263,8 @@ export function AvatarMinter() {
       <div 
         style={{
           width: '256px',
-          gap: '12px',
+          height: '109px',
+          gap: '16px',
           transform: 'rotate(0deg)',
           opacity: 1
         }}
@@ -267,7 +284,7 @@ export function AvatarMinter() {
             transition: 'all duration-200',
             margin: '0 auto',
             display: 'block',
-            marginBottom: '12px'
+            marginBottom: '24px'
           }}
           className="text-white font-bold disabled:opacity-50"
         >
@@ -276,13 +293,14 @@ export function AvatarMinter() {
 
         {/* Text Group */}
         <div 
-          className="text-center space-y-1"
+          className="text-center space-y-2"
           style={{
             width: '212px',
-            gap: '4px',
+            gap: '8px',
             transform: 'rotate(0deg)',
             opacity: 1,
-            marginLeft: '22px'
+            marginLeft: '22px',
+            marginBottom: '40px'
           }}
         >
           <div 

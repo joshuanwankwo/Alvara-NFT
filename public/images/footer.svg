@@ -1,0 +1,35 @@
+<svg width="1440" height="240" viewBox="0 0 1440 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M420 180H480V120H420V180Z" fill="#3A234F"/>
+<path d="M480 180H540V120H480V180Z" fill="#3A234F"/>
+<path opacity="0.25" d="M540 120H600V60H540V120Z" fill="#3A234F"/>
+<path opacity="0.25" d="M600 120H660V60H600V120Z" fill="#3A234F"/>
+<path opacity="0.25" d="M660 120H720V60H660V120Z" fill="#3A234F"/>
+<path opacity="0.25" d="M720 180H780V120H720V180Z" fill="#3A234F"/>
+<path opacity="0.25" d="M780 180H840V120H780V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M840 240H900V180H840V240Z" fill="#3A234F"/>
+<path opacity="0.5" d="M900 180H960V120H900V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M960 180H1020V120H960V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M960 120H1020V60H960V120Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1020 60H1080V3.8147e-06H1020V60Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1080 120H1140V60H1080V120Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1140 60H1200V3.8147e-06H1140V60Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1020 180H1080V120H1020V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1020 120H1080V60H1020V120Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1080 60H1140V3.8147e-06H1080V60Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1140 120H1200V60H1140V120Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1200 60H1260V3.8147e-06H1200V60Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1080 180H1140V120H1080V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1140 180H1200V120H1140V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1200 180H1260V120H1200V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1260 180H1320V120H1260V180Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1260 120H1320V60H1260V120Z" fill="#3A234F"/>
+<path opacity="0.5" d="M1320 180H1380V120H1320V180Z" fill="#3A234F"/>
+<path d="M1380 240H1440V180H1380V240Z" fill="#3A234F"/>
+<path d="M360 180H420V120H360V180Z" fill="#3A234F"/>
+<path d="M360 240H420V180H360V240Z" fill="#3A234F"/>
+<path opacity="0.25" d="M60 180H120V120H60V180Z" fill="#3A234F"/>
+<path d="M120 120H180V60H120V120Z" fill="#D73D80"/>
+<path opacity="0.25" d="M0 180H60V120H0V180Z" fill="#3A234F"/>
+<path opacity="0.25" d="M180 60H240V3.8147e-06H180V60Z" fill="#3A234F"/>
+<path d="M240 60H300V120H360V180H300L240 120V60Z" fill="#3A234F"/>
+</svg>
