@@ -234,25 +234,8 @@ export default function Home() {
                 marginBottom: '12px'
               }}
             >
-              But also, a real yield-generating asset that gives you:
+              But also, a real yield-generating NFT.
             </p>
-            <ul 
-              style={{
-                fontFamily: 'Titillium Web',
-                fontWeight: 400,
-                fontStyle: 'normal',
-                fontSize: '16px',
-                lineHeight: '150%',
-                letterSpacing: '0%',
-                color: '#B9A7C0',
-                marginBottom: '12px',
-                paddingLeft: '20px'
-              }}
-            >
-              <li>• 6 months of ALVA staking rewards distributed monthly</li>
-              <li>• veALVA voting power + 10% revenue share</li>
-              <li>• Final ALVA airdrop at the end</li>
-            </ul>
             <p 
               style={{
                 fontFamily: 'Titillium Web',
@@ -265,9 +248,36 @@ export default function Home() {
                 marginBottom: '12px'
               }}
             >
-              7 days limited NFT mint. Either you are in or out.
+              Here's the kicker:
             </p>
-            
+            <p 
+              style={{
+                fontFamily: 'Titillium Web',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '150%',
+                letterSpacing: '0%',
+                color: '#B9A7C0',
+                marginBottom: '12px'
+              }}
+            >
+              100% of the mint funds are used to buy ALVA and airdropped back to holders after 6 months.
+            </p>
+            <p 
+              style={{
+                fontFamily: 'Titillium Web',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '16px',
+                lineHeight: '150%',
+                letterSpacing: '0%',
+                color: '#B9A7C0',
+                marginBottom: '12px'
+              }}
+            >
+              Mint open for 7 days only.
+            </p>
             <p 
               style={{
                 fontFamily: 'Titillium Web',
@@ -279,7 +289,7 @@ export default function Home() {
                 color: '#B9A7C0'
               }}
             >
-              Holding it = symbolically and financially part of the future of onchain capital formation.
+              You're either in, or you're an investment wanker.
             </p>
           </div>
         </div>
