@@ -87,7 +87,7 @@ export function FAQ() {
     },
     {
       question: "How much does it cost?",
-      answer: "Each NFT is priced at 0.01 ETH.",
+      answer: "Each NFT is priced at 0.01 ETH but you can get a 50% discount if you stake a minumium of 150 $ALVA.",
     },
     {
       question: "Can I sell my NFT?",
