@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, AlertCircle, X } from "lucide-react";
+import { Check, AlertCircle, X, ExternalLink } from "lucide-react";
 
 interface NotificationProps {
   type: "success" | "error";
   title: string;
   message?: string;
+  link?: {
+    url: string;
+    text: string;
+  };
   onClose: () => void;
   autoClose?: boolean;
   autoCloseDelay?: number;
@@ -16,6 +20,7 @@ export function Notification({
   type,
   title,
   message,
+  link,
   onClose,
   autoClose = true,
   autoCloseDelay = 5000,
@@ -71,6 +76,17 @@ export function Notification({
           <div className="flex-1 min-w-0">
             <h4 className="text-white font-semibold text-sm">{title}</h4>
             {message && <p className="text-white/90 text-sm mt-1">{message}</p>}
+            {link && (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-white/80 hover:text-white text-sm mt-2 transition-colors"
+              >
+                {link.text}
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
           </div>
 
           <button

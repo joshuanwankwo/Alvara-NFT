@@ -6,16 +6,35 @@ import {
   connectorsForWallets,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum, base, zora } from "wagmi/chains";
+import {
+  sepolia,
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+  zora,
+} from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
+import { alchemyProvider } from "wagmi/providers/alchemy";
 import "@rainbow-me/rainbowkit/styles.css";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, zora],
-  [publicProvider()],
+  [sepolia, mainnet, polygon, optimism, arbitrum, base, zora],
+  [
+    // Use Alchemy as primary provider for better reliability
+    alchemyProvider({
+      apiKey:
+        process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "GZnUwew-bar4JCUbJjVIt",
+    }),
+    // Fallback to public provider
+    publicProvider(),
+  ],
   {
-    pollingInterval: 30_000, // Increase polling interval to reduce requests
-    stallTimeout: 10_000, // Increase stall timeout
+    pollingInterval: 4_000, // Faster polling for better UX
+    stallTimeout: 20_000, // Longer timeout for slow networks
+    retryCount: 5, // More retries for reliability
+    retryDelay: 2000, // Wait 2 seconds between retries
   }
 );
 
@@ -37,6 +56,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
         chains={chains}
+        initialChain={sepolia} // Set Sepolia as the default network
         coolMode={false} // Disable cool mode to reduce unnecessary features
         showRecentTransactions={false} // Disable recent transactions to reduce API calls
       >

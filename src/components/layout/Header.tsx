@@ -67,13 +67,13 @@ export function Header() {
                         type="button"
                         className="w-[178px] h-[49px] bg-gradient-to-r from-[#FC75AF] to-[#D73D80] hover:opacity-90 text-white font-medium rounded-xl px-6 py-3 transition-all duration-200 flex items-center justify-center gap-2.5"
                         style={{
-                          paddingTop: '12px',
-                          paddingRight: '24px',
-                          paddingBottom: '12px',
-                          paddingLeft: '24px',
-                          gap: '10px',
-                          borderRadius: '12px',
-                          opacity: 1
+                          paddingTop: "12px",
+                          paddingRight: "24px",
+                          paddingBottom: "12px",
+                          paddingLeft: "24px",
+                          gap: "10px",
+                          borderRadius: "12px",
+                          opacity: 1,
                         }}
                       >
                         Connect Wallet
@@ -88,13 +88,13 @@ export function Header() {
                         type="button"
                         className="w-[178px] h-[49px] bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl px-6 py-3 transition-all duration-200 flex items-center justify-center"
                         style={{
-                          paddingTop: '12px',
-                          paddingRight: '24px',
-                          paddingBottom: '12px',
-                          paddingLeft: '24px',
-                          gap: '10px',
-                          borderRadius: '12px',
-                          opacity: 1
+                          paddingTop: "12px",
+                          paddingRight: "24px",
+                          paddingBottom: "12px",
+                          paddingLeft: "24px",
+                          gap: "10px",
+                          borderRadius: "12px",
+                          opacity: 1,
                         }}
                       >
                         Wrong network
@@ -137,13 +137,13 @@ export function Header() {
                         type="button"
                         className="w-[178px] h-[49px] bg-gradient-to-r from-[#FC75AF] to-[#D73D80] hover:opacity-90 text-white font-medium rounded-xl px-6 py-3 transition-all duration-200 flex items-center justify-center"
                         style={{
-                          paddingTop: '12px',
-                          paddingRight: '24px',
-                          paddingBottom: '12px',
-                          paddingLeft: '24px',
-                          gap: '10px',
-                          borderRadius: '12px',
-                          opacity: 1
+                          paddingTop: "12px",
+                          paddingRight: "24px",
+                          paddingBottom: "12px",
+                          paddingLeft: "24px",
+                          gap: "10px",
+                          borderRadius: "12px",
+                          opacity: 1,
                         }}
                       >
                         {account.displayName}
