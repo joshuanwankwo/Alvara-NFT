@@ -118,7 +118,7 @@ export function NFTForm({ nftData, setNftData }: NFTFormProps) {
 
         {/* Attributes */}
         <div>
-          <label className=" text-sm font-medium text-dark-300 mb-2 flex items-center">
+          <label className="block text-sm font-medium text-dark-300 mb-2 flex items-center">
             <Tag className="w-4 h-4 mr-1" />
             Attributes
           </label>

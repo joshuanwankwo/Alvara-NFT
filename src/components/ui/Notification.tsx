@@ -7,10 +7,6 @@ interface NotificationProps {
   type: "success" | "error";
   title: string;
   message?: string;
-  link?: {
-    url: string;
-    text: string;
-  };
   onClose: () => void;
   autoClose?: boolean;
   autoCloseDelay?: number;
@@ -20,7 +16,6 @@ export function Notification({
   type,
   title,
   message,
-  link,
   onClose,
   autoClose = true,
   autoCloseDelay = 5000,
@@ -76,16 +71,6 @@ export function Notification({
           <div className="flex-1 min-w-0">
             <h4 className="text-white font-semibold text-sm">{title}</h4>
             {message && <p className="text-white/90 text-sm mt-1">{message}</p>}
-            {link && (
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block text-blue-200 hover:text-blue-100 text-sm mt-2 underline transition-colors"
-              >
-                {link.text}
-              </a>
-            )}
           </div>
 
           <button

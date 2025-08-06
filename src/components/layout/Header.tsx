@@ -40,6 +40,8 @@ export function Header() {
                 authenticationStatus,
                 mounted,
               }) => {
+                // Note: If your app doesn't use authentication, you
+                // can remove all 'authenticationStatus' checks
                 const ready = mounted && authenticationStatus !== "loading";
                 const connected =
                   ready &&
