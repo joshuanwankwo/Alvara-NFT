@@ -8,7 +8,7 @@ import logo from "../../../public/images/logo.png";
 
 export function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full h-[97px] bg-[#1D132E]/50 backdrop-blur-[40px] border-b border-[#C9B2CD]/25 flex justify-between items-center px-[108px] py-6">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full h-[97px] bg-[#1D132E]/50 backdrop-blur-[40px] border-b border-[#C9B2CD]/25 flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-16 xl:px-[108px] py-4 sm:py-6">
       {/* Logo */}
       <Link
         href="#home"
@@ -20,7 +20,7 @@ export function Header() {
             alt="Logo"
             width={120}
             height={40}
-            className="h-6 md:h-8 w-auto"
+            className="h-5 sm:h-6 md:h-8 w-auto"
             priority
           />
         </div>
@@ -65,18 +65,11 @@ export function Header() {
                       <button
                         onClick={openConnectModal}
                         type="button"
-                        className="w-[178px] h-[49px] bg-gradient-to-r from-[#FC75AF] to-[#D73D80] hover:opacity-90 text-white font-medium rounded-xl px-6 py-3 transition-all duration-200 flex items-center justify-center gap-2.5"
-                        style={{
-                          paddingTop: "12px",
-                          paddingRight: "24px",
-                          paddingBottom: "12px",
-                          paddingLeft: "24px",
-                          gap: "10px",
-                          borderRadius: "12px",
-                          opacity: 1,
-                        }}
+                        className="w-auto min-w-[120px] sm:min-w-[140px] md:min-w-[178px] h-[40px] sm:h-[45px] md:h-[49px] bg-gradient-to-r from-[#FC75AF] to-[#D73D80] hover:opacity-90 text-white font-medium rounded-xl px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 md:gap-2.5 text-xs sm:text-sm md:text-base"
                       >
-                        Connect Wallet
+                        <Wallet className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                        <span className="hidden sm:inline">Connect</span>
+                        <span className="sm:hidden">Connect</span>
                       </button>
                     );
                   }
@@ -86,70 +79,66 @@ export function Header() {
                       <button
                         onClick={openChainModal}
                         type="button"
-                        className="w-[178px] h-[49px] bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl px-6 py-3 transition-all duration-200 flex items-center justify-center"
-                        style={{
-                          paddingTop: "12px",
-                          paddingRight: "24px",
-                          paddingBottom: "12px",
-                          paddingLeft: "24px",
-                          gap: "10px",
-                          borderRadius: "12px",
-                          opacity: 1,
-                        }}
+                        className="w-auto min-w-[120px] sm:min-w-[140px] md:min-w-[178px] h-[40px] sm:h-[45px] md:h-[49px] bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 transition-all duration-200 flex items-center justify-center text-xs sm:text-sm md:text-base"
                       >
-                        Wrong network
+                        <span className="hidden sm:inline">Wrong network</span>
+                        <span className="sm:hidden">Wrong net</span>
                       </button>
                     );
                   }
 
                   return (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <button
                         onClick={openChainModal}
-                        className="bg-[#13061F]/80 hover:bg-[#13061F] text-white font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center gap-2"
+                        className="bg-[#13061F]/80 hover:bg-[#13061F] text-white font-medium py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg transition-all duration-200 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm"
                         type="button"
                       >
                         {chain.hasIcon && (
                           <div
                             style={{
                               background: chain.iconBackground,
-                              width: 16,
-                              height: 16,
+                              width: 12,
+                              height: 12,
                               borderRadius: 999,
                               overflow: "hidden",
-                              marginRight: 4,
+                              marginRight: 2,
                             }}
+                            className="sm:w-4 sm:h-4 sm:mr-1"
                           >
                             {chain.iconUrl && (
                               <img
                                 alt={chain.name ?? "Chain icon"}
                                 src={chain.iconUrl}
-                                style={{ width: 16, height: 16 }}
+                                style={{ width: 12, height: 12 }}
+                                className="sm:w-4 sm:h-4"
                               />
                             )}
                           </div>
                         )}
-                        {chain.name}
+                        <span className="hidden sm:inline">{chain.name}</span>
+                        <span className="sm:hidden">
+                          {chain.name?.split(" ")[0]}
+                        </span>
                       </button>
 
                       <button
                         onClick={openAccountModal}
                         type="button"
-                        className="w-[178px] h-[49px] bg-gradient-to-r from-[#FC75AF] to-[#D73D80] hover:opacity-90 text-white font-medium rounded-xl px-6 py-3 transition-all duration-200 flex items-center justify-center"
-                        style={{
-                          paddingTop: "12px",
-                          paddingRight: "24px",
-                          paddingBottom: "12px",
-                          paddingLeft: "24px",
-                          gap: "10px",
-                          borderRadius: "12px",
-                          opacity: 1,
-                        }}
+                        className="w-auto min-w-[120px] sm:min-w-[140px] md:min-w-[178px] h-[40px] sm:h-[45px] md:h-[49px] bg-gradient-to-r from-[#FC75AF] to-[#D73D80] hover:opacity-90 text-white font-medium rounded-xl px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 transition-all duration-200 flex items-center justify-center text-xs sm:text-sm md:text-base"
                       >
-                        {account.displayName}
-                        {account.displayBalance
-                          ? ` (${account.displayBalance})`
-                          : ""}
+                        <span className="hidden sm:inline">
+                          {account.displayName}
+                          {account.displayBalance
+                            ? ` (${account.displayBalance})`
+                            : ""}
+                        </span>
+                        <span className="sm:hidden">
+                          {account.displayName?.slice(0, 6)}...
+                          {account.displayBalance
+                            ? ` (${account.displayBalance})`
+                            : ""}
+                        </span>
                       </button>
                     </div>
                   );
