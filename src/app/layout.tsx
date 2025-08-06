@@ -29,9 +29,9 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href="/images/alvara2.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Titillium+Web:wght@200;300;400;600;700;900&family=PP+Supply+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
-      <body className={`${inter.className} bg-midnight-950 text-eggshell-50 antialiased`}>
+      <body className="bg-[#1D132E] text-eggshell-50 antialiased" style={{ fontFamily: 'Titillium Web, sans-serif' }}>
         <Providers>
           {children}
         </Providers>

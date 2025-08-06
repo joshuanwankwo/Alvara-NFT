@@ -31,6 +31,7 @@ module.exports = {
           900: "#8c2943",
           950: "#FC9FB7", // Brand color
         },
+        
         salmon: {
           50: "#fef2f6",
           100: "#fde7f0",

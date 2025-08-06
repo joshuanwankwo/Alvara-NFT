@@ -2,13 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'PP Supply Sans';
+  src: url('/fonts/PPSupplySans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Sans';
+  src: url('/fonts/PPSupplySans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Sans';
+  src: url('/fonts/PPSupplySans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   * {
-    @apply border-midnight-800;
+    @apply border-[#786185];
+  }
+  
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
   }
   
   body {
-    @apply bg-midnight-950 text-eggshell-50;
+    @apply bg-[#1D132E] text-eggshell-50;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
@@ -19,23 +48,23 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-salmon-600 hover:bg-salmon-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:ring-offset-2 focus:ring-offset-midnight-950;
+    @apply bg-salmon-600 hover:bg-salmon-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:ring-offset-2 focus:ring-offset-[#1D132E];
   }
   
   .btn-secondary {
-    @apply bg-midnight-800 hover:bg-midnight-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-midnight-600 hover:border-midnight-500 focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:ring-offset-2 focus:ring-offset-midnight-950;
+    @apply bg-[#786185] hover:bg-[#6a4d7f] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-[#786185] hover:border-[#6a4d7f] focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:ring-offset-2 focus:ring-offset-[#1D132E];
   }
   
   .card {
-    @apply bg-midnight-900 border border-midnight-800 rounded-xl p-6 backdrop-blur-sm;
+    @apply bg-[#7861851A] border border-[#786185] rounded-xl p-6 backdrop-blur-sm;
   }
   
   .card-hover {
-    @apply card hover:border-salmon-500/50 hover:bg-midnight-800/50 transition-all duration-300;
+    @apply card hover:border-salmon-500/50 hover:bg-[#78618533] transition-all duration-300;
   }
   
   .input-field {
-    @apply bg-midnight-800 border border-midnight-600 text-white placeholder-midnight-400 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:border-transparent transition-all duration-200;
+    @apply bg-[#786185] border border-[#786185] text-white placeholder-[#B199B5] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:border-transparent transition-all duration-200;
   }
   
   .gradient-text {
