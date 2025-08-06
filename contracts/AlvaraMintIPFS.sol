@@ -6,9 +6,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AlvaraMintIPFS is ERC721URIStorage, Ownable {
-    // Removed MAX_MINTS_PER_WALLET constant
-    uint256 public constant STANDARD_PRICE = 0.00055 ether;
-    uint256 public constant DISCOUNT_PRICE = 0.000275 ether;
+    uint256 public constant STANDARD_PRICE = 0.01 ether;
+    uint256 public constant DISCOUNT_PRICE = 0.005 ether;
     uint256 public constant DISCOUNT_THRESHOLD = 150 * 1e18;
 
     address public alvaToken;
@@ -23,17 +22,17 @@ contract AlvaraMintIPFS is ERC721URIStorage, Ownable {
     constructor(address _alvaToken) ERC721("Alvara NFT", "ALVA") Ownable(msg.sender) {
         alvaToken = _alvaToken;
         
-        // Set IPFS hashes for each design's metadata
-        designMetadataHash[1] = "QmXci1VZWjwJAmY28uuSPpCtfWg2BAt2PLjFZpC5Q5T8rr";
-        designMetadataHash[2] = "QmZYgMkkvAoG24TZmkBHbEZsqEjfacUECPF6sginF3Yu3r";
-        designMetadataHash[3] = "QmRkbPt9KgwqBYrcWpDd3w4CFXZrzmJSbMRHPaaUsmiM39";
-        designMetadataHash[4] = "QmUu5k6jL34K2UutvrbdPFVFMjU9Jz2NocuTW15uP1Dj7x";
-        designMetadataHash[5] = "QmVxkPDZEBd74XVimxPpNtWjPJ6NvFfnZrc5uvP3BTmL7C";
-        designMetadataHash[6] = "QmV37ntf4A6oFoQtouR8rjjkBLbitMPveDqpV33p4sYqhQ";
-        designMetadataHash[7] = "QmRGDXEwAW1yzktvQiMcc4ANu4vQ3wB6T4ZAF5B4TTZiYb";
-        designMetadataHash[8] = "QmayaiJDu9r9Twf5g5vxdM6tBs6paUW1Kw5tfy1jG3kaF7";
-        designMetadataHash[9] = "QmSeQoXAFLCi9APN1p65M8hpJkf2HAs14xufzsWatEss9r";
-        designMetadataHash[10] = "QmVhB2DvE4voqpEb42ptdVJA9mpNjiWuoUDRcjR2CAJQTh";
+        // Set IPFS hashes for each design's metadata (placeholder hashes - replace with real ones)
+        designMetadataHash[1] = "QmExampleMetadata1";  // Basket Beth
+        designMetadataHash[2] = "QmExampleMetadata2";  // Degen Derrick
+        designMetadataHash[3] = "QmExampleMetadata3";  // Freddy FOMO
+        designMetadataHash[4] = "QmExampleMetadata4";  // Gloria Gains
+        designMetadataHash[5] = "QmExampleMetadata5";  // Henry Hodl
+        designMetadataHash[6] = "QmExampleMetadata6";  // Kate Candle
+        designMetadataHash[7] = "QmExampleMetadata7";  // Leroy Leverage
+        designMetadataHash[8] = "QmExampleMetadata8";  // Max Effort
+        designMetadataHash[9] = "QmExampleMetadata9";  // Sally Swaps
+        designMetadataHash[10] = "QmExampleMetadata10"; // William Banker
     }
 
     function mint(uint256 designId) external payable {

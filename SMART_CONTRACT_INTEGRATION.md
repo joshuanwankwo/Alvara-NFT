@@ -20,7 +20,7 @@ The platform now includes:
 
 ### AlvaraMint Contract
 - **ERC721 Standard**: Compliant NFT contract
-- **Dynamic Pricing**: 0.00055 ETH standard, 0.000275 ETH with discount
+- **Dynamic Pricing**: 0.01 ETH standard, 0.005 ETH with discount
 - **veALVA Integration**: 50% discount for holders of 1.5+ veALVA tokens
 - **Unlimited Minting**: No per-wallet limits
 - **Design Selection**: 10 different NFT designs (1-10)
@@ -74,8 +74,8 @@ npx hardhat verify --network sepolia CONTRACT_ADDRESS "ALVA_TOKEN_ADDRESS"
 ## 💰 Pricing Structure
 
 ### Standard Pricing
-- **Standard Price**: 0.00055 ETH per NFT
-- **Discount Price**: 0.000275 ETH per NFT (50% off)
+- **Standard Price**: 0.01 ETH per NFT
+- **Discount Price**: 0.005 ETH per NFT (50% off)
 
 ### Discount Eligibility
 - Hold 1.5+ veALVA tokens on Ethereum mainnet

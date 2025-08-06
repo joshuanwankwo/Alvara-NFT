@@ -1,0 +1,21 @@
+{
+  "name": "Leroy Leverage",
+  "description": "The aggressive trader who uses leverage to amplify gains, but also risks amplified losses.",
+  "image": "ipfs://QmExample7",
+  "attributes": [
+    {
+      "trait_type": "Trading Style",
+      "value": "Leverage"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Extreme"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Amplified"
+    }
+  ],
+  "external_url": "https://alvara-nft.com",
+  "background_color": "000000"
+}

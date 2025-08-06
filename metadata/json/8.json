@@ -1,0 +1,21 @@
+{
+  "name": "Max Effort",
+  "description": "A dedicated crypto enthusiast who puts maximum effort into research, analysis, and community building.",
+  "image": "ipfs://QmExample8",
+  "attributes": [
+    {
+      "trait_type": "Trading Style",
+      "value": "Research"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Medium"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Fundamental"
+    }
+  ],
+  "external_url": "https://alvara-nft.com",
+  "background_color": "000000"
+}

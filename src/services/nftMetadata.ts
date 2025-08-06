@@ -1,215 +1,206 @@
 // NFT Metadata fetching service
 import axios from "axios";
 
-export interface NFTAttribute {
-  trait_type: string;
-  value: string | number;
-  max_value?: number;
-  display_type?: string;
-}
-
 export interface NFTMetadata {
   name: string;
   description: string;
   image: string;
+  attributes: Array<{
+    trait_type: string;
+    value: string;
+  }>;
   external_url?: string;
-  attributes: NFTAttribute[];
   background_color?: string;
 }
 
-export interface NFTDesign {
-  id: number;
-  metadata: NFTMetadata;
-  ipfsHash: string;
-  imageUrl: string;
+// IPFS gateway URLs to try (in order of preference)
+const IPFS_GATEWAYS = [
+  "https://ipfs.io/ipfs/",
+  "https://gateway.pinata.cloud/ipfs/",
+  "https://cloudflare-ipfs.com/ipfs/",
+  "https://dweb.link/ipfs/",
+  "https://ipfs.fleek.co/ipfs/",
+];
+
+// Function to get IPFS URL from hash
+export function getIPFSURL(hash: string): string {
+  return `${IPFS_GATEWAYS[0]}${hash}`;
 }
 
-// IPFS hashes for each design (from our deployed contract)
-const DESIGN_METADATA_HASHES: { [key: number]: string } = {
-  1: "QmXci1VZWjwJAmY28uuSPpCtfWg2BAt2PLjFZpC5Q5T8rr",
-  2: "QmZYgMkkvAoG24TZmkBHbEZsqEjfacUECPF6sginF3Yu3r",
-  3: "bafkreifeq5mioachviwmi47mjruharcn45t24trqctoj6czlffzdgmolr4",
-  4: "QmUu5k6jL34K2UutvrbdPFVFMjU9Jz2NocuTW15uP1Dj7x",
-  5: "QmVxkPDZEBd74XVimxPpNtWjPJ6NvFfnZrc5uvP3BTmL7C",
-  6: "QmV37ntf4A6oFoQtouR8rjjkBLbitMPveDqpV33p4sYqhQ",
-  7: "QmRGDXEwAW1yzktvQiMcc4ANu4vQ3wB6T4ZAF5B4TTZiYb",
-  8: "QmayaiJDu9r9Twf5g5vxdM6tBs6paUW1Kw5tfy1jG3kaF7",
-  9: "QmSeQoXAFLCi9APN1p65M8hpJkf2HAs14xufzsWatEss9r",
-  10: "QmVhB2DvE4voqpEb42ptdVJA9mpNjiWuoUDRcjR2CAJQTh",
-};
-
-// Direct image IPFS hashes for fallback
-const DESIGN_IMAGE_HASHES: { [key: number]: string } = {
-  1: "QmQL5TA5vZnfPcuGadCCbLvKrFRLkMxUQJHMKkPtZNkqnC",
-  2: "QmZQyHcMwBZAMdqibb6EvzGiMoyVWWshhL3e4oG8M2CwR9",
-  3: "QmPh2sqsN6eVeCSkPmHBetXgJkn9eYxpG3aH4keBmhNjdy",
-  4: "QmVFKDAU4ozwHxwCWuzcFfGeDg9pnhvPyJ4Nt9R9fmc3sH",
-  5: "QmamjSetmP4uf5EzJMyLPAw1NfCxGyg9nLAE8jVZa7qn9N",
-  6: "QmNrAcbzpyuU1kfQUrZwZnjPzMKathT94RgsiWQMPp3APJ",
-  7: "QmPVUMX5kWExhf5iytChdbrGrCPyVSw2yUkqx15XvV6JTG",
-  8: "QmerDFavFcjGJ76wt8xquUmPFu83SGqfmoTXsqt7mLd9jj",
-  9: "QmVo5yLrxK4x6iYmAdo4o1KEufJhxyoNyRuR32S9bcs4S3",
-  10: "QmeQLFFh2QcnaymSHoRnJqUJPXDDE61z33Yo8wRDEK3EgJ",
-};
-
-const PINATA_GATEWAY = "https://gateway.pinata.cloud/ipfs/";
-
-/**
- * Fetch metadata for a specific NFT design from IPFS
- */
+// Function to fetch metadata from IPFS with fallback gateways
 export async function fetchNFTMetadata(
-  designId: number
-): Promise<NFTDesign | null> {
-  try {
-    const ipfsHash = DESIGN_METADATA_HASHES[designId];
+  metadataHash: string
+): Promise<NFTMetadata | null> {
+  for (const gateway of IPFS_GATEWAYS) {
+    try {
+      const url = `${gateway}${metadataHash}`;
+      console.log(`🔍 Fetching metadata from: ${url}`);
 
-    // For designs without metadata (like #3), create fallback metadata
-    if (!ipfsHash) {
-      console.warn(
-        `No metadata IPFS hash found for design ${designId}, using fallback`
-      );
-      const imageHash = DESIGN_IMAGE_HASHES[designId];
+      const response = await axios.get(url, {
+        timeout: 10000, // 10 second timeout
+        headers: {
+          Accept: "application/json",
+        },
+      });
 
-      if (!imageHash) {
-        console.error(`No image hash found for design ${designId}`);
-        return null;
+      if (response.status === 200 && response.data) {
+        console.log(`✅ Metadata fetched successfully from ${gateway}`);
+        return response.data as NFTMetadata;
       }
-
-      // Create fallback metadata
-      const fallbackMetadata: NFTMetadata = {
-        name: `Alvara #${designId}`,
-        description: `A unique Alvara NFT with design ${designId}. Part of the exclusive Alvara collection.`,
-        image: `ipfs://${imageHash}`,
-        attributes: [
-          { trait_type: "Design ID", value: designId },
-          { trait_type: "Rarity", value: "Common" },
-          { trait_type: "Collection", value: "Alvara" },
-        ],
-      };
-
-      return {
-        id: designId,
-        metadata: fallbackMetadata,
-        ipfsHash: imageHash, // Use image hash as fallback
-        imageUrl: `${PINATA_GATEWAY}${imageHash}`,
-      };
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      console.warn(`⚠️ Failed to fetch from ${gateway}:`, errorMessage);
+      continue;
     }
-
-    const metadataUrl = `${PINATA_GATEWAY}${ipfsHash}`;
-    console.log(`Fetching metadata for design ${designId}:`, metadataUrl);
-
-    const response = await axios.get<NFTMetadata>(metadataUrl, {
-      timeout: 10000, // 10 second timeout
-    });
-
-    const metadata = response.data;
-
-    // Convert IPFS image URL to gateway URL for display
-    let imageUrl = metadata.image;
-    if (imageUrl.startsWith("ipfs://")) {
-      const imageHash = imageUrl.replace("ipfs://", "");
-      imageUrl = `${PINATA_GATEWAY}${imageHash}`;
-    }
-
-    return {
-      id: designId,
-      metadata,
-      ipfsHash,
-      imageUrl,
-    };
-  } catch (error) {
-    console.error(`Failed to fetch metadata for design ${designId}:`, error);
-
-    // Fallback: try to create design with just image
-    const imageHash = DESIGN_IMAGE_HASHES[designId];
-    if (imageHash) {
-      console.log(`Using fallback image for design ${designId}`);
-      const fallbackMetadata: NFTMetadata = {
-        name: `Alvara #${designId}`,
-        description: `A unique Alvara NFT with design ${designId}.`,
-        image: `ipfs://${imageHash}`,
-        attributes: [
-          { trait_type: "Design ID", value: designId },
-          { trait_type: "Rarity", value: "Common" },
-        ],
-      };
-
-      return {
-        id: designId,
-        metadata: fallbackMetadata,
-        ipfsHash: imageHash,
-        imageUrl: `${PINATA_GATEWAY}${imageHash}`,
-      };
-    }
-
-    return null;
   }
+
+  console.error(
+    `❌ Failed to fetch metadata from all gateways for hash: ${metadataHash}`
+  );
+  return null;
 }
 
-/**
- * Fetch metadata for all available NFT designs
- */
-export async function fetchAllNFTDesigns(): Promise<NFTDesign[]> {
-  console.log("Fetching metadata for all NFT designs...");
-
-  const designIds = Object.keys(DESIGN_METADATA_HASHES).map(Number);
-  const fetchPromises = designIds.map((id) => fetchNFTMetadata(id));
-
-  try {
-    const results = await Promise.allSettled(fetchPromises);
-
-    const successfulDesigns = results
-      .map((result, index) => {
-        if (result.status === "fulfilled" && result.value) {
-          return result.value;
-        } else {
-          console.error(`Failed to fetch design ${designIds[index]}`);
-          return null;
-        }
-      })
-      .filter((design): design is NFTDesign => design !== null)
-      .sort((a, b) => a.id - b.id); // Sort by design ID
-
-    console.log(`Successfully fetched ${successfulDesigns.length} NFT designs`);
-    return successfulDesigns;
-  } catch (error) {
-    console.error("Error fetching NFT designs:", error);
-    return [];
-  }
+// Function to get image URL from IPFS hash
+export function getNFTImageURL(imageHash: string): string {
+  return getIPFSURL(imageHash);
 }
 
-/**
- * Get rarity color based on rarity level
- */
-export function getRarityColor(rarity: string): string {
-  switch (rarity.toLowerCase()) {
-    case "legendary":
-      return "text-yellow-400 bg-yellow-400/10 border-yellow-400/20";
-    case "epic":
-      return "text-purple-400 bg-purple-400/10 border-purple-400/20";
-    case "rare":
-      return "text-blue-400 bg-blue-400/10 border-blue-400/20";
-    case "uncommon":
-      return "text-green-400 bg-green-400/10 border-green-400/20";
-    case "common":
-      return "text-gray-400 bg-gray-400/10 border-gray-400/20";
-    default:
-      return "text-gray-400 bg-gray-400/10 border-gray-400/20";
-  }
+// Function to fetch multiple NFT metadata
+export async function fetchMultipleNFTMetadata(
+  metadataHashes: string[]
+): Promise<(NFTMetadata | null)[]> {
+  const promises = metadataHashes.map((hash) => fetchNFTMetadata(hash));
+  return Promise.all(promises);
 }
 
-/**
- * Format attribute value for display
- */
-export function formatAttributeValue(attribute: NFTAttribute): string {
-  if (attribute.display_type === "boost_percentage") {
-    return `${attribute.value}%`;
+// Local metadata fallback (for development/testing)
+export const LOCAL_METADATA: Record<number, NFTMetadata> = {
+  1: {
+    name: "Basket Beth",
+    description:
+      "A savvy trader who knows how to diversify her portfolio and manage risk in the volatile crypto markets.",
+    image: "/images/nfts/Basket-Beth.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Conservative" },
+      { trait_type: "Risk Level", value: "Low" },
+      { trait_type: "Strategy", value: "Diversification" },
+    ],
+  },
+  2: {
+    name: "Degen Derrick",
+    description:
+      "The ultimate risk-taker who goes all-in on high-risk, high-reward opportunities in the crypto space.",
+    image: "/images/nfts/Degen-Derrick.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Aggressive" },
+      { trait_type: "Risk Level", value: "Extreme" },
+      { trait_type: "Strategy", value: "All-in" },
+    ],
+  },
+  3: {
+    name: "Freddy FOMO",
+    description:
+      "Always chasing the next big thing, Freddy embodies the fear of missing out that drives market momentum.",
+    image: "/images/nfts/Freddy-fomo.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "FOMO" },
+      { trait_type: "Risk Level", value: "High" },
+      { trait_type: "Strategy", value: "Momentum" },
+    ],
+  },
+  4: {
+    name: "Gloria Gains",
+    description:
+      "A successful investor who has mastered the art of taking profits and building wealth through strategic trading.",
+    image: "/images/nfts/Gloria-Gains.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Profitable" },
+      { trait_type: "Risk Level", value: "Medium" },
+      { trait_type: "Strategy", value: "Profit Taking" },
+    ],
+  },
+  5: {
+    name: "Henry Hodl",
+    description:
+      "The patient long-term holder who believes in the fundamentals and diamond hands through market cycles.",
+    image: "/images/nfts/Henry-Hodl.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Long-term" },
+      { trait_type: "Risk Level", value: "Low" },
+      { trait_type: "Strategy", value: "HODL" },
+    ],
+  },
+  6: {
+    name: "Kate Candle",
+    description:
+      "A technical analysis expert who reads charts like a book and makes decisions based on market patterns.",
+    image: "/images/nfts/Kate-Candle.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Technical" },
+      { trait_type: "Risk Level", value: "Medium" },
+      { trait_type: "Strategy", value: "Chart Analysis" },
+    ],
+  },
+  7: {
+    name: "Leroy Leverage",
+    description:
+      "The aggressive trader who uses leverage to amplify gains, but also risks amplified losses.",
+    image: "/images/nfts/Leroy-leverage.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Leverage" },
+      { trait_type: "Risk Level", value: "Extreme" },
+      { trait_type: "Strategy", value: "Amplified" },
+    ],
+  },
+  8: {
+    name: "Max Effort",
+    description:
+      "A dedicated crypto enthusiast who puts maximum effort into research, analysis, and community building.",
+    image: "/images/nfts/Max-Effort.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Research" },
+      { trait_type: "Risk Level", value: "Medium" },
+      { trait_type: "Strategy", value: "Fundamental" },
+    ],
+  },
+  9: {
+    name: "Sally Swaps",
+    description:
+      "A DeFi expert who navigates the world of decentralized exchanges and yield farming with ease.",
+    image: "/images/nfts/Sally-Swaps.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "DeFi" },
+      { trait_type: "Risk Level", value: "High" },
+      { trait_type: "Strategy", value: "Yield Farming" },
+    ],
+  },
+  10: {
+    name: "William Banker",
+    description:
+      "The traditional finance professional who brings institutional knowledge to the crypto revolution.",
+    image: "/images/nfts/William-Banker.png",
+    attributes: [
+      { trait_type: "Trading Style", value: "Institutional" },
+      { trait_type: "Risk Level", value: "Low" },
+      { trait_type: "Strategy", value: "Traditional" },
+    ],
+  },
+};
+
+// Function to get metadata with fallback to local data
+export async function getNFTMetadata(
+  designId: number,
+  metadataHash?: string
+): Promise<NFTMetadata | null> {
+  // Try to fetch from IPFS first if hash is provided
+  if (metadataHash) {
+    const ipfsMetadata = await fetchNFTMetadata(metadataHash);
+    if (ipfsMetadata) {
+      return ipfsMetadata;
+    }
   }
-  if (attribute.display_type === "date") {
-    return new Date(Number(attribute.value) * 1000).toLocaleDateString();
-  }
-  if (attribute.max_value && typeof attribute.value === "number") {
-    return `${attribute.value}/${attribute.max_value}`;
-  }
-  return String(attribute.value);
+
+  // Fallback to local metadata
+  return LOCAL_METADATA[designId] || null;
 }

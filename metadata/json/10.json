@@ -1,0 +1,21 @@
+{
+  "name": "William Banker",
+  "description": "The traditional finance professional who brings institutional knowledge to the crypto revolution.",
+  "image": "ipfs://QmExample10",
+  "attributes": [
+    {
+      "trait_type": "Trading Style",
+      "value": "Institutional"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Low"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Traditional"
+    }
+  ],
+  "external_url": "https://alvara-nft.com",
+  "background_color": "000000"
+}

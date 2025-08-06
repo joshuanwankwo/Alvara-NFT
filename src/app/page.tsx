@@ -40,8 +40,8 @@ export default function Home() {
         // Create a new minted NFT entry
         const newMintedNFT = {
           id: `minted-${transactionHash.slice(-8)}`,
-          name: "Alvara NFT",
-          image: "/images/nfts/1.png", // Default image
+          name: "Basket Beth", // Default to first NFT
+          image: "/images/nfts/Basket-Beth.png", // Default image
           transactionHash: transactionHash,
         };
         setMintedNFTs((prev) => [...prev, newMintedNFT]);
@@ -523,7 +523,7 @@ Join the collection at alvara-nft.com
                       src={
                         nft.imageUrl ||
                         nft.metadata?.image ||
-                        "/images/nfts/placeholder.png"
+                        "/images/nfts/Basket-Beth.png"
                       }
                       alt={nft.name || `Alvara #${nft.tokenId}`}
                       fill
@@ -541,11 +541,11 @@ Join the collection at alvara-nft.com
                           description:
                             nft.metadata?.description ||
                             "A unique Alvara NFT from the collection",
-                          price: 0.00055,
+                          price: 0.01,
                           image:
                             nft.imageUrl ||
                             nft.metadata?.image ||
-                            "/images/nfts/placeholder.png",
+                            "/images/nfts/Basket-Beth.png",
                         })
                       }
                       className="absolute top-2 right-2 bg-black/70 hover:bg-[#1DA1F2] p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"

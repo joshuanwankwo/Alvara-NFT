@@ -1,0 +1,21 @@
+{
+  "name": "Kate Candle",
+  "description": "A technical analysis expert who reads charts like a book and makes decisions based on market patterns.",
+  "image": "ipfs://QmExample6",
+  "attributes": [
+    {
+      "trait_type": "Trading Style",
+      "value": "Technical"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Medium"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Chart Analysis"
+    }
+  ],
+  "external_url": "https://alvara-nft.com",
+  "background_color": "000000"
+}

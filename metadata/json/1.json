@@ -1,0 +1,21 @@
+{
+  "name": "Basket Beth",
+  "description": "A savvy trader who knows how to diversify her portfolio and manage risk in the volatile crypto markets.",
+  "image": "ipfs://QmExample1",
+  "attributes": [
+    {
+      "trait_type": "Trading Style",
+      "value": "Conservative"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Low"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Diversification"
+    }
+  ],
+  "external_url": "https://alvara-nft.com",
+  "background_color": "000000"
+}

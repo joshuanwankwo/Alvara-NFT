@@ -1,54 +1,63 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { NFTDesign, fetchAllNFTDesigns } from "../services/nftMetadata";
+import { getNFTMetadata, NFTMetadata } from "@/services/nftMetadata";
 
-interface UseNFTDesignsResult {
-  designs: NFTDesign[];
-  isLoading: boolean;
-  error: string | null;
-  refetch: () => Promise<void>;
-}
-
-export function useNFTDesigns(): UseNFTDesignsResult {
-  const [designs, setDesigns] = useState<NFTDesign[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export function useNFTDesigns() {
+  const [designs, setDesigns] = useState<Record<number, NFTMetadata>>({});
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchDesigns = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      console.log("Fetching NFT designs from IPFS...");
-      const fetchedDesigns = await fetchAllNFTDesigns();
-
-      if (fetchedDesigns.length === 0) {
-        setError(
-          "No NFT designs could be loaded. Please check your connection."
-        );
-      } else {
-        setDesigns(fetchedDesigns);
-        console.log(`Successfully loaded ${fetchedDesigns.length} NFT designs`);
-      }
-    } catch (err) {
-      console.error("Error fetching NFT designs:", err);
-      setError("Failed to load NFT designs. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const refetch = async () => {
-    await fetchDesigns();
-  };
-
   useEffect(() => {
+    async function fetchDesigns() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const fetchedDesigns: Record<number, NFTMetadata> = {};
+
+        // Fetch metadata for all 10 designs
+        for (let i = 1; i <= 10; i++) {
+          try {
+            const metadata = await getNFTMetadata(i);
+            if (metadata) {
+              fetchedDesigns[i] = metadata;
+            }
+          } catch (err) {
+            console.warn(`Failed to fetch metadata for design ${i}:`, err);
+          }
+        }
+
+        setDesigns(fetchedDesigns);
+      } catch (err) {
+        console.error("Error fetching NFT designs:", err);
+        setError("Failed to load NFT designs");
+      } finally {
+        setLoading(false);
+      }
+    }
+
     fetchDesigns();
   }, []);
 
+  const getDesign = (designId: number): NFTMetadata | null => {
+    return designs[designId] || null;
+  };
+
+  const getAllDesigns = (): NFTMetadata[] => {
+    return Object.values(designs).sort((a, b) => {
+      // Extract number from name for sorting
+      const aNum = parseInt(a.name.match(/\d+/)?.[0] || "0");
+      const bNum = parseInt(b.name.match(/\d+/)?.[0] || "0");
+      return aNum - bNum;
+    });
+  };
+
   return {
     designs,
-    isLoading,
+    loading,
     error,
-    refetch,
+    getDesign,
+    getAllDesigns,
   };
 }

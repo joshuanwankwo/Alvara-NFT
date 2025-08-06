@@ -23,92 +23,92 @@ const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "001",
     number: 1,
-    name: "Alvara Genesis #1",
+    name: "Basket Beth",
     description:
-      "The first in the Alvara collection - a pioneering digital warrior ready for adventure.",
-    price: 0.00055,
-    image: "/images/nfts/1.png",
+      "A savvy trader who knows how to diversify her portfolio and manage risk in the volatile crypto markets.",
+    price: 0.01,
+    image: "/images/nfts/Basket-Beth.png",
   },
   {
     id: "002",
     number: 2,
-    name: "Alvara Explorer #2",
+    name: "Degen Derrick",
     description:
-      "A brave explorer equipped with mystical tools, seeking new realms in the digital universe.",
-    price: 0.00055,
-    image: "/images/nfts/2.png",
+      "The ultimate risk-taker who goes all-in on high-risk, high-reward opportunities in the crypto space.",
+    price: 0.01,
+    image: "/images/nfts/Degen-Derrick.png",
   },
   {
     id: "003",
     number: 3,
-    name: "Alvara Guardian #3",
+    name: "Freddy FOMO",
     description:
-      "A vigilant guardian protecting the sacred artifacts of the blockchain realm.",
-    price: 0.00055,
-    image: "/images/nfts/3.png",
+      "Always chasing the next big thing, Freddy embodies the fear of missing out that drives market momentum.",
+    price: 0.01,
+    image: "/images/nfts/Freddy-fomo.png",
   },
   {
     id: "004",
     number: 4,
-    name: "Alvara Mage #4",
+    name: "Gloria Gains",
     description:
-      "A powerful mage wielding ancient magic in the modern digital world.",
-    price: 0.00055,
-    image: "/images/nfts/4.png",
+      "A successful investor who has mastered the art of taking profits and building wealth through strategic trading.",
+    price: 0.01,
+    image: "/images/nfts/Gloria-Gains.png",
   },
   {
     id: "005",
     number: 5,
-    name: "Alvara Ranger #5",
+    name: "Henry Hodl",
     description:
-      "A skilled ranger navigating the vast landscapes of the metaverse.",
-    price: 0.00055,
-    image: "/images/nfts/5.png",
+      "The patient long-term holder who believes in the fundamentals and diamond hands through market cycles.",
+    price: 0.01,
+    image: "/images/nfts/Henry-Hodl.png",
   },
   {
     id: "006",
     number: 6,
-    name: "Alvara Scholar #6",
+    name: "Kate Candle",
     description:
-      "A wise scholar documenting the history and lore of the digital realm.",
-    price: 0.00055,
-    image: "/images/nfts/6.png",
+      "A technical analysis expert who reads charts like a book and makes decisions based on market patterns.",
+    price: 0.01,
+    image: "/images/nfts/Kate-Candle.png",
   },
   {
     id: "007",
     number: 7,
-    name: "Alvara Knight #7",
+    name: "Leroy Leverage",
     description:
-      "A noble knight defending justice across all blockchain networks.",
-    price: 0.00055,
-    image: "/images/nfts/7.png",
+      "The aggressive trader who uses leverage to amplify gains, but also risks amplified losses.",
+    price: 0.01,
+    image: "/images/nfts/Leroy-leverage.png",
   },
   {
     id: "008",
     number: 8,
-    name: "Alvara Mystic #8",
+    name: "Max Effort",
     description:
-      "A mystical being connected to the ethereal energies of the digital cosmos.",
-    price: 0.00055,
-    image: "/images/nfts/8.png",
+      "A dedicated crypto enthusiast who puts maximum effort into research, analysis, and community building.",
+    price: 0.01,
+    image: "/images/nfts/Max-Effort.png",
   },
   {
     id: "009",
     number: 9,
-    name: "Alvara Champion #9",
+    name: "Sally Swaps",
     description:
-      "A champion fighter ready to compete in the ultimate blockchain tournaments.",
-    price: 0.00055,
-    image: "/images/nfts/9.png",
+      "A DeFi expert who navigates the world of decentralized exchanges and yield farming with ease.",
+    price: 0.01,
+    image: "/images/nfts/Sally-Swaps.png",
   },
   {
     id: "010",
     number: 10,
-    name: "Alvara Legend #10",
+    name: "William Banker",
     description:
-      "The legendary final piece - a master of all skills and keeper of ancient wisdom.",
-    price: 0.00055,
-    image: "/images/nfts/10.png",
+      "The traditional finance professional who brings institutional knowledge to the crypto revolution.",
+    price: 0.01,
+    image: "/images/nfts/William-Banker.png",
   },
 ];
 
@@ -142,9 +142,8 @@ export function AvatarMinter() {
   } = useWalletNFTs();
 
   // Calculate the actual price based on veALVA discount
-  const actualPrice = hasVeAlvaDiscount
-    ? discountPrice || "0.000275"
-    : standardPrice || "0.00055";
+  // Force correct prices until contract is redeployed
+  const actualPrice = hasVeAlvaDiscount ? "0.005" : "0.01";
 
   const currentNFT = alvaraNFTs[currentNFTIndex];
   const isMinting = isMintLoading;
@@ -301,7 +300,11 @@ export function AvatarMinter() {
   };
 
   const isMintDisabled =
-    !isConnected || isMinting || !isContractDeployed() || !isMintActive();
+    !isConnected ||
+    isMinting ||
+    !isContractDeployed() ||
+    !isMintActive() ||
+    mintedNFTs.length >= 3;
 
   const shareOnX = (nft: AlvaraNFT, transactionHash?: string) => {
     const url = transactionHash
@@ -388,7 +391,7 @@ Check it out on the blockchain! #AlvaraNFT #NFT #Ethereum #Blockchain`;
           </button>
           <div className="text-center text-white">
             <p className="text-sm opacity-75">
-              Minted: {mintedNFTs.length} / 10
+              Minted: {mintedNFTs.length} / 3
             </p>
           </div>
           <button

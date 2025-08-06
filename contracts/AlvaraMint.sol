@@ -6,10 +6,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AlvaraMint is ERC721URIStorage, Ownable {
-    // Mint limit removed - unlimited minting per wallet
-    uint256 public constant STANDARD_PRICE = 0.00055 ether;
-    uint256 public constant DISCOUNT_PRICE = 0.000275 ether;
+    uint256 public constant STANDARD_PRICE = 0.01 ether;
+    uint256 public constant DISCOUNT_PRICE = 0.005 ether;
     uint256 public constant DISCOUNT_THRESHOLD = 150 * 1e18;
+    uint256 public constant MAX_MINTS_PER_WALLET = 3;
 
     address public alvaToken;
 
@@ -26,6 +26,7 @@ contract AlvaraMint is ERC721URIStorage, Ownable {
 
     function mint(uint256 designId) external payable {
         require(designId >= 1 && designId <= 10, "Invalid design");
+        require(walletMints[msg.sender] < MAX_MINTS_PER_WALLET, "Max mints per wallet reached");
 
         // Check ALVA balance
         bool hasDiscount = IERC20(alvaToken).balanceOf(msg.sender) >=

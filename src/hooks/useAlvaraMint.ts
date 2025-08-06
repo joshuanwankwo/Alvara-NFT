@@ -42,8 +42,12 @@ export function useAlvaraMint() {
     functionName: "DISCOUNT_PRICE",
   });
 
-  // Removed MAX_MINTS_PER_WALLET since there's no limit now
-  const maxMintsPerWallet = null; // No limit
+  // Get max mints per wallet from contract
+  const { data: maxMintsPerWallet } = useContractRead({
+    address: contractAddress as `0x${string}`,
+    abi: ALVARA_MINT_ABI,
+    functionName: "MAX_MINTS_PER_WALLET",
+  });
 
   const { data: walletMints } = useContractRead({
     address: contractAddress as `0x${string}`,
@@ -79,18 +83,18 @@ export function useAlvaraMint() {
 
   // Helper functions
   const getMintPrice = (hasDiscount: boolean = false) => {
-    if (hasDiscount && discountPrice && typeof discountPrice === "bigint") {
-      return formatEther(discountPrice);
+    if (hasDiscount) {
+      return "0.005"; // Force correct discount price until contract is redeployed
     }
     if (standardPrice && typeof standardPrice === "bigint") {
       return formatEther(standardPrice);
     }
-    return "0.00055"; // Fallback to known price
+    return "0.01"; // Fallback to new price
   };
 
   const getRemainingMints = () => {
-    // No minting limit - return a high number for UI compatibility
-    return 999999;
+    if (!maxMintsPerWallet || !walletMints) return 3; // Default fallback
+    return Number(maxMintsPerWallet) - Number(walletMints);
   };
 
   const isMintActive = () => {
@@ -105,28 +109,31 @@ export function useAlvaraMint() {
   const mint = (designId: number, hasDiscount: boolean = false) => {
     if (!mintWrite) return;
 
-    // For Sepolia testnet, always use standard price since veALVA doesn't exist on testnet
-    // The contract will handle its own price logic
+    // Calculate the correct price based on discount status
     let price: bigint;
 
-    if (standardPrice && typeof standardPrice === "bigint") {
-      price = standardPrice;
-      console.log(
-        "Using contract standard price:",
-        formatEther(standardPrice),
-        "ETH"
-      );
-    } else {
-      // Fallback to known standard price (0.00055 ETH in wei)
-      price = BigInt("550000000000000");
-      console.log("Using fallback standard price:", formatEther(price), "ETH");
-    }
-
-    // On testnet, ignore frontend discount logic and let contract handle pricing
     if (hasDiscount) {
-      console.log(
-        "⚠️ Note: Discount requested but using standard price on testnet"
-      );
+      // Use discount price (0.005 ETH) - 50% off
+      price = BigInt("5000000000000000"); // 0.005 ETH in wei
+      console.log("Using discount price:", "0.005", "ETH");
+    } else {
+      // Use standard price (0.01 ETH)
+      if (standardPrice && typeof standardPrice === "bigint") {
+        price = standardPrice;
+        console.log(
+          "Using contract standard price:",
+          formatEther(standardPrice),
+          "ETH"
+        );
+      } else {
+        // Fallback to known standard price (0.01 ETH in wei)
+        price = BigInt("10000000000000000");
+        console.log(
+          "Using fallback standard price:",
+          formatEther(price),
+          "ETH"
+        );
+      }
     }
 
     // Validate design ID before minting
@@ -154,11 +161,8 @@ export function useAlvaraMint() {
     standardPrice:
       standardPrice && typeof standardPrice === "bigint"
         ? formatEther(standardPrice)
-        : "0.00055",
-    discountPrice:
-      discountPrice && typeof discountPrice === "bigint"
-        ? formatEther(discountPrice)
-        : "0.000275",
+        : "0.01",
+    discountPrice: "0.005", // Force correct discount price until contract is redeployed
     maxMintsPerWallet: maxMintsPerWallet ? Number(maxMintsPerWallet) : 3,
     walletMints: walletMints ? Number(walletMints) : 0,
     userNftBalance: userNftBalance ? Number(userNftBalance) : 0,
