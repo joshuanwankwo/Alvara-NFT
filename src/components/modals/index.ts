@@ -1,1 +1,1 @@
-export { MintingModal } from "./MintingModal";
+

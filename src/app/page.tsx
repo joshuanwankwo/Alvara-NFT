@@ -1,13 +1,11 @@
 "use client";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Header, AvatarMinter } from "@/components";
 import { FAQ } from "@/components/ui/FAQ";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { useAlvaraMint } from "@/hooks/useAlvaraMint";
-import { useVeAlvaBalance } from "@/hooks/useAlvaBalance";
 import { useWalletNFTs } from "@/hooks/useWalletNFTs";
 import { useNotification } from "@/contexts/NotificationContext";
 
@@ -16,10 +14,8 @@ export default function Home() {
   const [mintedNFTs, setMintedNFTs] = useState<any[]>([]);
   const { showNotification } = useNotification();
 
-  // Smart contract integration
   const { isMintSuccess, transactionHash } = useAlvaraMint();
 
-  // User's owned NFTs from wallet
   const {
     ownedNFTs,
     isLoading: isLoadingWalletNFTs,
@@ -28,7 +24,6 @@ export default function Home() {
     totalNFTs,
   } = useWalletNFTs();
 
-  // Listen for successful mints (only once per transaction)
   useEffect(() => {
     if (isMintSuccess && transactionHash) {
       // Check if we've already processed this transaction
@@ -37,11 +32,10 @@ export default function Home() {
       );
 
       if (!hasProcessedThis) {
-        // Create a new minted NFT entry
         const newMintedNFT = {
           id: `minted-${transactionHash.slice(-8)}`,
-          name: "Basket Beth", // Default to first NFT
-          image: "/images/nfts/Basket-Beth.png", // Default image
+          name: "Basket Beth",
+          image: "/images/nfts/Basket-Beth.png",
           transactionHash: transactionHash,
         };
         setMintedNFTs((prev) => [...prev, newMintedNFT]);
@@ -77,7 +71,6 @@ export default function Home() {
     <main className="relative overflow-x-hidden min-h-screen">
       <Header />
 
-      {/* Top-left Vector */}
       <div className="fixed top-[97px] left-0 z-0 pointer-events-none">
         <Image
           src="/images/top-left.svg"
@@ -89,7 +82,6 @@ export default function Home() {
         />
       </div>
 
-      {/* Top-right Vector */}
       <div className="fixed top-[97px] right-0 z-0 pointer-events-none">
         <Image
           src="/images/top-right.svg"
@@ -109,7 +101,6 @@ export default function Home() {
           marginTop: "100px",
         }}
       >
-        {/* Left Side - Marketing Text */}
         <div
           className="w-1/3 flex flex-col justify-start items-center  "
           style={{ paddingTop: "180px" }}
@@ -117,7 +108,6 @@ export default function Home() {
           <div
             className="mb-8 "
             style={{
-           
               opacity: 1,
             }}
           >
@@ -137,14 +127,11 @@ export default function Home() {
             </h1>
           </div>
 
-          {/* Sub-heading Section */}
           <div
             className="max-w-md "
             style={{
               width: "350px",
               height: "90px",
-
-              // gap: "10px",
               transform: "rotate(0deg)",
               opacity: 1,
             }}
@@ -165,7 +152,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Center side - NFT Interface */}
         <div
           className="w-1/3 flex flex-col justify-center items-center  "
           style={{
@@ -177,7 +163,6 @@ export default function Home() {
             paddingBottom: "50px",
           }}
         >
-          {/* Text Section */}
           <div
             className="text-center "
             style={{
@@ -218,9 +203,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Avatar Frame with Side Vectors */}
           <div className="relative">
-            {/* Left Vector */}
             <div className="absolute left-[-200px] bottom-0 z-0 pointer-events-none">
               <Image
                 src="/images/left.svg"
@@ -232,11 +215,9 @@ export default function Home() {
               />
             </div>
 
-            {/* Avatar Frame */}
             <div
               style={{
                 width: "368px",
-                // height: "608px",
                 background: "#7861851A",
                 border: "1px solid #786185",
                 borderRadius: "0px",
@@ -249,7 +230,6 @@ export default function Home() {
               <AvatarMinter />
             </div>
 
-            {/* Right Vector */}
             <div className="absolute right-[-200px] bottom-0 z-0 pointer-events-none">
               <Image
                 src="/images/right.svg"
@@ -262,7 +242,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* Right Side Text */}
         <div
           className="w-1/3 flex flex-col justify-start "
           style={{ paddingTop: "180px" }}
@@ -375,7 +354,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Recently Minted NFTs Section (from current session) */}
       {mintedNFTs.length > 0 && (
         <div className="mt-16 w-full px-4 sm:px-6 lg:px-8">
           <h3
@@ -390,7 +368,6 @@ export default function Home() {
             🎉 Recently Minted
           </h3>
 
-          {/* Progress Bar */}
           <div className="mb-6 max-w-4xl mx-auto">
             <div className="flex justify-between text-sm text-[#D8CDE2] mb-2">
               <span>Collection Progress</span>
@@ -404,7 +381,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Minted NFTs Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6 max-w-6xl mx-auto">
             {mintedNFTs.map((nft, index) => (
               <div
@@ -420,7 +396,6 @@ export default function Home() {
                     className="object-contain rounded"
                   />
 
-                  {/* Share Button - appears on hover */}
                   <button
                     onClick={() => shareOnX(nft, nft.transactionHash)}
                     className="absolute top-2 right-2 bg-black/70 hover:bg-[#1DA1F2] p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"
@@ -445,7 +420,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Share Collection Button - only show after 3+ NFTs */}
           {mintedNFTs.length >= 3 && (
             <div className="text-center max-w-4xl mx-auto">
               <button
@@ -477,7 +451,6 @@ Join the collection at alvara-nft.com
         </div>
       )}
 
-      {/* Your Minted Alvaras Section */}
       <div className="mt-16 w-full relative z-10 pb-16 px-4 sm:px-6 lg:px-8">
         <h2
           className="text-2xl font-bold text-white mb-6 text-center"
@@ -491,7 +464,6 @@ Join the collection at alvara-nft.com
           Your Minted Alvaras
         </h2>
 
-        {/* Wallet NFTs Section */}
         {isLoadingWalletNFTs ? (
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D73D80] mx-auto mb-4"></div>
@@ -515,7 +487,6 @@ Join the collection at alvara-nft.com
               You own {totalNFTs} Alvara NFT{totalNFTs !== 1 ? "s" : ""}
             </p>
 
-            {/* NFTs Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
               {ownedNFTs.map((nft, index) => (
                 <div
@@ -535,7 +506,6 @@ Join the collection at alvara-nft.com
                       className="object-contain rounded"
                     />
 
-                    {/* Share Button - appears on hover */}
                     <button
                       onClick={() =>
                         shareOnX({
@@ -577,7 +547,6 @@ Join the collection at alvara-nft.com
             </div>
           </div>
         ) : (
-          /* No NFTs State */
           <div className="text-center py-12 max-w-md mx-auto">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#2A1F3B] flex items-center justify-center">
               <svg
@@ -604,12 +573,10 @@ Join the collection at alvara-nft.com
         )}
       </div>
 
-      {/* FAQ Section */}
       <div className="pt-32 pb-16">
         <FAQ />
       </div>
 
-      {/* Footer Vector */}
       <div className="w-full z-0 pointer-events-none">
         <Image
           src="/images/footer.svg"

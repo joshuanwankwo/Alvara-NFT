@@ -6,6 +6,3 @@ export * from "./ui";
 
 // Feature components
 export * from "./features";
-
-// Modal components
-export * from "./modals";

@@ -12,9 +12,9 @@ src/
 │   ├── page.tsx           # Home page
 │   └── providers.tsx      # Context providers
 ├── components/            # React components
-│   ├── layout/           # Layout components (Header, Footer, Logo)
-│   ├── ui/               # UI components (Hero, Favicon)
-│   ├── features/         # Feature components (NFT minting, forms)
+│   ├── layout/           # Layout components (Header)
+│   ├── ui/               # UI components (FAQ, Notification, GlobalNotification)
+│   ├── features/         # Feature components (AvatarMinter)
 │   ├── modals/           # Modal components
 │   └── index.ts          # Main component exports
 ├── lib/                  # Utility libraries
@@ -22,29 +22,22 @@ src/
 ├── types/                # TypeScript type definitions
 │   └── index.ts          # Common interfaces and types
 ├── hooks/                # Custom React hooks
-└── utils/                # Additional utility functions
+├── services/             # API services
+└── contexts/             # React contexts
 ```
 
 ## Component Organization
 
 ### Layout Components (`/components/layout/`)
 - **Header.tsx** - Main navigation header
-- **Footer.tsx** - Site footer
-- **Logo.tsx** - Alvara logo component
 
 ### UI Components (`/components/ui/`)
-- **Hero.tsx** - Hero section component
-- **Favicon.tsx** - Favicon component
+- **FAQ.tsx** - FAQ section component
+- **Notification.tsx** - Notification component
+- **GlobalNotification.tsx** - Global notification system
 
 ### Feature Components (`/components/features/`)
 - **AvatarMinter.tsx** - Avatar minting functionality
-- **NFTCreator.tsx** - NFT creation interface
-- **NFTForm.tsx** - NFT form component
-- **NFTPreview.tsx** - NFT preview component
-- **Features.tsx** - Features showcase
-
-### Modal Components (`/components/modals/`)
-- **MintingModal.tsx** - NFT minting modal
 
 ## Import Conventions
 
@@ -52,20 +45,18 @@ Use the main index files for clean imports:
 
 ```typescript
 // Import from specific category
-import { Header, Footer } from '@/components/layout'
-import { Hero } from '@/components/ui'
+import { Header } from '@/components/layout'
+import { FAQ } from '@/components/ui'
 import { AvatarMinter } from '@/components/features'
 
 // Or import from main components index
-import { Header, Footer, Hero, AvatarMinter } from '@/components'
+import { Header, FAQ, AvatarMinter } from '@/components'
 ```
 
 ## Utilities
 
 Common utilities are available in `/lib/utils.ts`:
 - `cn()` - Class name utility for Tailwind CSS
-- `formatAddress()` - Format Ethereum addresses
-- `formatNumber()` - Format numbers with commas
 
 ## Types
 
