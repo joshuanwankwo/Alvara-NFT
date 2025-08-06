@@ -1,0 +1,42 @@
+{
+  "name": "Alvara Apex #10",
+  "description": "The ultimate expression of digital artistry and the crown jewel of the Alvara collection. This Apex piece represents perfection itself, embodying all elements in perfect harmony.",
+  "image": "ipfs://QmeQLFFh2QcnaymSHoRnJqUJPXDDE61z33Yo8wRDEK3EgJ",
+  "external_url": "https://alvara-nft.com/token/10",
+  "attributes": [
+    {
+      "trait_type": "Collection",
+      "value": "Apex"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Element",
+      "value": "Perfection"
+    },
+    {
+      "trait_type": "Color Scheme",
+      "value": "Platinum"
+    },
+    {
+      "trait_type": "Energy Level",
+      "value": 100,
+      "max_value": 100,
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Perfect Harmony",
+      "value": 100,
+      "max_value": 100,
+      "display_type": "boost_percentage"
+    },
+    {
+      "trait_type": "Creation Date",
+      "value": 1725187200,
+      "display_type": "date"
+    }
+  ],
+  "background_color": "e5e4e2"
+}
