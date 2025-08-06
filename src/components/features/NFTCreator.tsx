@@ -82,6 +82,7 @@ export function NFTCreator() {
     setIsMinting(true);
     setShowMintingModal(true);
 
+    // Simulate minting process
     for (let i = 0; i < 4; i++) {
       setMintingStep(i);
       await new Promise((resolve) => setTimeout(resolve, 1500));
