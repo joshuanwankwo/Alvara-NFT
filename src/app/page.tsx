@@ -106,24 +106,18 @@ export default function Home() {
         style={{
           height: "100vh",
           // paddingTop: "97px",
-          marginTop: "130px",
+          marginTop: "100px",
         }}
       >
         {/* Left Side - Marketing Text */}
         <div
-          className="w-1/3 flex flex-col justify-center items-center "
+          className="w-1/3 flex flex-col justify-start items-center  "
           style={{ paddingTop: "180px" }}
         >
-          {/* Headline Section */}
           <div
             className="mb-8 "
             style={{
-              width: "356px",
-              height: "160px",
-              top: "303px",
-              left: "108px",
-              gap: "10px",
-              transform: "rotate(0deg)",
+           
               opacity: 1,
             }}
           >
@@ -133,7 +127,7 @@ export default function Home() {
                 fontWeight: 400,
                 fontStyle: "normal",
                 fontSize: "64px",
-                lineHeight: "125%",
+                lineHeight: "100%",
                 letterSpacing: "0%",
               }}
             >
@@ -173,7 +167,7 @@ export default function Home() {
 
         {/* Center side - NFT Interface */}
         <div
-          className="w-1/3 flex flex-col justify-center items-center "
+          className="w-1/3 flex flex-col justify-center items-center  "
           style={{
             height: "auto",
             minHeight: "750px",
@@ -185,7 +179,7 @@ export default function Home() {
         >
           {/* Text Section */}
           <div
-            className="text-center mb-8"
+            className="text-center "
             style={{
               width: "373px",
               height: "84px",
@@ -203,7 +197,7 @@ export default function Home() {
                 lineHeight: "48.59px",
                 letterSpacing: "0%",
                 textAlign: "center",
-                color: "#B9A7C0",
+                color: "#ffffff",
                 marginBottom: "10px",
               }}
             >
@@ -242,7 +236,7 @@ export default function Home() {
             <div
               style={{
                 width: "368px",
-                height: "608px",
+                // height: "608px",
                 background: "#7861851A",
                 border: "1px solid #786185",
                 borderRadius: "0px",
@@ -269,7 +263,10 @@ export default function Home() {
           </div>
         </div>
         {/* Right Side Text */}
-        <div className="w-1/3 flex flex-col justify-center ">
+        <div
+          className="w-1/3 flex flex-col justify-start "
+          style={{ paddingTop: "180px" }}
+        >
           <h2
             style={{
               fontFamily: "PP Supply Sans, Titillium Web, sans-serif",
@@ -278,22 +275,25 @@ export default function Home() {
               fontSize: "32px",
               lineHeight: "125%",
               letterSpacing: "0%",
-              color: "#D73D80",
+              color: "#ffffff",
               marginBottom: "16px",
+              maxWidth: "353px",
             }}
           >
             Who is an Investment Wanker?
           </h2>
           <p
             style={{
-              fontFamily: "Supply Sans",
+              fontFamily: "Titillium Web",
               fontWeight: 400,
               fontStyle: "normal",
-              fontSize: "16px",
-              lineHeight: "150%",
+              fontSize: "18px",
+              lineHeight: "0%",
               letterSpacing: "0%",
               color: "#B9A7C0",
               marginBottom: "12px",
+              marginTop: "12px",
+              maxWidth: "353px",
             }}
           >
             A satire on TradFi bros who missed the memo.
@@ -303,11 +303,12 @@ export default function Home() {
               fontFamily: "Titillium Web",
               fontWeight: 400,
               fontStyle: "normal",
-              fontSize: "16px",
+              fontSize: "18px",
               lineHeight: "150%",
               letterSpacing: "0%",
               color: "#B9A7C0",
-              marginBottom: "12px",
+              marginBottom: "30px",
+              maxWidth: "353px",
             }}
           >
             But also, a real yield-generating NFT.
@@ -317,11 +318,12 @@ export default function Home() {
               fontFamily: "Titillium Web",
               fontWeight: 400,
               fontStyle: "normal",
-              fontSize: "16px",
-              lineHeight: "150%",
+              fontSize: "18px",
+              lineHeight: "0%",
               letterSpacing: "0%",
               color: "#B9A7C0",
               marginBottom: "12px",
+              maxWidth: "353px",
             }}
           >
             Here's the kicker:
@@ -331,11 +333,12 @@ export default function Home() {
               fontFamily: "Titillium Web",
               fontWeight: 400,
               fontStyle: "normal",
-              fontSize: "16px",
+              fontSize: "18px",
               lineHeight: "150%",
               letterSpacing: "0%",
               color: "#B9A7C0",
-              marginBottom: "12px",
+              marginBottom: "20px",
+              maxWidth: "353px",
             }}
           >
             100% of the mint funds are used to buy ALVA and airdropped back to
@@ -346,11 +349,12 @@ export default function Home() {
               fontFamily: "Titillium Web",
               fontWeight: 400,
               fontStyle: "normal",
-              fontSize: "16px",
+              fontSize: "18px",
               lineHeight: "150%",
               letterSpacing: "0%",
-              color: "#B9A7C0",
+              color: "#ffffff",
               marginBottom: "12px",
+              maxWidth: "353px",
             }}
           >
             Mint open for 7 days only.
@@ -360,13 +364,13 @@ export default function Home() {
               fontFamily: "Titillium Web",
               fontWeight: 400,
               fontStyle: "normal",
-              fontSize: "16px",
+              fontSize: "18px",
               lineHeight: "150%",
               letterSpacing: "0%",
               color: "#B9A7C0",
             }}
           >
-            You're either in, or you're an investment wanker.
+            You're either in, or you're an <br /> investment wanker.
           </p>
         </div>
       </div>

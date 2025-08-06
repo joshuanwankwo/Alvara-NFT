@@ -323,7 +323,7 @@ Check it out on the blockchain! #AlvaraNFT #NFT #Ethereum #Blockchain`;
   };
 
   return (
-    <div className="w-full pb-8">
+    <div className="w-full ">
       <div className="w-full flex flex-col space-y-4">
         {/* Avatar Display */}
         <div className="flex items-center justify-center">
@@ -415,17 +415,6 @@ Check it out on the blockchain! #AlvaraNFT #NFT #Ethereum #Blockchain`;
           >
             {currentNFT.name}
           </h3>
-          <p
-            className="text-[#D8CDE2] text-sm"
-            style={{
-              fontFamily: "Titillium Web",
-              fontWeight: 400,
-              fontSize: "14px",
-              lineHeight: "21px",
-            }}
-          >
-            {currentNFT.description}
-          </p>
         </div>
 
         {/* Price and Discount Info */}
@@ -458,7 +447,7 @@ Check it out on the blockchain! #AlvaraNFT #NFT #Ethereum #Blockchain`;
         </div>
 
         {/* Mint Button */}
-        <div className="flex justify-center pb-10">
+        <div className="flex justify-center ">
           <button
             onClick={handleMint}
             disabled={isMintDisabled}
