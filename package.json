@@ -31,15 +31,11 @@
     "wagmi": "^1.4.0"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-verify": "^2.1.1",
-    "@nomiclabs/hardhat-ethers": "^2.2.3",
-    "@openzeppelin/contracts": "^5.4.0",
     "@types/node": "^20.8.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "eslint": "^8.51.0",
     "eslint-config-next": "^14.0.0",
-    "hardhat": "^2.26.2",
     "typescript": "^5.2.0"
   },
   "keywords": [
