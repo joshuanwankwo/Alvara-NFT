@@ -16,6 +16,7 @@
     "autoprefixer": "^10.4.16",
     "axios": "^1.11.0",
     "clsx": "^2.0.0",
+    "dotenv": "^17.2.1",
     "ethers": "^6.15.0",
     "framer-motion": "^10.16.0",
     "ipfs-http-client": "^60.0.1",

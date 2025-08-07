@@ -1,0 +1,39 @@
+{
+  "name": "Degen-Derrick #2",
+  "description": "The ultimate degen who goes all-in on every trade. High risk, high reward mentality.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeicngfnavc7ghsbxfmulzd66uyqooh3q2m2s42c6dreodocwb7247m/Degen-Derrick.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Degen Trader"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "All-In"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Extreme"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "Degen"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeicngfnavc7ghsbxfmulzd66uyqooh3q2m2s42c6dreodocwb7247m/Degen-Derrick.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

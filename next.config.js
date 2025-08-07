@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['ipfs.io', 'gateway.pinata.cloud', 'cloudflare-ipfs.com'],
+    domains: [
+      "ipfs.io",
+      "gateway.pinata.cloud",
+      "cloudflare-ipfs.com",
+      "yellow-imperial-wasp-317.mypinata.cloud",
+    ],
   },
   webpack: (config) => {
     config.resolve.fallback = {
@@ -12,6 +17,6 @@ const nextConfig = {
     };
     return config;
   },
-}
+};
 
-module.exports = nextConfig 
+module.exports = nextConfig;

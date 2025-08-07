@@ -106,7 +106,7 @@ export function useAlvaraMint() {
     return contractAddress !== "0x0000000000000000000000000000000000000000";
   };
 
-  const mint = (designId: number, hasDiscount: boolean = false) => {
+  const mint = (designId: string, hasDiscount: boolean = false) => {
     if (!mintWrite) return;
 
     // Calculate the correct price based on discount status
@@ -136,11 +136,6 @@ export function useAlvaraMint() {
       }
     }
 
-    // Validate design ID before minting
-    if (designId < 1 || designId > 10) {
-      throw new Error("Invalid design ID. Must be between 1 and 10.");
-    }
-
     console.log("Minting with params:", {
       designId,
       requestedDiscount: hasDiscount,
@@ -151,7 +146,7 @@ export function useAlvaraMint() {
     });
 
     mintWrite({
-      args: [BigInt(designId)],
+      args: [designId],
       value: price,
     });
   };

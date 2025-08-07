@@ -9,108 +9,7 @@ import { useVeAlvaBalance } from "@/hooks/useAlvaBalance";
 import { useWalletNFTs } from "@/hooks/useWalletNFTs";
 import { useNotification } from "@/contexts/NotificationContext";
 import Image, { StaticImageData } from "next/image";
-
-interface AlvaraNFT {
-  id: string;
-  number: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-}
-
-const alvaraNFTs: AlvaraNFT[] = [
-  {
-    id: "001",
-    number: 1,
-    name: "Basket Beth",
-    description:
-      "A savvy trader who knows how to diversify her portfolio and manage risk in the volatile crypto markets.",
-    price: 0.01,
-    image: "/images/nfts/Basket-Beth.png",
-  },
-  {
-    id: "002",
-    number: 2,
-    name: "Degen Derrick",
-    description:
-      "The ultimate risk-taker who goes all-in on high-risk, high-reward opportunities in the crypto space.",
-    price: 0.01,
-    image: "/images/nfts/Degen-Derrick.png",
-  },
-  {
-    id: "003",
-    number: 3,
-    name: "Freddy FOMO",
-    description:
-      "Always chasing the next big thing, Freddy embodies the fear of missing out that drives market momentum.",
-    price: 0.01,
-    image: "/images/nfts/Freddy-fomo.png",
-  },
-  {
-    id: "004",
-    number: 4,
-    name: "Gloria Gains",
-    description:
-      "A successful investor who has mastered the art of taking profits and building wealth through strategic trading.",
-    price: 0.01,
-    image: "/images/nfts/Gloria-Gains.png",
-  },
-  {
-    id: "005",
-    number: 5,
-    name: "Henry Hodl",
-    description:
-      "The patient long-term holder who believes in the fundamentals and diamond hands through market cycles.",
-    price: 0.01,
-    image: "/images/nfts/Henry-Hodl.png",
-  },
-  {
-    id: "006",
-    number: 6,
-    name: "Kate Candle",
-    description:
-      "A technical analysis expert who reads charts like a book and makes decisions based on market patterns.",
-    price: 0.01,
-    image: "/images/nfts/Kate-Candle.png",
-  },
-  {
-    id: "007",
-    number: 7,
-    name: "Leroy Leverage",
-    description:
-      "The aggressive trader who uses leverage to amplify gains, but also risks amplified losses.",
-    price: 0.01,
-    image: "/images/nfts/Leroy-leverage.png",
-  },
-  {
-    id: "008",
-    number: 8,
-    name: "Max Effort",
-    description:
-      "A dedicated crypto enthusiast who puts maximum effort into research, analysis, and community building.",
-    price: 0.01,
-    image: "/images/nfts/Max-Effort.png",
-  },
-  {
-    id: "009",
-    number: 9,
-    name: "Sally Swaps",
-    description:
-      "A DeFi expert who navigates the world of decentralized exchanges and yield farming with ease.",
-    price: 0.01,
-    image: "/images/nfts/Sally-Swaps.png",
-  },
-  {
-    id: "010",
-    number: 10,
-    name: "William Banker",
-    description:
-      "The traditional finance professional who brings institutional knowledge to the crypto revolution.",
-    price: 0.01,
-    image: "/images/nfts/William-Banker.png",
-  },
-];
+import { alvaraNFTs, AlvaraNFT } from "./avatarMinterData";
 
 export function AvatarMinter() {
   const { isConnected } = useAccount();
@@ -218,8 +117,11 @@ export function AvatarMinter() {
       );
       console.log("Expected price:", actualPrice, "ETH");
 
-      // Use real smart contract minting with the design mapped to currentNFT number
-      await mint(currentNFT.number, hasVeAlvaDiscount);
+      // Extract design ID from NFT number (e.g., "1" from NFT number 1)
+      const designId = currentNFT.number.toString();
+
+      // Use real smart contract minting with the design ID
+      await mint(designId, hasVeAlvaDiscount);
     } catch (error: any) {
       console.error("Minting error details:", {
         error,

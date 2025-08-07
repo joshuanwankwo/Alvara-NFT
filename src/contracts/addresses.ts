@@ -3,7 +3,7 @@ export const CONTRACT_ADDRESSES = {
   // Your deployed contract address on Sepolia
   sepolia: "0xE6FDaF5F32d9187C0244e5C565F2CAcED1A3747f",
   goerli: "0x0000000000000000000000000000000000000000", // Update if you deploy to Goerli
-  mainnet: "0x0000000000000000000000000000000000000000", // For future mainnet deployment
+  mainnet: "0x0000000000000000000000000000000000000000", // Will be updated after mainnet deployment
 } as const;
 
 // ALVA token addresses
@@ -18,6 +18,13 @@ export const VEALVA_TOKEN_ADDRESSES = {
   sepolia: "0x0000000000000000000000000000000000000000", // Update if deployed to Sepolia
   goerli: "0x0000000000000000000000000000000000000000", // Update if needed
   mainnet: "0x07157d55112A6bAdd62099B8ad0BBDfBC81075BD", // veALVA token on mainnet
+} as const;
+
+// Uniswap V4 Router addresses
+export const UNISWAP_V4_ROUTER_ADDRESSES = {
+  sepolia: "0x0000000000000000000000000000000000000000", // Update with Sepolia router address
+  goerli: "0x0000000000000000000000000000000000000000", // Update if needed
+  mainnet: "0x66a9893cc07d91d95644aedd05d03f95e1dba8af", // Uniswap v4 Universal Router
 } as const;
 
 // Network configuration
