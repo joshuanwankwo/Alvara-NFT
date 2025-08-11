@@ -1,0 +1,39 @@
+{
+  "name": "Henry-Hodl #5",
+  "description": "The diamond hands hodler who never sells. HODL through thick and thin.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Henry-Hodl.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "HODLer"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "HODL"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Medium"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "Diamond Hands"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Henry-Hodl.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

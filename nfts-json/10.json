@@ -1,0 +1,39 @@
+{
+  "name": "William-Banker #10",
+  "description": "The traditional banker who's late to crypto. Still learning the ropes.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/William-Banker.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Traditional Banker"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Conservative"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Low"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "Crypto Newbie"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/William-Banker.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

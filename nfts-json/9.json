@@ -1,0 +1,39 @@
+{
+  "name": "Sally-Swaps #9",
+  "description": "The DeFi queen who swaps everything. Always chasing the best yields.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Sally-Swaps.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "DeFi Trader"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Yield Farming"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Medium"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "DeFi Expert"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Sally-Swaps.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

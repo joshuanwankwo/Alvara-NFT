@@ -1,0 +1,32 @@
+{
+  "name": "alvara-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for Alvara NFT platform",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "verify": "hardhat verify"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "@uniswap/v3-periphery": "^1.4.4",
+    "dotenv": "^17.2.1"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-verify": "^2.1.1",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "ethers": "^5.8.0",
+    "hardhat": "^2.26.2"
+  },
+  "keywords": [
+    "smart-contracts",
+    "solidity",
+    "hardhat",
+    "ethereum"
+  ],
+  "author": "Alvara Foundation",
+  "license": "MIT"
+}

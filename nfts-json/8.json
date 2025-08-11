@@ -1,0 +1,39 @@
+{
+  "name": "Max-Effort #8",
+  "description": "The workaholic trader who never sleeps. 24/7 market monitoring.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Max-Effort.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Workaholic"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "24/7 Trading"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "High"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "No Sleep"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Max-Effort.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

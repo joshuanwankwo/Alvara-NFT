@@ -1,0 +1,39 @@
+{
+  "name": "Leroy-leverage #7",
+  "description": "The leverage king who trades with maximum leverage. 100x or nothing.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Leroy-leverage.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Leverage Trader"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Maximum Leverage"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Extreme"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "Leverage King"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Leroy-leverage.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

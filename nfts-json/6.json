@@ -1,0 +1,39 @@
+{
+  "name": "Kate-Candle #6",
+  "description": "The technical analyst who reads every candle. Charts and patterns are her life.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Kate-Candle.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Technical Analyst"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Technical Analysis"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Medium"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "Chart Master"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Kate-Candle.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

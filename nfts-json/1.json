@@ -1,0 +1,39 @@
+{
+  "name": "Basket-Beth #1",
+  "description": "The basket manager who never misses a beat. Always diversified, always winning.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Basket-Beth.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Basket Manager"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "Diversified"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "Low"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "Veteran"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Basket-Beth.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

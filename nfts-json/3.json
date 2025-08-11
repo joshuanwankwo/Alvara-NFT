@@ -1,0 +1,39 @@
+{
+  "name": "Freddy-fomo #3",
+  "description": "The FOMO master who buys at the top and sells at the bottom. Classic FOMO behavior.",
+  "image": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Freddy-fomo.png",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "FOMO Trader"
+    },
+    {
+      "trait_type": "Strategy",
+      "value": "FOMO"
+    },
+    {
+      "trait_type": "Risk Level",
+      "value": "High"
+    },
+    {
+      "trait_type": "Experience",
+      "value": "FOMO Expert"
+    }
+  ],
+  "background_color": "1D132E",
+  "animation_url": "",
+  "youtube_url": "",
+  "collection": {
+    "name": "Alvara Investment Wankers",
+    "family": "Alvara"
+  },
+  "properties": {
+    "files": [
+      {
+        "uri": "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/Freddy-fomo.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}
