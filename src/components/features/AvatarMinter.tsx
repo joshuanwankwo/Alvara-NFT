@@ -700,11 +700,13 @@ export function AvatarMinter() {
     const url = transactionHash
       ? `https://sepolia.etherscan.io/tx/${transactionHash}`
       : "https://alvara-nft.com";
-    const text = `🎉 Just minted ${nft.name}! 
+    
+    // Create a more engaging tweet with the NFT image
+    const text = `I'm now a certified Investment Wanker in @Alvaraprotocol, a real-yield-generating NFT. 
 
-✨ ${nft.description}
+    The minting window is closing. Are you another TradFi bro missing the memo?
 
-Check it out on the blockchain! #AlvaraNFT #NFT #Ethereum #Blockchain`;
+    ${nft.image}`;
 
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       text
