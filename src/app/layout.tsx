@@ -8,13 +8,13 @@ import { GlobalNotification } from "@/components/ui/GlobalNotification";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Alvara NFT Platform - Mint Your Digital Assets",
+  title: "Investment Wanker",
   description:
     "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
   keywords: "NFT, minting, blockchain, ethereum, alvara, digital assets, yield-generating, investment wanker",
   authors: [{ name: "Alvara Foundation" }],
   openGraph: {
-    title: "Alvara NFT Platform",
+    title: "Investment Wanker",
     description: "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
     type: "website",
     locale: "en_US",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: "/images/OG.jpeg",
         width: 1200,
         height: 630,
-        alt: "Alvara NFT Platform - Investment Wanker NFT",
+        alt: "Investment Wanker NFT",
       },
     ],
   },
