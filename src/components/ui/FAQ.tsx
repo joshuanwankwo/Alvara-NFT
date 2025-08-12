@@ -83,30 +83,32 @@ export function FAQ() {
     {
       question: "What perks do I get with my NFT?",
       answer:
-        "Each NFT comes with: A 6-month yield stream from staked ALVA. Rewards disbursed from the veALVA staking pool (ve means staked). Eligibility for ALVA airdrop at the end of the lock period. Upside from milestone-based unlocks (more below).",
+        "Each NFT is a unique collectible that represents your membership in the Alvara community. Holders may be eligible for future airdrops and community benefits.",
     },
     {
       question: "How much does it cost?",
-      answer: "Each NFT is priced at 0.01 ETH but you can get a 50% discount if you stake a minumium of 150 $ALVA.",
+      answer:
+        "Each NFT is priced at 0.0003 ETH (approximately $1) for testing. You can get a 50% discount if you hold a minimum of 1.5 veALVA tokens.",
     },
     {
       question: "Can I sell my NFT?",
       answer:
-        "Yes, NFTs are transferable & tradable on secondary markets. Perks like staking rewards, veALVA, and the final airdrop go to whoever holds the NFT at the time of each distribution.",
+        "Yes, NFTs are transferable & tradable on secondary markets. Future benefits will go to whoever holds the NFT at the time of distribution.",
     },
     {
       question: "What happens to the ETH raised from NFT minting?",
       answer:
-        "100% of the ETH raised is used to buy back ALVA from the market. That ALVA is: Staked for 6 months on behalf of NFT holders. Earns yield monthly, which is distributed to holders. Airdropped back to holders in liquid ALVA at the end of the staking period.",
+        "The ETH raised is collected by the team for manual processing. This may include buybacks, staking, and rewards distribution handled by the team.",
     },
     {
       question: "What is veALVA and what does it do?",
       answer:
-        "veALVA is a staked version of ALVA that earns protocol revenue. Your NFT gives you veALVA during the lock period, letting you earn from the SRV pool.",
+        "veALVA is a governance token that represents staked ALVA. Holding veALVA tokens qualifies you for a 50% discount on NFT minting.",
     },
     {
       question: "Is there a lock period?",
-      answer: "Yes. The default lock period is 6 months",
+      answer:
+        "No lock period for the NFTs themselves. The contract only handles minting.",
     },
   ];
 

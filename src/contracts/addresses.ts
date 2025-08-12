@@ -20,26 +20,7 @@ export const VEALVA_TOKEN_ADDRESSES = {
   mainnet: "0x07157d55112A6bAdd62099B8ad0BBDfBC81075BD", // veALVA token on mainnet
 } as const;
 
-// WETH token addresses
-export const WETH_TOKEN_ADDRESSES = {
-  sepolia: "0x0000000000000000000000000000000000000000", // Update with Sepolia WETH address
-  goerli: "0x0000000000000000000000000000000000000000", // Update if needed
-  mainnet: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", // WETH token on mainnet
-} as const;
-
-// Uniswap V3 Router addresses
-export const UNISWAP_V3_ROUTER_ADDRESSES = {
-  sepolia: "0x0000000000000000000000000000000000000000", // Update with Sepolia router address
-  goerli: "0x0000000000000000000000000000000000000000", // Update if needed
-  mainnet: "0xE592427A0AEce92De3Edee1F18E0157C05861564", // Uniswap V3 SwapRouter
-} as const;
-
-// Staking Protocol addresses
-export const STAKING_PROTOCOL_ADDRESSES = {
-  sepolia: "0x0000000000000000000000000000000000000000", // Update if deployed to Sepolia
-  goerli: "0x0000000000000000000000000000000000000000", // Update if needed
-  mainnet: "0xafdd66531642b9e4c2abdb431b05561103d8fcd1", // Add your staking protocol proxy address here
-} as const;
+// Staking and swapping functionality removed - contract now only mints NFTs
 
 // Network configuration
 export const SUPPORTED_NETWORKS = {

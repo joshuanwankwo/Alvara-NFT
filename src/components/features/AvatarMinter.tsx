@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useAccount } from "wagmi";
 import { useAlvaraMint } from "@/hooks/useAlvaraMint";
-import { useVeAlvaBalance } from "@/hooks/useAlvaBalance";
+// veALVA balance check removed - contract handles discount automatically
 import { useWalletNFTs } from "@/hooks/useWalletNFTs";
-import { useStakingProtocol, SIX_MONTHS } from "@/hooks/useStakingProtocol";
+// Staking functionality removed - contract now only mints NFTs
 import { useNotification } from "@/contexts/NotificationContext";
 import Image, { StaticImageData } from "next/image";
 import { alvaraNFTs, AlvaraNFT } from "./avatarMinterData";
@@ -32,30 +32,7 @@ export function AvatarMinter() {
     mintError,
   } = useAlvaraMint();
 
-  // Staking protocol integration
-  const {
-    smartStake,
-    approve,
-    isStakeLoading,
-    isStakeSuccess,
-    stakeTransactionHash,
-    isIncreaseAmountLoading,
-    isIncreaseAmountSuccess,
-    increaseAmountTransactionHash,
-    isApproveLoading,
-    isApproveSuccess,
-    approveTransactionHash,
-    needsApproval,
-    refetchAllowance,
-    lastSwapAmount, // Get the dynamic ALVA amount from SwapExecuted event
-    showStakeButton, // Show stake button after approval event
-    approvedAmount, // Amount that was approved
-    hideStakeButton, // Function to hide stake button
-    isContractDeployed: isStakingContractDeployed,
-    approveError,
-    stakeError,
-    increaseAmountError,
-  } = useStakingProtocol();
+  // Staking functionality removed - contract now only mints NFTs
 
   // Remove the old veALVA check - we'll use the contract's built-in check
   const hasVeAlvaDiscount = false; // Let the contract determine discount eligibility
@@ -119,65 +96,7 @@ export function AvatarMinter() {
     currentNFT,
   ]);
 
-  // Listen for successful stakes
-  useEffect(() => {
-    if (isStakeSuccess && stakeTransactionHash) {
-      showNotification({
-        type: "success",
-        title: "Staking Successful!",
-        message: "Successfully staked your ALVA tokens",
-        link: {
-          url: `https://etherscan.io/tx/${stakeTransactionHash}`,
-          text: "View Transaction on Etherscan",
-        },
-      });
-
-      // Reset state after successful staking so button goes back to mint mode
-      hideStakeButton();
-    }
-  }, [isStakeSuccess, stakeTransactionHash, showNotification, hideStakeButton]);
-
-  // Listen for successful increaseAmount transactions
-  useEffect(() => {
-    if (isIncreaseAmountSuccess && increaseAmountTransactionHash) {
-      showNotification({
-        type: "success",
-        title: "Stake Increased Successfully!",
-        message: "Successfully increased your ALVA stake amount",
-        link: {
-          url: `https://etherscan.io/tx/${increaseAmountTransactionHash}`,
-          text: "View Transaction on Etherscan",
-        },
-      });
-
-      // Reset state after successful increaseAmount so button goes back to mint mode
-      hideStakeButton();
-    }
-  }, [
-    isIncreaseAmountSuccess,
-    increaseAmountTransactionHash,
-    showNotification,
-    hideStakeButton,
-  ]);
-
-  // Listen for successful approvals
-  useEffect(() => {
-    if (isApproveSuccess && approveTransactionHash) {
-      // Refetch allowance to get updated values
-      refetchAllowance();
-
-      showNotification({
-        type: "success",
-        title: "Approval Successful!",
-        message:
-          "Successfully approved ALVA tokens for staking. You can now stake your tokens!",
-        link: {
-          url: `https://etherscan.io/tx/${approveTransactionHash}`,
-          text: "View Transaction on Etherscan",
-        },
-      });
-    }
-  }, [isApproveSuccess, approveTransactionHash, refetchAllowance]);
+  // Staking functionality removed
 
   // Listen for mint errors from the hook
   useEffect(() => {
@@ -261,165 +180,7 @@ export function AvatarMinter() {
     }
   }, [mintError, showNotification]);
 
-  // Listen for staking errors from the hook
-  useEffect(() => {
-    if (approveError) {
-      console.error("Approval error from hook:", approveError);
-
-      let errorTitle = "Approval Failed";
-      let errorMessage = "Failed to approve ALVA tokens. Please try again.";
-
-      // Type assertion to handle contract errors
-      const contractError = approveError as any;
-
-      if (approveError.message) {
-        if (
-          approveError.message.includes("insufficient funds") ||
-          approveError.message.includes("exceeds the balance") ||
-          approveError.message.includes("total cost") ||
-          approveError.message.includes("balance of the account") ||
-          approveError.message.includes("insufficient funds for gas")
-        ) {
-          errorTitle = "Insufficient ETH for Gas";
-          errorMessage =
-            "You don't have enough ETH to pay for gas fees. Please add more ETH to your wallet and try again.";
-        } else if (
-          approveError.message.includes("User rejected") ||
-          approveError.message.includes("user rejected")
-        ) {
-          errorTitle = "Transaction Cancelled";
-          errorMessage =
-            "You cancelled the approval transaction. Please try again when ready.";
-        } else if (approveError.message.includes("execution reverted")) {
-          errorTitle = "Smart Contract Error";
-          if (contractError.reason) {
-            errorMessage = `Contract error: ${contractError.reason}`;
-          } else {
-            errorMessage =
-              "The approval was rejected by the smart contract. Please try again.";
-          }
-        } else {
-          errorMessage = `Approval failed: ${approveError.message}`;
-        }
-      } else if (contractError.reason) {
-        errorTitle = "Smart Contract Error";
-        errorMessage = `Contract error: ${contractError.reason}`;
-      }
-
-      showNotification({
-        type: "error",
-        title: errorTitle,
-        message: errorMessage,
-      });
-    }
-  }, [approveError, showNotification]);
-
-  // Listen for staking errors from the hook
-  useEffect(() => {
-    if (stakeError) {
-      console.error("Staking error from hook:", stakeError);
-
-      let errorTitle = "Staking Failed";
-      let errorMessage = "Failed to stake ALVA tokens. Please try again.";
-
-      // Type assertion to handle contract errors
-      const contractError = stakeError as any;
-
-      if (stakeError.message) {
-        if (
-          stakeError.message.includes("insufficient funds") ||
-          stakeError.message.includes("exceeds the balance") ||
-          stakeError.message.includes("total cost") ||
-          stakeError.message.includes("balance of the account") ||
-          stakeError.message.includes("insufficient funds for gas")
-        ) {
-          errorTitle = "Insufficient ETH for Gas";
-          errorMessage =
-            "You don't have enough ETH to pay for gas fees. Please add more ETH to your wallet and try again.";
-        } else if (
-          stakeError.message.includes("User rejected") ||
-          stakeError.message.includes("user rejected")
-        ) {
-          errorTitle = "Transaction Cancelled";
-          errorMessage =
-            "You cancelled the staking transaction. Please try again when ready.";
-        } else if (stakeError.message.includes("execution reverted")) {
-          errorTitle = "Smart Contract Error";
-          if (contractError.reason) {
-            errorMessage = `Contract error: ${contractError.reason}`;
-          } else {
-            errorMessage =
-              "The staking was rejected by the smart contract. Please try again.";
-          }
-        } else {
-          errorMessage = `Staking failed: ${stakeError.message}`;
-        }
-      } else if (contractError.reason) {
-        errorTitle = "Smart Contract Error";
-        errorMessage = `Contract error: ${contractError.reason}`;
-      }
-
-      showNotification({
-        type: "error",
-        title: errorTitle,
-        message: errorMessage,
-      });
-    }
-  }, [stakeError, showNotification]);
-
-  // Listen for increase amount errors from the hook
-  useEffect(() => {
-    if (increaseAmountError) {
-      console.error("Increase amount error from hook:", increaseAmountError);
-
-      let errorTitle = "Stake Increase Failed";
-      let errorMessage =
-        "Failed to increase your stake amount. Please try again.";
-
-      // Type assertion to handle contract errors
-      const contractError = increaseAmountError as any;
-
-      if (increaseAmountError.message) {
-        if (
-          increaseAmountError.message.includes("insufficient funds") ||
-          increaseAmountError.message.includes("exceeds the balance") ||
-          increaseAmountError.message.includes("total cost") ||
-          increaseAmountError.message.includes("balance of the account") ||
-          increaseAmountError.message.includes("insufficient funds for gas")
-        ) {
-          errorTitle = "Insufficient ETH for Gas";
-          errorMessage =
-            "You don't have enough ETH to pay for gas fees. Please add more ETH to your wallet and try again.";
-        } else if (
-          increaseAmountError.message.includes("User rejected") ||
-          increaseAmountError.message.includes("user rejected")
-        ) {
-          errorTitle = "Transaction Cancelled";
-          errorMessage =
-            "You cancelled the stake increase transaction. Please try again when ready.";
-        } else if (increaseAmountError.message.includes("execution reverted")) {
-          errorTitle = "Smart Contract Error";
-          if (contractError.reason) {
-            errorMessage = `Contract error: ${contractError.reason}`;
-          } else {
-            errorMessage =
-              "The stake increase was rejected by the smart contract. Please try again.";
-          }
-        } else {
-          errorMessage = `Stake increase failed: ${increaseAmountError.message}`;
-        }
-      } else if (contractError.reason) {
-        errorTitle = "Smart Contract Error";
-        errorMessage = `Contract error: ${contractError.reason}`;
-      }
-
-      showNotification({
-        type: "error",
-        title: errorTitle,
-        message: errorMessage,
-      });
-    }
-  }, [increaseAmountError, showNotification]);
+  // Staking error handling removed
 
   const nextNFT = () => {
     setCurrentNFTIndex((prev) => (prev + 1) % alvaraNFTs.length);
@@ -567,119 +328,7 @@ export function AvatarMinter() {
     }
   };
 
-  const handleStake = async () => {
-    if (!isConnected) {
-      showNotification({
-        type: "error",
-        title: "Wallet Not Connected",
-        message: "Please connect your wallet to stake tokens.",
-      });
-      return;
-    }
-
-    if (!isStakingContractDeployed()) {
-      showNotification({
-        type: "error",
-        title: "Staking Not Available",
-        message: "Staking contract is not available on this network.",
-      });
-      return;
-    }
-
-    if (!lastSwapAmount || lastSwapAmount === "0") {
-      showNotification({
-        type: "error",
-        title: "No Tokens to Stake",
-        message: "Please mint an NFT first to receive ALVA tokens for staking.",
-      });
-      return;
-    }
-
-    try {
-      // Check if approval is needed
-      if (needsApproval(lastSwapAmount)) {
-        console.log("Approval needed for amount:", lastSwapAmount, "ALVA");
-        await approve(lastSwapAmount);
-        return; // Exit here, staking will be handled after approval success
-      }
-
-      // If approval is not needed, proceed with staking
-      console.log("Starting stake with amount:", lastSwapAmount, "ALVA");
-      await smartStake(lastSwapAmount);
-    } catch (error: any) {
-      console.error("Staking/Approval error:", error);
-
-      let errorMessage = "Failed to process transaction. Please try again.";
-      let errorTitle = "Transaction Failed";
-
-      if (error?.message) {
-        if (
-          error.message.includes("User rejected") ||
-          error.message.includes("user rejected")
-        ) {
-          errorTitle = "Transaction Cancelled";
-          errorMessage =
-            "You cancelled the transaction. Please try again when ready.";
-        } else if (
-          error.message.includes("insufficient") ||
-          error.message.includes("exceeds the balance") ||
-          error.message.includes("total cost") ||
-          error.message.includes("balance of the account")
-        ) {
-          errorTitle = "Insufficient Balance";
-          errorMessage =
-            "You don't have enough ALVA tokens or ETH for gas fees to complete this transaction. Please check your balances and try again.";
-        } else if (error.message.includes("execution reverted")) {
-          errorTitle = "Smart Contract Error";
-          if (error.reason) {
-            errorMessage = `Contract error: ${error.reason}`;
-          } else {
-            errorMessage =
-              "The staking contract rejected the transaction. Please try again.";
-          }
-        } else if (
-          error.message.includes("timeout") ||
-          error.message.includes("took too long")
-        ) {
-          errorTitle = "Network Timeout";
-          errorMessage =
-            "The network is slow. Please try again or switch to a faster network connection.";
-        } else if (
-          error.message.includes("Network Error") ||
-          error.message.includes("fetch")
-        ) {
-          errorTitle = "Network Error";
-          errorMessage =
-            "Unable to connect to the blockchain. Please check your internet connection and try again.";
-        } else if (
-          error.message.includes("gas") ||
-          error.message.includes("Gas")
-        ) {
-          errorTitle = "Gas Fee Issue";
-          errorMessage =
-            "There was an issue with gas fees. Please try again or adjust your gas settings in your wallet.";
-        } else {
-          // Show the actual error message to help users understand what went wrong
-          errorMessage = `Transaction failed: ${error.message}`;
-        }
-      } else if (error?.reason) {
-        // Handle errors that have a reason but no message
-        errorTitle = "Smart Contract Error";
-        errorMessage = `Contract error: ${error.reason}`;
-      } else {
-        // Fallback for errors without a message
-        errorTitle = "Unknown Error";
-        errorMessage =
-          "An unexpected error occurred. Please try again or contact support if the issue persists.";
-      }
-
-      showNotification({
-        type: "error",
-        title: errorTitle,
-        message: errorMessage,
-      });
-    }
-  };
+  // Staking functionality removed
 
   const isMintDisabled =
     !isConnected ||
@@ -688,15 +337,7 @@ export function AvatarMinter() {
     !isMintActive() ||
     (walletMints || 0) >= maxMintsPerWallet;
 
-  const isStakeDisabled =
-    !isConnected ||
-    isStakeLoading ||
-    isIncreaseAmountLoading ||
-    isApproveLoading ||
-    !isStakingContractDeployed() ||
-    !lastSwapAmount ||
-    lastSwapAmount === "0" ||
-    isMinting; // Disable stake while minting
+  // Staking functionality removed
 
   const shareOnX = (nft: AlvaraNFT, transactionHash?: string) => {
     const url = transactionHash
@@ -834,39 +475,17 @@ export function AvatarMinter() {
           </div>
         </div>
 
-        {/* Dynamic Action Button */}
+        {/* Mint Button */}
         <div className="flex flex-col items-center space-y-3">
           <button
-            onClick={
-              !lastSwapAmount || lastSwapAmount === "0"
-                ? handleMint
-                : handleStake
-            }
-            disabled={
-              !lastSwapAmount || lastSwapAmount === "0"
-                ? isMintDisabled
-                : isStakeDisabled
-            }
+            onClick={handleMint}
+            disabled={isMintDisabled}
             className={`${
-              (
-                !lastSwapAmount || lastSwapAmount === "0"
-                  ? isMintDisabled
-                  : isStakeDisabled
-              )
+              isMintDisabled
                 ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                : !lastSwapAmount || lastSwapAmount === "0"
-                ? "bg-[#D73D80] hover:bg-[#B8316C] text-white"
-                : needsApproval(lastSwapAmount)
-                ? "bg-[#FF6B35] hover:bg-[#E55A2B] text-white"
-                : "bg-[#4CAF50] hover:bg-[#45a049] text-white"
+                : "bg-[#D73D80] hover:bg-[#B8316C] text-white"
             } px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform ${
-              (
-                !lastSwapAmount || lastSwapAmount === "0"
-                  ? !isMintDisabled
-                  : !isStakeDisabled
-              )
-                ? "hover:scale-105 active:scale-95"
-                : ""
+              !isMintDisabled ? "hover:scale-105 active:scale-95" : ""
             }`}
             style={{
               fontFamily: "Titillium Web",
@@ -875,44 +494,21 @@ export function AvatarMinter() {
               lineHeight: "24px",
             }}
           >
-            {!lastSwapAmount || lastSwapAmount === "0" ? (
-              // Mint button states
-              isMinting ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Minting...
-                </div>
-              ) : !isConnected ? (
-                "Connect Wallet to Mint"
-              ) : !isContractDeployed() ? (
-                "Contract Not Available"
-              ) : !isMintActive() ? (
-                "Minting Inactive"
-              ) : (walletMints || 0) >= maxMintsPerWallet ? (
-                "Mint Limit Reached"
-              ) : (
-                "Mint NFT"
-              )
-            ) : // Stake button states
-            isApproveLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Approving...
-              </div>
-            ) : needsApproval(lastSwapAmount) ? (
-              "Approve"
-            ) : isMinting ? (
+            {isMinting ? (
               <div className="flex items-center justify-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 Minting...
               </div>
-            ) : isStakeLoading || isIncreaseAmountLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Staking...
-              </div>
+            ) : !isConnected ? (
+              "Connect Wallet to Mint"
+            ) : !isContractDeployed() ? (
+              "Contract Not Available"
+            ) : !isMintActive() ? (
+              "Minting Inactive"
+            ) : (walletMints || 0) >= maxMintsPerWallet ? (
+              "Mint Limit Reached"
             ) : (
-              "Stake"
+              "Mint NFT"
             )}
           </button>
 
