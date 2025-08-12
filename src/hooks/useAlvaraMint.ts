@@ -64,6 +64,14 @@ export function useAlvaraMint() {
     functionName: "maxMintPerUser",
   });
 
+  const { data: hasVeAlvaDiscount } = useContractRead({
+    address: contractAddress as `0x${string}`,
+    abi: ALVARA_MINT_ABI,
+    functionName: "hasVeALVA",
+    args: address ? [address] : undefined,
+    enabled: !!address,
+  });
+
   // Contract write
   const {
     data: mintData,
@@ -87,12 +95,12 @@ export function useAlvaraMint() {
       if (discountPrice && typeof discountPrice === "bigint") {
         return formatEther(discountPrice);
       }
-      return "0.0005"; // Fallback to new discount price
+      return "0.00015"; // Fallback to new discount price (~$0.50)
     }
     if (standardPrice && typeof standardPrice === "bigint") {
       return formatEther(standardPrice);
     }
-    return "0.001"; // Fallback to new standard price
+    return "0.0003"; // Fallback to new standard price (~$1.00)
   };
 
   const getRemainingMints = () => {
@@ -111,17 +119,18 @@ export function useAlvaraMint() {
     return contractAddress !== "0x0000000000000000000000000000000000000000";
   };
 
-  const mint = (designId: string, hasDiscount: boolean = false) => {
+  const mint = (designId: string) => {
     if (!mintWrite) {
       console.error("Mint function not available");
       return;
     }
 
-    // Calculate the correct price based on discount status
+    // Determine correct price based on user's veALVA status
     let price: bigint;
+    const userHasDiscount = hasVeAlvaDiscount === true;
 
-    if (hasDiscount) {
-      // Use discount price from contract
+    if (userHasDiscount) {
+      // Use discount price
       if (discountPrice && typeof discountPrice === "bigint") {
         price = discountPrice;
         console.log(
@@ -130,12 +139,16 @@ export function useAlvaraMint() {
           "ETH"
         );
       } else {
-        // Fallback to new discount price (0.0005 ETH in wei)
-        price = BigInt("500000000000000"); // 0.0005 ETH in wei
-        console.log("Using fallback discount price:", "0.0005", "ETH");
+        // Fallback to discount price (0.00015 ETH in wei)
+        price = BigInt("150000000000000"); // 0.00015 ETH in wei
+        console.log(
+          "Using fallback discount price:",
+          formatEther(price),
+          "ETH"
+        );
       }
     } else {
-      // Use standard price from contract
+      // Use standard price
       if (standardPrice && typeof standardPrice === "bigint") {
         price = standardPrice;
         console.log(
@@ -144,8 +157,8 @@ export function useAlvaraMint() {
           "ETH"
         );
       } else {
-        // Fallback to new standard price (0.001 ETH in wei)
-        price = BigInt("1000000000000000"); // 0.001 ETH in wei
+        // Fallback to standard price (0.0003 ETH in wei)
+        price = BigInt("300000000000000"); // 0.0003 ETH in wei
         console.log(
           "Using fallback standard price:",
           formatEther(price),
@@ -154,26 +167,18 @@ export function useAlvaraMint() {
       }
     }
 
-    // Calculate swap parameters
-    const swapDeadline = BigInt(Math.floor(Date.now() / 1000) + 600); // 10 minutes from now
-    const swapMinOutput = BigInt(1); // Minimum 1 wei output
-    const swapPoolFeeTier = 3000; // 0.3% pool fee tier (uint24 = number)
-
     console.log("Minting with params:", {
       designId,
-      requestedDiscount: hasDiscount,
+      userHasDiscount,
       priceInEth: formatEther(price),
       priceInWei: price.toString(),
       contractAddress,
       network: chain?.name || "mainnet",
-      swapDeadline: Number(swapDeadline),
-      swapMinOutput: swapMinOutput.toString(),
-      swapPoolFeeTier: swapPoolFeeTier,
     });
 
     try {
       mintWrite({
-        args: [designId, swapDeadline, swapMinOutput, swapPoolFeeTier],
+        args: [designId],
         value: price,
       });
     } catch (error: any) {
@@ -187,11 +192,11 @@ export function useAlvaraMint() {
     standardPrice:
       standardPrice && typeof standardPrice === "bigint"
         ? formatEther(standardPrice)
-        : "0.001",
+        : "0.0003",
     discountPrice:
       discountPrice && typeof discountPrice === "bigint"
         ? formatEther(discountPrice)
-        : "0.0005",
+        : "0.00015",
     maxMintsPerWallet: maxMintPerUser ? Number(maxMintPerUser) : 3, // Default to 3
     walletMints: walletMints ? Number(walletMints) : 0,
     userNftBalance: userNftBalance ? Number(userNftBalance) : 0,

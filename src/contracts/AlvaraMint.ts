@@ -3,22 +3,7 @@ export const ALVARA_MINT_ABI = [
     inputs: [
       {
         internalType: "address",
-        name: "_alvaToken",
-        type: "address",
-      },
-      {
-        internalType: "address",
         name: "_veALVAToken",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_wethToken",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_swapRouter",
         type: "address",
       },
     ],
@@ -156,6 +141,17 @@ export const ALVARA_MINT_ABI = [
     type: "error",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+    ],
+    name: "SafeERC20FailedOperation",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -210,6 +206,19 @@ export const ALVARA_MINT_ABI = [
     inputs: [
       {
         indexed: false,
+        internalType: "string",
+        name: "newBaseUri",
+        type: "string",
+      },
+    ],
+    name: "BaseURIUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
         internalType: "uint256",
         name: "_fromTokenId",
         type: "uint256",
@@ -229,12 +238,63 @@ export const ALVARA_MINT_ABI = [
     inputs: [
       {
         indexed: false,
+        internalType: "uint24",
+        name: "newMaxMintPerUser",
+        type: "uint24",
+      },
+    ],
+    name: "MaxMintPerUserUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
         internalType: "uint256",
         name: "_tokenId",
         type: "uint256",
       },
     ],
     name: "MetadataUpdate",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "openTime",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "expiryTime",
+        type: "uint256",
+      },
+    ],
+    name: "OpenedMinting",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferStarted",
     type: "event",
   },
   {
@@ -260,25 +320,13 @@ export const ALVARA_MINT_ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
         indexed: false,
         internalType: "uint256",
-        name: "ethIn",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "alvaOut",
+        name: "newPrice",
         type: "uint256",
       },
     ],
-    name: "SwapExecuted",
+    name: "PriceUpdated",
     type: "event",
   },
   {
@@ -308,12 +356,12 @@ export const ALVARA_MINT_ABI = [
   },
   {
     inputs: [],
-    name: "POOL_FEE",
+    name: "VEALVA_DISCOUNT_AMOUNT",
     outputs: [
       {
-        internalType: "uint24",
+        internalType: "uint256",
         name: "",
-        type: "uint24",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -321,15 +369,9 @@ export const ALVARA_MINT_ABI = [
   },
   {
     inputs: [],
-    name: "alvaToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
+    name: "acceptOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -370,6 +412,19 @@ export const ALVARA_MINT_ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "baseURI",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -396,19 +451,6 @@ export const ALVARA_MINT_ABI = [
         internalType: "uint256",
         name: "",
         type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "maxMintPerUser",
-    outputs: [
-      {
-        internalType: "uint24",
-        name: "",
-        type: "uint24",
       },
     ],
     stateMutability: "view",
@@ -458,31 +500,55 @@ export const ALVARA_MINT_ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "maxMintPerUser",
+    outputs: [
+      {
+        internalType: "uint24",
+        name: "",
+        type: "uint24",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "string",
         name: "designId",
         type: "string",
       },
-      {
-        internalType: "uint256",
-        name: "swapDeadline",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "swapMinOutput",
-        type: "uint256",
-      },
-      {
-        internalType: "uint24",
-        name: "swapPoolFeeTier",
-        type: "uint24",
-      },
     ],
     name: "mint",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "mintingEnabled",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "mintingEndTime",
+    outputs: [
+      {
+        internalType: "uint32",
+        name: "",
+        type: "uint32",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -509,6 +575,13 @@ export const ALVARA_MINT_ABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "openMinting",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -545,7 +618,33 @@ export const ALVARA_MINT_ABI = [
   },
   {
     inputs: [],
+    name: "pendingOwner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "contract IERC20",
+        name: "token",
+        type: "address",
+      },
+    ],
+    name: "rescueToken",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -622,6 +721,32 @@ export const ALVARA_MINT_ABI = [
   {
     inputs: [
       {
+        internalType: "string",
+        name: "newBaseURI",
+        type: "string",
+      },
+    ],
+    name: "setBaseURI",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint24",
+        name: "newMaxMintPerUser",
+        type: "uint24",
+      },
+    ],
+    name: "setMaxMintPerUser",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "newPrice",
         type: "uint256",
@@ -666,19 +791,6 @@ export const ALVARA_MINT_ABI = [
   },
   {
     inputs: [],
-    name: "swapRouter",
-    outputs: [
-      {
-        internalType: "contract ISwapRouter",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "symbol",
     outputs: [
       {
@@ -694,7 +806,7 @@ export const ALVARA_MINT_ABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "tokenId",
         type: "uint256",
       },
     ],
@@ -702,7 +814,7 @@ export const ALVARA_MINT_ABI = [
     outputs: [
       {
         internalType: "string",
-        name: "",
+        name: "designId",
         type: "string",
       },
     ],
@@ -781,7 +893,7 @@ export const ALVARA_MINT_ABI = [
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "user",
         type: "address",
       },
     ],
@@ -789,7 +901,7 @@ export const ALVARA_MINT_ABI = [
     outputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "mintCount",
         type: "uint256",
       },
     ],
@@ -798,15 +910,9 @@ export const ALVARA_MINT_ABI = [
   },
   {
     inputs: [],
-    name: "wethToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
+    name: "withdrawETH",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

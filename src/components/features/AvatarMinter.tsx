@@ -57,7 +57,8 @@ export function AvatarMinter() {
     increaseAmountError,
   } = useStakingProtocol();
 
-  const { hasDiscount: hasVeAlvaDiscount } = useVeAlvaBalance();
+  // Remove the old veALVA check - we'll use the contract's built-in check
+  const hasVeAlvaDiscount = false; // Let the contract determine discount eligibility
 
   // User's owned NFTs from wallet
   const {
@@ -70,7 +71,7 @@ export function AvatarMinter() {
 
   // Calculate the actual price based on veALVA discount
   // Force correct prices until contract is redeployed
-  const actualPrice = hasVeAlvaDiscount ? "0.005" : "0.01";
+  const actualPrice = hasVeAlvaDiscount ? discountPrice : standardPrice;
 
   const currentNFT = alvaraNFTs[currentNFTIndex];
   const isMinting = isMintLoading;
@@ -466,7 +467,8 @@ export function AvatarMinter() {
       const designId = currentNFT.number.toString();
 
       // Use real smart contract minting with the design ID
-      await mint(designId, hasVeAlvaDiscount);
+      // Contract will automatically apply discount if user has veALVA
+      await mint(designId);
     } catch (error: any) {
       console.error("Minting error details:", {
         error,
@@ -700,7 +702,7 @@ export function AvatarMinter() {
     const url = transactionHash
       ? `https://sepolia.etherscan.io/tx/${transactionHash}`
       : "https://alvara-nft.com";
-    
+
     // Create a more engaging tweet with the NFT image
     const text = `I'm now a certified Investment Wanker in @Alvaraprotocol, a real-yield-generating NFT. 
 
