@@ -62,7 +62,7 @@ export default function Home() {
   const shareOnX = (nft: any, transactionHash?: string) => {
     const url = transactionHash
       ? `https://sepolia.etherscan.io/tx/${transactionHash}`
-      : "https://alvara-nft.com";
+      : "https://pfp.alvara.xyz";
 
     // Create a more engaging tweet with the NFT image
     const text = `I'm now a certified Investment Wanker in @Alvaraprotocol, a real-yield-generating NFT. 
