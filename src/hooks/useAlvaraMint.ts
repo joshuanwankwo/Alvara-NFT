@@ -208,7 +208,7 @@ export function useAlvaraMint() {
     maxMintsPerWallet: maxMintPerUser ? Number(maxMintPerUser) : 3, // Default to 3
     walletMints: walletMints ? Number(walletMints) : 0,
     userNftBalance: userNftBalance ? Number(userNftBalance) : 0,
-    countdown: nextTokenId ? Number(nextTokenId) : 0,
+    countdown: nextTokenId ? Math.max(0, Number(nextTokenId) - 1) : 0,
 
     // Helper functions
     getMintPrice,

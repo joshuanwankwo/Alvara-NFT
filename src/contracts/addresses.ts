@@ -3,7 +3,7 @@ export const CONTRACT_ADDRESSES = {
   // Your deployed contract address on Sepolia
   sepolia: "0xE6FDaF5F32d9187C0244e5C565F2CAcED1A3747f",
   goerli: "0x0000000000000000000000000000000000000000", // Update if you deploy to Goerli
-  mainnet: "0x45F3bC0E6A2b8ae580A5dD1D5682D58505643dc8", // AlvaraNFT on mainnet (latest deployment)
+  mainnet: "0x2c21302e718F6B9bAda3e6e8c81D9695145fC80a", // AlvaraNFT on mainnet (latest deployment)
 } as const;
 
 // ALVA token addresses

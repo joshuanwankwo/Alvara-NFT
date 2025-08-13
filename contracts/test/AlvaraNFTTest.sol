@@ -178,7 +178,7 @@ contract AlvaraNFTTest is Test {
         // Check token URI is correctly formed
         string memory tokenURI = alvaraNFT.tokenURI(expectedTokenId);
         string memory expectedURI = string(abi.encodePacked(
-            "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/",
+            "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeib6m6yhxk2p3fdhxyjsxh2ja6at4acly5blpyfspimwkynev6nwxm/",
             designId,
             ".json"
         ));
