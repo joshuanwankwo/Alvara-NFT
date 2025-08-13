@@ -108,7 +108,7 @@ export function FAQ() {
     {
       question: "Is there a lock period?",
       answer:
-        "No lock period for the NFTs themselves. The contract only handles minting.",
+        "Yes. The default lock period for the staked ALVA is 6 months.",
     },
   ];
 
