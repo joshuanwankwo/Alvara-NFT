@@ -72,6 +72,14 @@ export function useAlvaraMint() {
     enabled: !!address,
   });
 
+  const { data: nextTokenId } = useContractRead({
+    address: contractAddress as `0x${string}`,
+    abi: ALVARA_MINT_ABI,
+    functionName: "nextTokenId",
+    enabled: true, // Always enabled, regardless of wallet connection
+    watch: true, // Watch for changes
+  });
+
   // Contract write
   const {
     data: mintData,
@@ -200,6 +208,7 @@ export function useAlvaraMint() {
     maxMintsPerWallet: maxMintPerUser ? Number(maxMintPerUser) : 3, // Default to 3
     walletMints: walletMints ? Number(walletMints) : 0,
     userNftBalance: userNftBalance ? Number(userNftBalance) : 0,
+    countdown: nextTokenId ? Number(nextTokenId) : 0,
 
     // Helper functions
     getMintPrice,

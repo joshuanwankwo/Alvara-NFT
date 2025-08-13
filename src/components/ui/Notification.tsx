@@ -11,6 +11,7 @@ interface NotificationProps {
     url: string;
     text: string;
   };
+  customContent?: React.ReactNode;
   onClose: () => void;
   autoClose?: boolean;
   autoCloseDelay?: number;
@@ -21,6 +22,7 @@ export function Notification({
   title,
   message,
   link,
+  customContent,
   onClose,
   autoClose = true,
   autoCloseDelay = 5000,
@@ -100,6 +102,7 @@ export function Notification({
                 <ExternalLink className="w-3 h-3" />
               </a>
             )}
+            {customContent && <div className="mt-3">{customContent}</div>}
           </div>
 
           <button

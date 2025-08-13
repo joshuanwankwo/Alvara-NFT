@@ -14,7 +14,10 @@ export function GlobalNotification() {
       title={notification.title}
       message={notification.message}
       link={notification.link}
+      customContent={notification.customContent}
       onClose={hideNotification}
+      autoClose={notification.autoClose}
+      autoCloseDelay={notification.autoCloseDelay}
     />
   );
 }

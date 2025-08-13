@@ -3,24 +3,24 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'PP Supply Sans';
-  src: url('/fonts/PPSupplySans-Regular.ttf') format('truetype');
+  font-family: "PP Supply Sans";
+  src: url("/fonts/PPSupplySans-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Supply Sans';
-  src: url('/fonts/PPSupplySans-Medium.ttf') format('truetype');
+  font-family: "PP Supply Sans";
+  src: url("/fonts/PPSupplySans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Supply Sans';
-  src: url('/fonts/PPSupplySans-Bold.ttf') format('truetype');
+  font-family: "PP Supply Sans";
+  src: url("/fonts/PPSupplySans-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -30,17 +30,18 @@
   * {
     @apply border-[#786185];
   }
-  
-  html, body {
+
+  html,
+  body {
     height: 100%;
     overflow-x: hidden;
   }
-  
+
   body {
     @apply bg-[#1D132E] text-eggshell-50;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
@@ -50,63 +51,64 @@
   .btn-primary {
     @apply bg-salmon-600 hover:bg-salmon-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:ring-offset-2 focus:ring-offset-[#1D132E];
   }
-  
+
   .btn-secondary {
     @apply bg-[#786185] hover:bg-[#6a4d7f] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-[#786185] hover:border-[#6a4d7f] focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:ring-offset-2 focus:ring-offset-[#1D132E];
   }
-  
+
   .card {
     @apply bg-[#7861851A] border border-[#786185] rounded-xl p-6 backdrop-blur-sm;
   }
-  
+
   .card-hover {
     @apply card hover:border-salmon-500/50 hover:bg-[#78618533] transition-all duration-300;
   }
-  
+
   .input-field {
     @apply bg-[#786185] border border-[#786185] text-white placeholder-[#B199B5] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-salmon-500 focus:border-transparent transition-all duration-200;
   }
-  
+
   .gradient-text {
     @apply bg-gradient-to-r from-indigo-400 to-flamingo-400 bg-clip-text text-transparent;
   }
-  
+
   .gradient-border {
     @apply relative;
   }
-  
+
   .gradient-border::before {
     @apply absolute inset-0 rounded-xl p-[1px] bg-gradient-to-r from-salmon-500 to-flamingo-500;
-    content: '';
+    content: "";
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
   }
-  
+
   .glass-effect {
     @apply backdrop-blur-md bg-white/5 border border-white/10;
   }
-  
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px);
     }
     50% {
       transform: translateY(-20px);
     }
   }
-  
+
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
-  
+
   .glow {
     box-shadow: 0 0 20px rgba(215, 61, 128, 0.3);
   }
-  
+
   .glow:hover {
     box-shadow: 0 0 30px rgba(215, 61, 128, 0.5);
   }
@@ -117,12 +119,12 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  
+
   .text-balance {
     text-wrap: balance;
   }
-} 
+}

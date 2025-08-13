@@ -16,6 +16,9 @@ interface NotificationData {
     url: string;
     text: string;
   };
+  customContent?: React.ReactNode;
+  autoClose?: boolean;
+  autoCloseDelay?: number;
 }
 
 interface NotificationContextType {

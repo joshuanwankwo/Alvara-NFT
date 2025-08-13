@@ -22,6 +22,14 @@ export default function Home() {
     totalNFTs,
   } = useWalletNFTs();
 
+  // Load Typeform script
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "//embed.typeform.com/next/embed.js";
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
+
   useEffect(() => {
     if (isMintSuccess && transactionHash) {
       // Check if we've already processed this transaction
@@ -55,7 +63,7 @@ export default function Home() {
     const url = transactionHash
       ? `https://sepolia.etherscan.io/tx/${transactionHash}`
       : "https://alvara-nft.com";
-    
+
     // Create a more engaging tweet with the NFT image
     const text = `I'm now a certified Investment Wanker in @Alvaraprotocol, a real-yield-generating NFT. 
 
@@ -125,7 +133,9 @@ ${nft.image}`;
             >
               <span style={{ color: "#D73D80" }}>Choose your PFP.</span>
               <br />
-              <span style={{ color: "#FDF2FF" }}>Select your avatar and mint your NFT.</span>
+              <span style={{ color: "#FDF2FF" }}>
+                Select your avatar and mint your NFT.
+              </span>
             </h1>
           </div>
 
@@ -280,7 +290,8 @@ ${nft.image}`;
               maxWidth: "100%",
             }}
           >
-            TradFi can keep the pinstripes, Investment Wanker is the new power suit in PFP form, and the NFT that pays you back.
+            TradFi can keep the pinstripes, Investment Wanker is the new power
+            suit in PFP form, and the NFT that pays you back.
           </p>
           <p
             style={{
@@ -295,7 +306,9 @@ ${nft.image}`;
               maxWidth: "100%",
             }}
           >
-            Introducing the genesis drop of a future generative collection — IW NFTs are more than collectibles. They're your ticket into BSKT Lab, your proof of status, and your stake in Alvara's growth
+            Introducing the genesis drop of a future generative collection — IW
+            NFTs are more than collectibles. They're your ticket into BSKT Lab,
+            your proof of status, and your stake in Alvara's growth
           </p>
           <p
             style={{
@@ -370,8 +383,31 @@ ${nft.image}`;
               maxWidth: "100%",
             }}
           >
-            BSKT Lab Beta: Pioneer Launch is live. When 721 verified wankers rep their pfps in the ultimate takeover, we'll throw the doors wide on BSKT Lab and head straight into the Legendary Basement Party.
+            BSKT Lab Beta: Pioneer Launch is live. When 721 verified wankers rep
+            their pfps in the ultimate takeover, we'll throw the doors wide on
+            BSKT Lab and head straight into the Legendary Basement Party.
           </p>
+        </div>
+      </div>
+
+      {/* Typeform Section */}
+      <div className="  w-full px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h3
+              className="text-white text-2xl lg:text-3xl font-semibold mb-4"
+              style={{
+                fontFamily: "Titillium Web",
+                fontWeight: 700,
+                lineHeight: "125%",
+              }}
+            >
+              Join the Alvara Office!
+            </h3>
+          </div>
+          <div className="bg-white rounded-xl p-1 shadow-lg">
+            <div data-tf-live="01K2HPGN3YEBFXJBY1XMZH58CM"></div>
+          </div>
         </div>
       </div>
 
@@ -473,8 +509,6 @@ Join the collection at alvara-nft.com
       )}
 
       <div className="mt-8 lg:mt-6 w-full relative z-10 pb-6 px-4 sm:px-6 lg:px-8">
-        
-
         {isLoadingWalletNFTs ? (
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D73D80] mx-auto mb-4"></div>
@@ -495,7 +529,7 @@ Join the collection at alvara-nft.com
         ) : ownedNFTs && ownedNFTs.length > 0 ? (
           <div className="max-w-7xl mx-auto">
             <p className="text-[#D8CDE2] text-center mb-6">
-              You own {totalNFTs} Alvara NFT{totalNFTs !== 1 ? "s" : ""}
+              You own {totalNFTs} NFT{totalNFTs !== 1 ? "s" : ""}
             </p>
 
             <div className="flex flex-wrap justify-center gap-6 lg:gap-12 px-2 md:px-8">

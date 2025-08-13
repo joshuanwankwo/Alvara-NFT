@@ -15,7 +15,6 @@ export function AvatarMinter() {
   const { isConnected } = useAccount();
   const [currentNFTIndex, setCurrentNFTIndex] = useState(0);
   const [mintedNFTs, setMintedNFTs] = useState<AlvaraNFT[]>([]);
-  const { showNotification } = useNotification();
 
   // Smart contract integration (behind the scenes)
   const {
@@ -30,9 +29,11 @@ export function AvatarMinter() {
     walletMints,
     maxMintsPerWallet,
     mintError,
+    countdown,
   } = useAlvaraMint();
 
-  // Staking functionality removed - contract now only mints NFTs
+  // Notification functionality
+  const { showNotification, hideNotification } = useNotification();
 
   // Remove the old veALVA check - we'll use the contract's built-in check
   const hasVeAlvaDiscount = false; // Let the contract determine discount eligibility
@@ -68,15 +69,13 @@ export function AvatarMinter() {
         };
         setMintedNFTs((prev) => [...prev, newMintedNFT]);
 
-        // Note: lastMintedAmount will be updated by the SwapExecuted event listener
-        // in the useStakingProtocol hook, so we don't need to set a fixed amount here
-
+        // Show Investment Wanker success popup
         showNotification({
           type: "success",
-          title: "Transaction Confirmed!",
-          message: "Successfully minted your Alvara NFT",
+          title: "🎉 Congrats! You are now an Investment Wanker!",
+          message: "Download your NFT and change your PFP.",
           link: {
-            url: `https://sepolia.etherscan.io/tx/${transactionHash}`,
+            url: `https://etherscan.io/tx/${transactionHash}`,
             text: "View Transaction on Etherscan",
           },
         });
@@ -339,8 +338,6 @@ export function AvatarMinter() {
 
   // Staking functionality removed
 
-
-
   return (
     <div className="w-full ">
       <div className="w-full flex flex-col space-y-4">
@@ -495,6 +492,21 @@ export function AvatarMinter() {
               "Mint NFT"
             )}
           </button>
+
+          {/* Countdown Display */}
+          <div className="text-center mt-2">
+            <p
+              className="text-white text-lg font-semibold"
+              style={{
+                fontFamily: "Titillium Web",
+                fontWeight: 600,
+                fontSize: "18px",
+                lineHeight: "27px",
+              }}
+            >
+              {Math.min(countdown || 0, 271)}/721
+            </p>
+          </div>
 
           {/* Explanation messages for different disabled states */}
           {!isConnected && (
