@@ -8,6 +8,7 @@ import { GlobalNotification } from "@/components/ui/GlobalNotification";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pfp.alvara.xyz"),
   title: "Investment Wanker",
   description:
     "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
@@ -15,12 +16,14 @@ export const metadata: Metadata = {
     "NFT, minting, blockchain, ethereum, alvara, digital assets, yield-generating, investment wanker",
   authors: [{ name: "Alvara Foundation" }],
   icons: {
-    icon: "images/favicon.ico",
+    icon: "/images/favicon.ico",
   },
   openGraph: {
     title: "Investment Wanker",
     description:
       "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
+    url: "https://pfp.alvara.xyz",
+    siteName: "Alvara",
     type: "website",
     locale: "en_US",
     images: [
@@ -31,6 +34,19 @@ export const metadata: Metadata = {
         alt: "Investment Wanker NFT",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Investment Wanker",
+    description:
+      "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
+    images: ["/images/OG.jpeg"],
+    creator: "@Alvaraprotocol",
+    site: "@Alvaraprotocol",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

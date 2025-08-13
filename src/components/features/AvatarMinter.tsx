@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { useAccount } from "wagmi";
 import { useAlvaraMint } from "@/hooks/useAlvaraMint";
 // veALVA balance check removed - contract handles discount automatically
@@ -195,6 +195,31 @@ export function AvatarMinter() {
     setCurrentNFTIndex(index);
   };
 
+  const downloadCurrentNFTImage = async () => {
+    try {
+      const imageUrl = currentNFT.image;
+      const response = await fetch(imageUrl);
+      if (!response.ok) throw new Error("Failed to fetch image");
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const filename = `Investment-Wanker-${currentNFT.number}.png`;
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+      showNotification({
+        type: "error",
+        title: "Download Failed",
+        message: "Could not download the image. Please try again.",
+      });
+    }
+  };
+
   const handleMint = async () => {
     if (!isConnected) {
       showNotification({
@@ -360,6 +385,14 @@ export function AvatarMinter() {
             }}
           >
             <div className="relative w-full h-full">
+              <button
+                onClick={downloadCurrentNFTImage}
+                className="absolute top-2 left-2 bg-black/70 hover:bg-[#D73D80] p-2 rounded-full transition-colors duration-200"
+                aria-label="Download NFT image"
+                title="Download PNG"
+              >
+                <Download className="w-4 h-4 text-white" />
+              </button>
               <Image
                 src={currentNFT.image}
                 alt={currentNFT.name}

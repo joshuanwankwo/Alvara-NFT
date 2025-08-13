@@ -60,21 +60,47 @@ export default function Home() {
   }, [isMintSuccess, transactionHash, mintedNFTs, showNotification]);
 
   const shareOnX = (nft: any, transactionHash?: string) => {
-    const url = transactionHash
-      ? `https://sepolia.etherscan.io/tx/${transactionHash}`
-      : "https://pfp.alvara.xyz";
+    const txUrl = transactionHash
+      ? `\nTx: https://sepolia.etherscan.io/tx/${transactionHash}`
+      : "";
 
-    // Create a more engaging tweet with the NFT image
-    const text = `I'm now a certified Investment Wanker in @Alvaraprotocol, a real-yield-generating NFT. 
+    const baseOrigin =
+      typeof window !== "undefined" && window.location?.origin
+        ? window.location.origin
+        : "https://pfp.alvara.xyz";
+    const candidate = nft.image || "";
+    const url =
+      candidate && candidate.startsWith("http")
+        ? candidate
+        : candidate
+        ? `${baseOrigin}${candidate}`
+        : `${baseOrigin}`;
 
-The minting window is closing. Are you another TradFi bro missing the memo?
-
-${nft.image}`;
+    const text = `I'm now a certified Investment Wanker in @Alvaraprotocol, a real-yield-generating NFT.\n\nThe minting window is closing. Are you another TradFi bro missing the memo?${txUrl}`;
 
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       text
     )}&url=${encodeURIComponent(url)}`;
     window.open(twitterUrl, "_blank");
+  };
+
+  const downloadImage = async (imageUrl: string, filename: string) => {
+    try {
+      const response = await fetch(imageUrl);
+      if (!response.ok) throw new Error("Failed to fetch image");
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      // Fallback: open in new tab if download blocked
+      window.open(imageUrl, "_blank");
+    }
   };
 
   return (
@@ -454,6 +480,31 @@ ${nft.image}`;
                   />
 
                   <button
+                    onClick={() =>
+                      downloadImage(
+                        nft.image,
+                        `${(nft.name || "Alvara").replace(/\s+/g, "-")}-${
+                          nft.transactionHash
+                            ? nft.transactionHash.slice(-8)
+                            : "mint"
+                        }.png`
+                      )
+                    }
+                    className="absolute top-2 left-2 bg-black/70 hover:bg-[#D73D80] p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"
+                    title="Download PNG"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="text-white"
+                    >
+                      <path d="M5 20h14v-2H5v2zM12 2v12l4-4h-3V2h-2v8H8l4 4z" />
+                    </svg>
+                  </button>
+
+                  <button
                     onClick={() => shareOnX(nft, nft.transactionHash)}
                     className="absolute top-2 right-2 bg-black/70 hover:bg-[#1DA1F2] p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"
                     title="Share on X"
@@ -586,6 +637,30 @@ Join the collection at alvara-nft.com
                         className="text-white"
                       >
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() =>
+                        downloadImage(
+                          nft.imageUrl ||
+                            nft.metadata?.image ||
+                            "/images/nfts/Basket-Beth.png",
+                          `${(nft.name || `Alvara-#${nft.tokenId}`)
+                            .toString()
+                            .replace(/\s+/g, "-")}.png`
+                        )
+                      }
+                      className="absolute top-4 left-4 bg-black/70 hover:bg-[#D73D80] p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"
+                      title="Download PNG"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="text-white"
+                      >
+                        <path d="M5 20h14v-2H5v2zM12 2v12l4-4h-3V2h-2v8H8l4 4z" />
                       </svg>
                     </button>
                   </div>
