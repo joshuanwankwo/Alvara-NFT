@@ -285,7 +285,7 @@ export default function Home() {
           </div>
         </div>
         <div
-          className="w-full lg:w-1/3 flex flex-col justify-start items-start px-4 lg:px-8 mx-auto lg:mx-0"
+          className="w-full z-20 lg:w-1/3 flex flex-col justify-start items-start px-4 lg:px-8 mx-auto lg:mx-0"
           style={{ paddingTop: "80px", paddingBottom: "40px" }}
         >
           <h2

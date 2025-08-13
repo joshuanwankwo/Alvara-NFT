@@ -88,7 +88,7 @@ export function FAQ() {
     {
       question: "How much does it cost?",
       answer:
-        "Each NFT is priced at 0.0003 ETH (approximately $1) for testing. You can get a 50% discount if you hold a minimum of 1.5 veALVA tokens.",
+        "Each NFT is priced at 0.01 ETH.",
     },
     {
       question: "Can I sell my NFT?",
@@ -98,7 +98,7 @@ export function FAQ() {
     {
       question: "What happens to the ETH raised from NFT minting?",
       answer:
-        "The ETH raised is collected by the team for manual processing. This may include buybacks, staking, and rewards distribution handled by the team.",
+        "100% of the ETH raised is used to buy back ALVA from the market. That ALVA is: Staked for 6 months on behalf of NFT holders. Earns yield monthly, which is distributed to holders. Airdropped back to holders in liquid ALVA at the end of the staking period.",
     },
     {
       question: "What is veALVA and what does it do?",
