@@ -104,13 +104,13 @@ ${nft.image}`;
       </div>
 
       <div
-        className="relative flex flex-col lg:flex-row justify-evenly min-h-screen"
+        className="relative flex flex-col lg:flex-row justify-evenly min-h-screen gap-10 lg:gap-0"
         style={{
           marginTop: "100px",
         }}
       >
         <div
-          className="w-full lg:w-1/3 flex flex-col justify-start items-start px-4 lg:px-8"
+          className="w-full lg:w-1/3 flex flex-col justify-start items-start px-4 lg:px-8 mx-auto lg:mx-0"
           style={{ paddingTop: "80px", paddingBottom: "40px" }}
         >
           <div
@@ -259,7 +259,7 @@ ${nft.image}`;
           </div>
         </div>
         <div
-          className="w-full lg:w-1/3 flex flex-col justify-start px-4 lg:px-8"
+          className="w-full lg:w-1/3 flex flex-col justify-start items-start px-4 lg:px-8 mx-auto lg:mx-0"
           style={{ paddingTop: "80px", paddingBottom: "40px" }}
         >
           <h2
