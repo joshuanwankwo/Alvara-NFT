@@ -102,11 +102,11 @@ ${nft.image}`;
         }}
       >
         <div
-          className="w-full lg:w-1/3 flex flex-col justify-start items-center px-4 lg:px-0"
+          className="w-full lg:w-1/3 flex flex-col justify-start items-start px-4 lg:px-8"
           style={{ paddingTop: "80px", paddingBottom: "40px" }}
         >
           <div
-            className="mb-8 text-left"
+            className="mb-8 text-left w-full"
             style={{
               opacity: 1,
             }}
@@ -116,23 +116,24 @@ ${nft.image}`;
                 fontFamily: "PP Supply Sans, Titillium Web",
                 fontWeight: 400,
                 fontStyle: "normal",
-                fontSize: "clamp(32px, 8vw, 64px)",
-                lineHeight: "100%",
+                fontSize: "clamp(28px, 6vw, 48px)",
+                lineHeight: "110%",
                 letterSpacing: "0%",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
               }}
             >
-              <span style={{ color: "#D73D80" }}>Mint NFTs.</span>
+              <span style={{ color: "#D73D80" }}>Choose your PFP.</span>
               <br />
-              <span style={{ color: "#FDF2FF" }}>Mint Legacy.</span>
+              <span style={{ color: "#FDF2FF" }}>Select your avatar and mint your NFT.</span>
             </h1>
           </div>
 
           <div
-            className="max-w-md px-4 text-left"
+            className="w-full text-left"
             style={{
-              width: "100%",
-              maxWidth: "350px",
-              minHeight: "90px",
+              maxWidth: "400px",
+              minHeight: "60px",
               transform: "rotate(0deg)",
               opacity: 1,
             }}
@@ -142,10 +143,12 @@ ${nft.image}`;
                 fontFamily: "Titillium Web",
                 fontWeight: 400,
                 fontStyle: "normal",
-                fontSize: "clamp(16px, 4vw, 20px)",
-                lineHeight: "150%",
+                fontSize: "clamp(14px, 3.5vw, 18px)",
+                lineHeight: "140%",
                 letterSpacing: "0%",
                 color: "#B9A7C0",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
               }}
             >
               Minting a new generation of tokenized basket managers.
@@ -262,24 +265,8 @@ ${nft.image}`;
               maxWidth: "100%",
             }}
           >
-            Who is an Investment Wanker?
+            What is an Investment Wanker?
           </h2>
-          <p
-            style={{
-              fontFamily: "Titillium Web",
-              fontWeight: 400,
-              fontStyle: "normal",
-              fontSize: "clamp(14px, 3.5vw, 18px)",
-              lineHeight: "0%",
-              letterSpacing: "0%",
-              color: "#B9A7C0",
-              marginBottom: "12px",
-              marginTop: "12px",
-              maxWidth: "100%",
-            }}
-          >
-            A satire on TradFi bros who missed the memo.
-          </p>
           <p
             style={{
               fontFamily: "Titillium Web",
@@ -289,26 +276,11 @@ ${nft.image}`;
               lineHeight: "150%",
               letterSpacing: "0%",
               color: "#B9A7C0",
-              marginBottom: "30px",
+              marginBottom: "20px",
               maxWidth: "100%",
             }}
           >
-            But also, a real yield-generating NFT.
-          </p>
-          <p
-            style={{
-              fontFamily: "Titillium Web",
-              fontWeight: 400,
-              fontStyle: "normal",
-              fontSize: "clamp(14px, 3.5vw, 18px)",
-              lineHeight: "0%",
-              letterSpacing: "0%",
-              color: "#B9A7C0",
-              marginBottom: "12px",
-              maxWidth: "100%",
-            }}
-          >
-            Here's the kicker:
+            TradFi can keep the pinstripes, Investment Wanker is the new power suit in PFP form, and the NFT that pays you back.
           </p>
           <p
             style={{
@@ -323,23 +295,7 @@ ${nft.image}`;
               maxWidth: "100%",
             }}
           >
-            100% of the mint funds are used to buy ALVA and airdropped back to
-            holders after 6 months.
-          </p>
-          <p
-            style={{
-              fontFamily: "Titillium Web",
-              fontWeight: 400,
-              fontStyle: "normal",
-              fontSize: "clamp(14px, 3.5vw, 18px)",
-              lineHeight: "150%",
-              letterSpacing: "0%",
-              color: "#ffffff",
-              marginBottom: "12px",
-              maxWidth: "100%",
-            }}
-          >
-            Mint open for 7 days only.
+            Introducing the genesis drop of a future generative collection — IW NFTs are more than collectibles. They're your ticket into BSKT Lab, your proof of status, and your stake in Alvara's growth
           </p>
           <p
             style={{
@@ -350,9 +306,71 @@ ${nft.image}`;
               lineHeight: "150%",
               letterSpacing: "0%",
               color: "#B9A7C0",
+              marginBottom: "20px",
+              maxWidth: "100%",
             }}
           >
-            You're either in, or you're an <br /> investment wanker.
+            Here's the deal:
+          </p>
+          <p
+            style={{
+              fontFamily: "Titillium Web",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontSize: "clamp(14px, 3.5vw, 18px)",
+              lineHeight: "150%",
+              letterSpacing: "0%",
+              color: "#B9A7C0",
+              marginBottom: "20px",
+              maxWidth: "100%",
+            }}
+          >
+            1️⃣ Mint your Investment Wanker NFT
+          </p>
+          <p
+            style={{
+              fontFamily: "Titillium Web",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontSize: "clamp(14px, 3.5vw, 18px)",
+              lineHeight: "150%",
+              letterSpacing: "0%",
+              color: "#B9A7C0",
+              marginBottom: "20px",
+              maxWidth: "100%",
+            }}
+          >
+            2️⃣ Set it as your X PFP
+          </p>
+          <p
+            style={{
+              fontFamily: "Titillium Web",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontSize: "clamp(14px, 3.5vw, 18px)",
+              lineHeight: "150%",
+              letterSpacing: "0%",
+              color: "#B9A7C0",
+              marginBottom: "20px",
+              maxWidth: "100%",
+            }}
+          >
+            3️⃣ Clock in and verify via the form
+          </p>
+          <p
+            style={{
+              fontFamily: "Titillium Web",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontSize: "clamp(14px, 3.5vw, 18px)",
+              lineHeight: "150%",
+              letterSpacing: "0%",
+              color: "#B9A7C0",
+              marginBottom: "20px",
+              maxWidth: "100%",
+            }}
+          >
+            BSKT Lab Beta: Pioneer Launch is live. When 721 verified wankers rep their pfps in the ultimate takeover, we'll throw the doors wide on BSKT Lab and head straight into the Legendary Basement Party.
           </p>
         </div>
       </div>
@@ -455,17 +473,7 @@ Join the collection at alvara-nft.com
       )}
 
       <div className="mt-8 lg:mt-6 w-full relative z-10 pb-6 px-4 sm:px-6 lg:px-8">
-        <h2
-          className="text-2xl font-bold text-white mb-6 text-center"
-          style={{
-            fontFamily: "Titillium Web",
-            fontWeight: 700,
-            fontSize: "32px",
-            lineHeight: "125%",
-          }}
-        >
-          Your Minted Alvaras
-        </h2>
+        
 
         {isLoadingWalletNFTs ? (
           <div className="text-center py-8">
