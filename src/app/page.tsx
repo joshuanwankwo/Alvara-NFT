@@ -595,6 +595,16 @@ Join the collection at alvara-nft.com
       </div>
 
       <div className="pt-32 pb-16">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+          <Image
+            src="/images/banner.png"
+            alt="Alvara NFT Banner"
+            width={1200}
+            height={400}
+            className="w-full h-auto rounded-lg"
+            priority
+          />
+        </div>
         <FAQ />
       </div>
 
