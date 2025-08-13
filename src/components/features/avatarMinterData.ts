@@ -22,7 +22,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "001",
     number: 1,
-    name: "Basket-Beth #1",
+    name: "#1",
     description:
       "The basket manager who never misses a beat. Always diversified, always winning.",
     image:
@@ -65,7 +65,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "002",
     number: 2,
-    name: "Degen-Derrick #2",
+    name: "#2",
     description:
       "The ultimate degen who goes all-in on every trade. High risk, high reward mentality.",
     image:
@@ -108,7 +108,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "003",
     number: 3,
-    name: "Freddy-fomo #3",
+    name: "#3",
     description:
       "The FOMO master who buys at the top and sells at the bottom. Classic FOMO behavior.",
     image:
@@ -151,7 +151,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "004",
     number: 4,
-    name: "Gloria-Gains #4",
+    name: "#4",
     description:
       "The profit queen who always takes her gains. Knows when to exit and secure profits.",
     image:
@@ -194,7 +194,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "005",
     number: 5,
-    name: "Henry-Hodl #5",
+    name: "#5",
     description:
       "The diamond hands hodler who never sells. HODL through thick and thin.",
     image:
@@ -237,7 +237,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "006",
     number: 6,
-    name: "Kate-Candle #6",
+    name: "#6",
     description:
       "The technical analyst who reads every candle. Charts and patterns are her life.",
     image:
@@ -280,7 +280,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "007",
     number: 7,
-    name: "Leroy-leverage #7",
+    name: "#7",
     description:
       "The leverage king who trades with maximum leverage. 100x or nothing.",
     image:
@@ -323,7 +323,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "008",
     number: 8,
-    name: "Max-Effort #8",
+    name: "#8",
     description:
       "The workaholic trader who never sleeps. 24/7 market monitoring.",
     image:
@@ -366,7 +366,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "009",
     number: 9,
-    name: "Sally-Swaps #9",
+    name: "#9",
     description:
       "The DeFi queen who swaps everything. Always chasing the best yields.",
     image:
@@ -409,7 +409,7 @@ export const alvaraNFTs: AlvaraNFT[] = [
   {
     id: "010",
     number: 10,
-    name: "William-Banker #10",
+    name: "#10",
     description:
       "The traditional banker who's late to crypto. Still learning the ropes.",
     image:

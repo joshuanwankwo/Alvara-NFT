@@ -500,7 +500,7 @@ export function AvatarMinter() {
           {!isConnected && (
             <div className="text-center max-w-md">
               <p className="text-[#D8CDE2] text-sm leading-relaxed">
-                Connect your wallet to start minting Alvara NFTs
+                Connect your wallet to start minting NFTs
               </p>
             </div>
           )}

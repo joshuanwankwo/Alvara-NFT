@@ -143,7 +143,7 @@ export function FAQ() {
               color: "#B199B5",
             }}
           >
-            Find quick answers about alvara NFTs
+            Find quick answers about ALVARA NFTs
           </p>
         </div>
         <div className="max-w-4xl mx-auto">

@@ -148,7 +148,7 @@ ${nft.image}`;
                 color: "#B9A7C0",
               }}
             >
-              Minting a new generation of tokenised basket managers.
+              Minting a new generation of tokenized basket managers.
             </p>
           </div>
         </div>

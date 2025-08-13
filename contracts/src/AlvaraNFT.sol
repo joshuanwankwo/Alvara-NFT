@@ -34,7 +34,7 @@ contract AlvaraNFT is ERC721URIStorage, Ownable2Step, ReentrancyGuard {
         address _veALVAToken
     ) ERC721("Alvara NFT", "ALVA") Ownable(msg.sender) {
         veALVAToken = _veALVAToken;
-        baseURI = "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeibtxhw6zer4i4ehpckmfhoh7qyvr6ggshpqadx5urm7cajcyfxts4/";
+        baseURI = "https://yellow-imperial-wasp-317.mypinata.cloud/ipfs/bafybeib6m6yhxk2p3fdhxyjsxh2ja6at4acly5blpyfspimwkynev6nwxm/";
     }
 
     // allows users to mint nfts
