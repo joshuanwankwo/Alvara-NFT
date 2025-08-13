@@ -339,23 +339,7 @@ export function AvatarMinter() {
 
   // Staking functionality removed
 
-  const shareOnX = (nft: AlvaraNFT, transactionHash?: string) => {
-    const url = transactionHash
-      ? `https://sepolia.etherscan.io/tx/${transactionHash}`
-      : "https://alvara-nft.com";
 
-    // Create a more engaging tweet with the NFT image
-    const text = `I'm now a certified Investment Wanker in @Alvaraprotocol, a real-yield-generating NFT. 
-
-    The minting window is closing. Are you another TradFi bro missing the memo?
-
-    ${nft.image}`;
-
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      text
-    )}&url=${encodeURIComponent(url)}`;
-    window.open(twitterUrl, "_blank");
-  };
 
   return (
     <div className="w-full ">

@@ -11,11 +11,16 @@ export const metadata: Metadata = {
   title: "Investment Wanker",
   description:
     "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
-  keywords: "NFT, minting, blockchain, ethereum, alvara, digital assets, yield-generating, investment wanker",
+  keywords:
+    "NFT, minting, blockchain, ethereum, alvara, digital assets, yield-generating, investment wanker",
   authors: [{ name: "Alvara Foundation" }],
+  icons: {
+    icon: "images/favicon.ico",
+  },
   openGraph: {
     title: "Investment Wanker",
-    description: "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
+    description:
+      "Investment Wanker NFT is the first yield-generating NFT of Alvara's protocol. The claiming period is 7 days. Are you missing the memo?",
     type: "website",
     locale: "en_US",
     images: [
@@ -37,7 +42,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/png" href="/images/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
